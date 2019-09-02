@@ -1,4 +1,4 @@
-package domain;
+package com.vicyor.blog.api.blog.domain;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;

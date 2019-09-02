@@ -1,5 +1,7 @@
 package com.vicyor.blog.apps.blog.mapper;
 
+import com.github.pagehelper.Page;
+import com.vicyor.blog.api.blog.domain.EsBlog;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -8,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface EsBlogMapper {
-
+    Page<EsBlog> findDistinctEsBlogByTitleContainingOrSummaryContainingOrContentContaining(String title, String summary, String content);
 }
