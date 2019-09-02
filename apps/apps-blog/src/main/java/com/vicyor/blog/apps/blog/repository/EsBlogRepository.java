@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
  * 作者:姚克威
  * 时间:2019/9/2 12:48
  **/
-@Component
 public interface EsBlogRepository extends ElasticsearchRepository<EsBlog, String> {
     Page<EsBlog> findDistinctEsBlogByTitleContainingOrSummaryContainingOrContentContaining(String title, String summary, String content, Pageable pageable);
 }

@@ -35,7 +35,7 @@ public class EsBlogRepositoryTest {
     @Test
     public void testFindDistinctEsBlogByTitleContainingOrSummaryContainingOrContentContaining() {
         Pageable pageable=new PageRequest(0,20);
-        Page<EsBlog> poems = repository.findDistinctEsBlogByTitleContainingOrSummaryContainingOrContentContaining("", "李白", "", pageable);
+        Page<EsBlog> poems = repository.findDistinctEsBlogByTitleContainingOrSummaryContainingOrContentContaining("静夜思", "balabal", "labada", pageable);
         poems.getContent().forEach(poem->{
             System.out.println(poem);
         });
