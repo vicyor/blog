@@ -1,8 +1,10 @@
 package com.vicyor.blog.apps.authorizationserver.util;
 
+import com.vicyor.blog.apps.authorizationserver.pojo.OauthClientDetail;
 import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,14 +14,18 @@ import java.util.Map;
 @Component
 public class GenerateClientDetailsServiceConfigProvider implements ClientDetailsServiceConfigProvider {
     @Override
-    public void config(InMemoryClientDetailsServiceBuilder builder, Map<String, String> clientProperties) {
-        for (Map.Entry<String, String> entry : clientProperties.entrySet()) {
+    public void config(InMemoryClientDetailsServiceBuilder builder, Map<String, OauthClientDetail> clientProperties) {
+        for (Map.Entry<String, OauthClientDetail> entry : clientProperties.entrySet()) {
             String clientId = entry.getKey();
-            String clientSecret = entry.getValue();
+            OauthClientDetail oauthClientDetail = entry.getValue();
+            List<String> authorizedGrantTypes = oauthClientDetail.getAuthorizedGrantTypes();
+            String[] types = authorizedGrantTypes.toArray(new String[authorizedGrantTypes.size()]);
             builder
-                    .withClient(clientId).secret(clientSecret)
-                    .authorizedGrantTypes("authorization_code", "refresh_token")
-                    .scopes("all");
+                    .withClient(clientId).secret(oauthClientDetail.getClientSecret())
+                    .authorizedGrantTypes(types)
+                    //
+                    .redirectUris(oauthClientDetail.getRedirectUri())
+                    .scopes(oauthClientDetail.getScope());
         }
     }
 }

@@ -1,9 +1,11 @@
 package com.vicyor.blog.apps.authorizationserver.properties;
 
+import com.vicyor.blog.apps.authorizationserver.pojo.OauthClientDetail;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +18,5 @@ import java.util.Map;
 public class AuthorizationProperties {
     private String signingKey="007";
     //客户端配置
-    private Map<String,String>clientProperties;
+    private Map<String,OauthClientDetail> clients;
 }

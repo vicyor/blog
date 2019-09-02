@@ -2,7 +2,9 @@ package com.vicyor.blog.apps.authorizationserver.config;
 
 import com.vicyor.blog.apps.authorizationserver.pojo.OauthUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +31,7 @@ public class SsoUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //获取用户信息
-        OauthUser oauthUser = jdbcTemplate.queryForObject(queryUserSql, OauthUser.class, username);
+        OauthUser oauthUser = jdbcTemplate.queryForObject(queryUserSql, new Object[]{username}, new BeanPropertyRowMapper<>(OauthUser.class));
         //获取角色信息
         List<String> roles = jdbcTemplate.queryForList(queryRoleSql, new Object[]{username}, String.class);
         List<SimpleGrantedAuthority> authorities = roles.stream().map(authority -> {

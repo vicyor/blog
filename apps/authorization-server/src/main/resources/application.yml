@@ -1,9 +1,12 @@
 sso:
   authorization:
     signingKey: 007
-    clientProperties:
-      blog: blog
-      file: file
+    clients:
+      blog:
+        clientId: blog
+        clientSecret: blog
+        authorizedGrantTypes: authorization_code,refresh_token
+        redirectUri: http://127.0.0.1/login
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

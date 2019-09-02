@@ -1,5 +1,6 @@
 package com.vicyor.blog.apps.authorizationserver.config;
 
+import com.vicyor.blog.apps.authorizationserver.pojo.OauthClientDetail;
 import com.vicyor.blog.apps.authorizationserver.properties.AuthorizationProperties;
 import com.vicyor.blog.apps.authorizationserver.util.ClientDetailsServiceConfigManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class AuthorziationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
-        Map<String, String> clientProperties = authorizationProperties.getClientProperties();
+        Map<String, OauthClientDetail> clientProperties = authorizationProperties.getClients();
         manager.execute(builder, clientProperties);
     }
 
