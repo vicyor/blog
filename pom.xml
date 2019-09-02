@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>apps-api</module>
+        <module>apps</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -16,7 +17,9 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <properties>
+        <spring-boot.version>2.1.7.RELEASE</spring-boot.version>
         <spring-cloud-dependencies.version>Finchley.RELEASE</spring-cloud-dependencies.version>
+        <jna.version>4.5.2</jna.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -28,8 +31,17 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            <!--导入elasticsearch-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>${jna.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
 </project>
