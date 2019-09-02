@@ -23,8 +23,7 @@ public class EsBlog implements Serializable {
     //内容
     private String content;
 
-    public EsBlog(String id, String title, String summary, String content) {
-        this.id = id;
+    public EsBlog(  String title, String summary, String content) {
         this.title = title;
         this.summary = summary;
         this.content = content;
@@ -38,5 +37,8 @@ public class EsBlog implements Serializable {
                 ", summary='" + summary + '\'' +
                 ", content='" + content + '\'' +
                 '}';
+    }
+    protected EsBlog(){
+
     }
 }

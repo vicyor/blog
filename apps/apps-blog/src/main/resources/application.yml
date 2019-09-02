@@ -1,11 +1,12 @@
 spring:
   data:
     elasticsearch:
-      cluster-nodes: localhost:9300
+      cluster-nodes: www.vicyor.com:9300
       properties:
         transport:
           tcp:
-            connect_timeout: 120s
+            connect_timeout: 60s
+      cluster-name: docker-cluster
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
