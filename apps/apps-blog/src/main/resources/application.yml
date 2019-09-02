@@ -1,0 +1,10 @@
+spring:
+  data:
+    elasticsearch:
+      cluster-nodes: localhost:9300
+      properties:
+        transport:
+          tcp:
+            connect_timeout: 120s
+mybatis:
+  mapper-locations: classpath:mapper/**.xml

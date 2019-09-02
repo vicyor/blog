@@ -12,7 +12,17 @@
     <groupId>com.vicyor.blog</groupId>
     <artifactId>apps-api</artifactId>
     <packaging>pom</packaging>
-    <dependencyManagement>
-
-    </dependencyManagement>
+    <modules>
+        <module>apps-blog-api</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+    </dependencies>
 </project>
