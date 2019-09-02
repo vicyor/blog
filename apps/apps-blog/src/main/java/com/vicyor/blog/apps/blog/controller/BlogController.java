@@ -24,7 +24,7 @@ public class BlogController {
     @RequestMapping
     public List<EsBlog> blogs(@RequestParam("title") String title, @RequestParam("summary") String summary, @RequestParam("content") String content) {
         Pageable pageable = new PageRequest(0, 10);
-        Page<EsBlog> articals = esBlogRepository.findDistinctEsBlogByTitleContainingOrSummaryContainingOrContentContaining(title, summary, content, pageable);
+        Page<EsBlog> articals = esBlogRepository.findDistinctEsBlogByTitleContainingAndSummaryContainingAndContentContaining(title, summary, content, pageable);
         return articals.getContent();
     }
 }

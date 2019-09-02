@@ -14,6 +14,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>apps-blog-api</module>
+        <module>apps-file-api</module>
     </modules>
     <dependencies>
         <dependency>
