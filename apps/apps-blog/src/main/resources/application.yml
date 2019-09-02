@@ -14,3 +14,15 @@ spring:
     url: jdbc:mysql://www.vicyor.com:3306/blog
 mybatis:
   mapper-locations: classpath:mapper/**.xml
+security:
+  oauth2:
+    client:
+      client-id: blog
+      client-secret: blog
+      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
+      access-token-uri: http://127.0.0.1:8080/oauth/token
+    resource:
+      jwk:
+        key-set-uri: http://127.0.0.1:8080/oauth/token_key
+server:
+  port: 80

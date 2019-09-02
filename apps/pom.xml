@@ -15,6 +15,7 @@
     <modules>
         <module>apps-blog</module>
         <module>apps-file</module>
+        <module>authorization-server</module>
     </modules>
 
 </project>

@@ -1,0 +1,14 @@
+sso:
+  authorization:
+    signingKey: 007
+    clientProperties:
+      blog: blog
+      file: file
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: vicyor123456
+    url: jdbc:mysql://www.vicyor.com:3306/blog
+server:
+  port: 8080

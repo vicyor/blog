@@ -11,6 +11,11 @@
 
     <groupId>com.vicyor.blog.apps</groupId>
     <artifactId>apps-file</artifactId>
-
-
+    <dependencies>
+        <dependency>
+            <groupId>com.vicyor.blog.api</groupId>
+            <artifactId>apps-file-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
