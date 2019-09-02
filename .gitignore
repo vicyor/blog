@@ -24,4 +24,4 @@ hs_err_pid*
 # idea下目录
 .idea
 # idea imi文件
-*.imi
+*.iml
