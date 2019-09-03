@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
     @GetMapping("/user")
-    public Authentication user(Authentication authentication){
+    public Authentication user(Authentication authentication)
+    {
         return authentication;
     }
 }

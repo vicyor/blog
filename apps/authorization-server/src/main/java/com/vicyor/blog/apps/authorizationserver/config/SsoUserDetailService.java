@@ -35,7 +35,7 @@ public class SsoUserDetailService implements UserDetailsService {
         //获取角色信息
         List<String> roles = jdbcTemplate.queryForList(queryRoleSql, new Object[]{username}, String.class);
         List<SimpleGrantedAuthority> authorities = roles.stream().map(authority -> {
-            return new SimpleGrantedAuthority(authority);
+            return new SimpleGrantedAuthority("ROLE_"+authority);
         }).collect(Collectors.toList());
         User user = new User(oauthUser.getUsername(), oauthUser.getPassword(), authorities);
         return user;

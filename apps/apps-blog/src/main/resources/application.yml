@@ -19,10 +19,12 @@ security:
     client:
       client-id: blog
       client-secret: blog
-      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
-      access-token-uri: http://127.0.0.1:8080/oauth/token
+      user-authorization-uri: http://127.0.0.1:8080/auth/oauth/authorize
+      access-token-uri: http://127.0.0.1:8080/auth/oauth/token
     resource:
       jwk:
-        key-set-uri: http://127.0.0.1:8080/oauth/token_key
+        key-set-uri: http://127.0.0.1:8080/auth/oauth/token_key
 server:
   port: 80
+  servlet:
+    context-path: /blog

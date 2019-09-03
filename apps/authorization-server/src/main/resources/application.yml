@@ -1,12 +1,11 @@
 sso:
   authorization:
-    signingKey: 007
     clients:
       blog:
         clientId: blog
         clientSecret: blog
         authorizedGrantTypes: authorization_code,refresh_token
-        redirectUri: http://127.0.0.1/login
+        redirectUri: http://127.0.0.1/blog/login
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,3 +14,5 @@ spring:
     url: jdbc:mysql://www.vicyor.com:3306/blog
 server:
   port: 8080
+  servlet:
+    context-path: /auth

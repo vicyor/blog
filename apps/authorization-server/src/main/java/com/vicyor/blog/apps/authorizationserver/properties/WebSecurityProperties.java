@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 @Data
 @ConfigurationProperties("sso.security")
 public class WebSecurityProperties {
-    private String authorizationUri="/auth";
+    //post
+    private String authorizationUri="/login";
+    //get
     private String loginUri="/login";
 }

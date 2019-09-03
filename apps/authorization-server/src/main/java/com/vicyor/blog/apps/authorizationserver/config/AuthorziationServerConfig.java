@@ -31,9 +31,12 @@ public class AuthorziationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     ClientDetailsServiceConfigManager manager;
 
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess("isAuthenticated()");
+        security
+                .tokenKeyAccess("permitAll()")
+                .checkTokenAccess("isAuthenticated()");//isAuthenticated():排除anonymous   isFullyAuthenticated():排除anonymous以及remember-me
     }
 
     @Override
@@ -48,7 +51,7 @@ public class AuthorziationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints
                 .tokenStore(jwtTokenStore())
                 .accessTokenConverter(jwtAccessTokenConverter())
-                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+                .allowedTokenEndpointRequestMethods(HttpMethod.POST, HttpMethod.GET)
         ;
 
     }
@@ -63,9 +66,20 @@ public class AuthorziationServerConfig extends AuthorizationServerConfigurerAdap
         return converter;
     }
 
+    @Autowired
+
     @Bean
     public TokenStore jwtTokenStore() {
-        TokenStore tokenStore = new JwtTokenStore(jwtAccessTokenConverter());
+        JwtTokenStore tokenStore = new JwtTokenStore(jwtAccessTokenConverter());
+
+        /**
+         * JwtHeaderConverter.convert(JwtHeaderConverter.java:54)"
+         * JwkVerifyingJwtAccessTokenConverter.decode(JwkVerifyingJwtAccessTokenConverter.java:96)"
+         * JwtTokenStore.convertAccessToken(JwtTokenStore.java:88)"
+         * JwtTokenStore.readAccessToken(JwtTokenStore.java:80)"
+         * JwkTokenStore.readAccessToken(JwkTokenStore.java:212)"
+         */
+
         return tokenStore;
     }
 }

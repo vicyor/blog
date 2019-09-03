@@ -21,11 +21,14 @@ public class GenerateClientDetailsServiceConfigProvider implements ClientDetails
             List<String> authorizedGrantTypes = oauthClientDetail.getAuthorizedGrantTypes();
             String[] types = authorizedGrantTypes.toArray(new String[authorizedGrantTypes.size()]);
             builder
-                    .withClient(clientId).secret(oauthClientDetail.getClientSecret())
+                    .withClient(clientId)
+                    .secret(oauthClientDetail.getClientSecret())
                     .authorizedGrantTypes(types)
-                    //
                     .redirectUris(oauthClientDetail.getRedirectUri())
-                    .scopes(oauthClientDetail.getScope());
+                    .scopes(oauthClientDetail.getScope())
+                    .resourceIds("blog")
+                    .autoApprove(true)
+            ;
         }
     }
 }

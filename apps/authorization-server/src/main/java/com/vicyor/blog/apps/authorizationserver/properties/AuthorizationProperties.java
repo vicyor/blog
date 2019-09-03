@@ -16,7 +16,7 @@ import java.util.Map;
 @ConfigurationProperties("sso.authorization")
 @Data
 public class AuthorizationProperties {
-    private String signingKey="007";
+    private String signingKey="blog";
     //客户端配置
     private Map<String,OauthClientDetail> clients;
 }
