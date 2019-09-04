@@ -1,5 +1,6 @@
 package com.vicyor.blog.apps.blog.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +15,17 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @EnableOAuth2Sso
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private BlogAuthenticationSuccessHandler handler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/auth/**", "/user/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin().successHandler()
+                .formLogin().successHandler(handler)
+                .and()
                 .logout().logoutUrl("/logout").permitAll()
                 .and()
                 .csrf().disable()
