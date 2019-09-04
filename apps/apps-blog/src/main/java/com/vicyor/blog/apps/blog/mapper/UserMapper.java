@@ -1,6 +1,6 @@
 package com.vicyor.blog.apps.blog.mapper;
 
-import com.vicyor.blog.api.blog.pojo.BlogUser;
+import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

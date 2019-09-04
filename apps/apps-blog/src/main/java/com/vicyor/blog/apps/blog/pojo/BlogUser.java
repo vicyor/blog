@@ -1,6 +1,8 @@
 package com.vicyor.blog.apps.blog.pojo;
 
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -15,5 +17,5 @@ public class BlogUser {
     private String job;
     private String motto;
     private String image_uri;
-    List<SimpleGrantedAuthority> authorities;
+    private List<GrantedAuthority> authorities;
 }
