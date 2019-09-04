@@ -26,6 +26,7 @@
         <spring-security-jwt.version>1.0.8.RELEASE</spring-security-jwt.version>
         <spring-boot-starter-security.version>2.1.7.RELEASE</spring-boot-starter-security.version>
         <mysql.version>8.0.13</mysql.version>
+        <!-- upgrade to thymeleaf version 3 -->
     </properties>
     <dependencyManagement>
         <dependencies>
