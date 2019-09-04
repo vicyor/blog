@@ -1,6 +1,6 @@
 package com.vicyor.blog.apps.blog.controller;
 
-import com.vicyor.blog.api.blog.domain.EsBlog;
+import com.vicyor.blog.apps.blog.domain.EsBlog;
 import com.vicyor.blog.apps.blog.repository.EsBlogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
