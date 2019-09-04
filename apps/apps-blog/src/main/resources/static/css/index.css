@@ -36,7 +36,7 @@ h3.blogtitle { line-height: 30px; height: 30px; margin: 10px 0; }
 .sidebar { float: right; width: 28%; overflow: hidden; position: relative }
 .about { background: #FFF url(../images/banner.png) no-repeat top center; overflow: hidden; }
 .avatar { margin: 80px auto 20px; width: 100px }
-.avatar img { width: 100px; border-radius: 50% }
+.avatar img { width: 100px; border-radius: 0% }
 .abname { color: #3f3f3f; font-weight: bold; font-size: 16px; margin-bottom: 10px; text-align: center }
 .abposition { color: #1abc9c; text-align: center }
 .abtext { padding: 20px 40px; color: #9a9a9a; line-height: 26px }
@@ -118,16 +118,16 @@ h3.blogtitle { line-height: 30px; height: 30px; margin: 10px 0; }
 .news_infos p { margin-bottom: 10px }
 .news_infos img { max-width: 650px; height: auto; }
 .share { padding: 20px; }
-.nextinfo { line-height: 24px; width: 100%; background: #FFF; border-radius: 10px; overflow: hidden; margin: 20px 0 }/*иор╩ф╙обр╩ф╙*/
+.nextinfo { line-height: 24px; width: 100%; background: #FFF; border-radius: 10px; overflow: hidden; margin: 20px 0 }/*О©╫О©╫р╩ф╙О©╫О©╫р╩ф╙*/
 .nextinfo p { padding: 4px 10px; border-radius: 5px; }
 .nextinfo a:hover { color: #000; text-decoration: underline }
-/*оЮ╧ьндуб*/
+/*О©╫О©╫О©╫О©╫О©╫О©╫О©╫*/
 .otherlink, .xzsm, .ffsm { width: 100%; background: #FFF; border-radius: 10px; overflow: hidden; margin: 20px 0 }
 .otherlink h2 { border-bottom: #000 2px solid; line-height: 40px; font-size: 14px; background: url(../images/5794.png) left 10px center no-repeat; padding-left: 40px; color: #000 }
 .otherlink ul { margin: 10px 0 }
 .otherlink li { line-height: 24px; height: 24px; display: block; width: 290px; float: left; overflow: hidden; margin-right: 30px; padding-left: 10px; }
 .otherlink li a:hover { text-decoration: underline; color: #000 }
-/*ндубфюбш*/
+/*О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫*/
 .news_pl { margin: 10px 0; width: 100%; background: #FFF; border-radius: 10px; overflow: hidden; margin: 20px 0 }
 .news_pl h2 { background: url(../images/newsbg03.png) no-repeat left 10px center; border-bottom: #000 2px solid; line-height: 40px; font-size: 14px; padding-left: 30px; color: #000 }
 .xzsm ul, .ffsm ul { padding: 20px; line-height: 24px; border-top: 6px solid #a6b5c5; }

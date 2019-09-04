@@ -19,4 +19,9 @@ public class MainController {
     public String toIndex(){
         return "index";
     }
+    @GetMapping("/auth")
+    public String auth(){
+        //会去认证服务器登录
+        return "index";
+    }
 }

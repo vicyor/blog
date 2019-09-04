@@ -1,4 +1,6 @@
-<html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>vicyor个人博客</title>
@@ -39,6 +41,8 @@
                 <li><a href="list.html">学无止境</a></li>
                 <li><a href="info.html">慢生活</a></li>
                 <li><a href="gbook.html">留言</a></li>
+                <li sec:authorize="isAnonymous()"><a th:href="${path + '/auth'}">登录</a></li>
+                <li sec:authorize="isAuthenticated()"><a href="javascript:;" sec:authentication="name"></a></li>
             </ul>
         </div>
         <nav class="topnav" id="topnav">
@@ -55,29 +59,29 @@
 </header>
 <div class="picshow">
     <ul>
-        <li><a href="/"><i><img src="images/b01.jpg"></i>
+        <li><a th:href='${path}'><i><img src="images/姜维.jpg"></i>
             <div class="font">
-                <h3>个人博客模板《早安》</h3>
+                <h3>文能提笔安天下,武能上马定乾坤</h3>
             </div>
         </a></li>
-        <li><a href="/"><i><img src="images/b02.jpg"></i>
+        <li><a th:href="${path}"><i><img src="images/子龙.jpg"></i>
             <div class="font">
-                <h3>个人博客模板《早安》</h3>
+                <h3>一点寒芒先到,随后枪出如龙</h3>
             </div>
         </a></li>
-        <li><a href="/"><i><img src="images/b03.jpg"></i>
+        <li><a th:href="${path}"><i><img src="images/孔明.jpg"></i>
             <div class="font">
-                <h3>个人博客模板《早安》</h3>
+                <h3>观今夜之天像,知天下之大事</h3>
             </div>
         </a></li>
-        <li><a href="/"><i><img src="images/b04.jpg"></i>
+        <li><a th:href="${path}"><i><img src="images/曹植.jpg"></i>
             <div class="font">
-                <h3>个人博客模板《早安》</h3>
+                <h3>捐躯赴国难,视死忽如归</h3>
             </div>
         </a></li>
-        <li><a href="/"><i><img src="images/b05.jpg"></i>
+        <li><a th:href="${path}"><i><img src="images/刘备.jpg"></i>
             <div class="font">
-                <h3>个人博客模板《早安》</h3>
+                <h3>蜀道之难，难于上青天</h3>
             </div>
         </a></li>
     </ul>
@@ -178,10 +182,10 @@
     </div>
     <div class="sidebar">
         <div class="about">
-            <div class="avatar"> <img src="images/avatar.jpg" alt=""> </div>
-            <p class="abname">dancesmile | 杨青</p>
-            <p class="abposition">Web前端设计师、网页设计</p>
-            <div class="abtext"> 一个80后草根女站长！09年入行。一直潜心研究web前端技术，一边工作一边积累经验，分享一些个人博客模板，以及SEO优化等心得。 </div>
+            <div class="avatar"> <img src="images/head.jpg" alt="我的头像"> </div>
+            <p class="abname">vicyor | 姚克威</p>
+            <p class="abposition">Java开发工程师、软件开发</p>
+            <div class="abtext">三尺微命,一介书生.赘肉生，而大丈夫一事无成。</div>
         </div>
         <div class="search">
             <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
@@ -262,7 +266,7 @@
 </article>
 <div class="blank"></div>
 <footer>
-    <p>Design by <a href="/">杨青个人博客</a> <a href="/">蜀ICP备11002373号-1</a></p>
+    <p>Design by <a th:href="${path}">姚克威个人博客</a></p>
 </footer>
 <script src="js/nav.js"></script>
 </body>
