@@ -6,6 +6,7 @@ import com.vicyor.blog.apps.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +15,7 @@ import java.util.Collection;
  * 作者:姚克威
  * 时间:2019/9/4 23:25
  **/
+@Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
