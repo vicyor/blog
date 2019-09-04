@@ -16,15 +16,22 @@ import java.util.List;
  * 作者:姚克威
  * 时间:2019/9/2 14:50
  **/
-@RequestMapping("/blog")
+@RequestMapping("/blogs")
 @RestController
 public class BlogController {
     @Autowired
     EsBlogRepository esBlogRepository;
+
+    /**
+     *
+     * @param order 默认按照最新排序
+     * @param keyword
+     * @return
+     */
     @RequestMapping
-    public List<EsBlog> blogs(@RequestParam("title") String title, @RequestParam("summary") String summary, @RequestParam("content") String content) {
-        Pageable pageable = new PageRequest(0, 10);
-        Page<EsBlog> articals = esBlogRepository.findDistinctEsBlogByTitleContainingAndSummaryContainingAndContentContaining(title, summary, content, pageable);
-        return articals.getContent();
+    public List<EsBlog> listBlogs(@RequestParam(value = "order", required = false, defaultValue = "new") String order,
+                                  @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword
+    ) {
+        return null;
     }
 }

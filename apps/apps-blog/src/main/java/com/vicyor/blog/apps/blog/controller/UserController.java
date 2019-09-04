@@ -20,8 +20,4 @@ public class UserController {
     {
         return authentication;
     }
-    @GetMapping("/req")
-    public Enumeration<String> AttributeNames(HttpServletRequest request){
-        return request.getAttributeNames();
-    }
 }
