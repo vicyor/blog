@@ -1,7 +1,7 @@
 package com.vicyor.blog.apps.blog.repository;
 
 
-import com.vicyor.blog.api.blog.domain.EsBlog;
+import com.vicyor.blog.apps.blog.domain.EsBlog;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
