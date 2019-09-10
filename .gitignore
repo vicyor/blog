@@ -26,4 +26,4 @@ hs_err_pid*
 # idea imi文件
 *.iml
 # test目录下
-*/test/*
+**/test
