@@ -1,10 +1,9 @@
 package com.vicyor.blog.apps.blog.repository;
 
 import com.vicyor.blog.apps.blog.domain.EsBlog;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
 /**
@@ -12,5 +11,9 @@ import org.springframework.stereotype.Component;
  * 时间:2019/9/2 12:48
  **/
 public interface EsBlogRepository extends ElasticsearchRepository<EsBlog, String> {
-    Page<EsBlog> findDistinctEsBlogByTitleContainingAndSummaryContainingAndContentContaining(String title, String summary, String content, Pageable pageable);
+   /**
+    * match 查询
+    */
+   List<EsBlog> findDistinctEsBlogByContentMatchesOrTitleMatchesOrTagMatches(String content,String title,String tag);
+
 }

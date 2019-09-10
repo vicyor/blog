@@ -28,7 +28,7 @@ public class BlogAuthenticationSuccessHandler implements AuthenticationSuccessHa
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         //向session中添加用户信息.
         String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        BlogUser blogUser = userService.findBlogUser(username, authentication);
+        BlogUser blogUser = userService.findBlogUser( authentication);
         HttpSession session = request.getSession();
         //将用户信息设置到会话中
         session.setAttribute("user", blogUser);

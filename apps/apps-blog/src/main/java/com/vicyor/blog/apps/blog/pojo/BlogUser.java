@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,6 +17,6 @@ public class BlogUser {
     private String name;
     private String job;
     private String motto;
-    private String image_uri;
-    private List<GrantedAuthority> authorities;
+    private String imageUri = "/images/head.jpg";
+    private Collection<? extends GrantedAuthority> authorities;
 }

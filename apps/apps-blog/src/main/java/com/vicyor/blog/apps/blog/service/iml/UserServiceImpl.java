@@ -4,6 +4,7 @@ import com.vicyor.blog.apps.blog.mapper.UserMapper;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import com.vicyor.blog.apps.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,16 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public BlogUser findBlogUser(String username, Authentication authentication) {
+    public BlogUser findBlogUser(Authentication authentication) {
+
+        String username = authentication instanceof AnonymousAuthenticationToken ? "vicyor" : authentication.getPrincipal().toString();
         BlogUser blogUser = userMapper.findBlogUser(username);
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        blogUser.setAuthorities(new ArrayList() {{
-            addAll(authorities);
-        }});
+        Collection authorities = new ArrayList() {{
+            add("ROLE_USER");
+            add("ROLE_ADMIN");
+        }};
+        Collection<? extends GrantedAuthority> authority = authentication instanceof AnonymousAuthenticationToken ? authorities : authentication.getAuthorities();
+        blogUser.setAuthorities(authority);
         return blogUser;
     }
 }

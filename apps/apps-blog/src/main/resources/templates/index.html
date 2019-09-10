@@ -12,6 +12,7 @@
     <link href="css/m.css" rel="stylesheet">
     <link rel="icon" href="images/logo.png"/>
     <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/index.js"></script>
     <!--[if lt IE 9]>
     <script src="js/modernizr.js"></script>
     <![endif]-->
@@ -27,9 +28,9 @@
         }
         $(function () {
             //必须以post方式才能单点退出,post会删除 认证服务器的token
-            $("#lo").on('click',function () {
+            $("#lo").on('click', function () {
                 $.post("/blog/logout");
-                window.location.href="/blog/";
+                window.location.href = "/blog/";
             })
         })
     </script>
@@ -96,135 +97,33 @@
         </a></li>
     </ul>
 </div>
+<script>
+    $(function () {
+        /**
+         * 获取博客
+         */
+        $.ajax({
+            url: '/blog/blogs',
+            method: 'get',
+            success: parseBlog(blogs)
+        })
+    })
+</script>
 <article>
     <div class="blogs">
-        <li><span class="blogpic"><a href="/"><img src="images/text02.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">陌上花开，可缓缓归矣</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/text01.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/zd03.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/zd01.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/zd02.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/text01.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/zd01.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/text01.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/text01.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/text01.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/text01.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/text01.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
-        <li><span class="blogpic"><a href="/"><img src="images/text01.jpg"></a></span>
-            <h3 class="blogtitle"><a href="/">网页中图片属性固定宽度，如何用js改变大小</a></h3>
-            <div class="bloginfo">
-                <p>用最简单的代码，实现瀑布流布局，没有繁琐的css，没有jq，只需要做到以下就可以实现瀑布流的效果。思路很简单，看成是三列布局，分别用三个ul来调用。帝国cms列表模板，...</p>
-            </div>
-            <div class="autor"><span class="lm"><a href="/" title="CSS3|Html5" target="_blank" class="classname">CSS3|Html5</a></span><span
-                    class="dtime">2018-05-04</span><span class="viewnum">浏览（<a href="/">0</a>）</span><span
-                    class="readmore"><a href="/">阅读原文</a></span></div>
-        </li>
     </div>
     <div class="sidebar">
         <div class="about">
-            <div class="avatar"><img src="images/head.jpg" alt="我的头像"></div>
-            <p class="abname">vicyor | 姚克威</p>
-            <p class="abposition">Java开发工程师、软件开发</p>
-            <div class="abtext">三尺微命,一介书生.赘肉生，而大丈夫一事无成。</div>
+            <div class="avatar"><img th:src="${path+session.user.imageUri}" alt="我的头像"></div>
+            <p class="abname">
+                <span th:text="${session.user.username}"></span> |
+                <span th:text="${session.user.name}"></span>
+            </p>
+            <p class="abposition"><span th:text="${session.user.job}"></span></p>
+            <div class="abtext"><span th:text="${session.user.motto}"></span></div>
         </div>
         <div class="search">
-            <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+            <form th:action="${path+'/blogs'}" method="post" name="searchform" id="searchform">
                 <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字"
                        style="color: rgb(153, 153, 153);"
                        onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}"

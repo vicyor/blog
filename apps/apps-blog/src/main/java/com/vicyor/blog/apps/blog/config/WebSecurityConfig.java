@@ -20,11 +20,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
                 .antMatchers("/auth/**", "/user/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin().successHandler(handler)
+                .formLogin()
+                //successHandler配置无效
+//                .successHandler(handler)
                 .and()
                 .logout().logoutUrl("/logout").permitAll()
                 .and()

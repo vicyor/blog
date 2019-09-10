@@ -39,7 +39,7 @@ h3.blogtitle { line-height: 30px; height: 30px; margin: 10px 0; }
 .avatar img { width: 100px; border-radius: 0% }
 .abname { color: #3f3f3f; font-weight: bold; font-size: 16px; margin-bottom: 10px; text-align: center }
 .abposition { color: #1abc9c; text-align: center }
-.abtext { padding: 20px 40px; color: #9a9a9a; line-height: 26px }
+.abtext { padding: 20px 40px; color: #9a9a9a; line-height: 26px;text-align: center }
 .readmore { float: right; }
 /*search*/
 .search { background: #FFF; overflow: hidden; padding: 20px; margin: 20px 0 }
