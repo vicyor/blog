@@ -1,6 +1,8 @@
 package com.vicyor.blog.apps.blog.repository;
 
 import com.vicyor.blog.apps.blog.domain.EsBlog;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 import java.util.List;
@@ -14,6 +16,5 @@ public interface EsBlogRepository extends ElasticsearchRepository<EsBlog, String
    /**
     * match 查询
     */
-   List<EsBlog> findDistinctEsBlogByContentMatchesOrTitleMatchesOrTagMatches(String content,String title,String tag);
-
+   Page<EsBlog> findDistinctEsBlogByContentMatchesOrTitleMatchesOrTagMatches(String content, String title, String tag, Pageable pageable);
 }

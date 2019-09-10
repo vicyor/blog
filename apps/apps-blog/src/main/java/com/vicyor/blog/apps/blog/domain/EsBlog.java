@@ -18,14 +18,19 @@ import java.util.Date;
 @Data
 @Document(indexName = "blog", type = "blog")
 public class EsBlog implements Serializable {
+
     private static final long serialVersionUID = 2329388461684078122L;
     @Id //id
     private String id;
     //博客标题
     private String title;
-    //摘要
+    //标签
+    @Field(type = FieldType.Keyword)
     private String tag;
     //内容
+    @Field(type = FieldType.Text,
+            analyzer = "ik_max_word"
+    )
     private String content;
     //总结
     private String summary;
@@ -35,7 +40,7 @@ public class EsBlog implements Serializable {
             format = DateFormat.custom,
             pattern = "yyyy-MM-dd hh:mm:ss"
     )
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Date cdate;
     //更新时间
     @Field(type = FieldType.Date,
@@ -43,24 +48,25 @@ public class EsBlog implements Serializable {
             format = DateFormat.custom,
             pattern = "yyyy-MM-dd hh:mm:ss"
     )
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Date udate;
     //浏览数量
     private long count;
     //图片uri
-    private String uri="images/text02.jpg";
-    public EsBlog(String title, String tag, String content,Date cdate,Date udate,long count,String uri,String summary) {
+    private String uri = "images/text02.jpg";
+
+    public EsBlog(String title, String tag, String content, Date cdate, Date udate, long count, String uri, String summary) {
         this.title = title;
         this.tag = tag;
         this.content = content;
-        this.cdate=cdate;
-        this.udate=udate;
-        this.count=count;
-        this.uri=uri;
-        this.summary=summary;
+        this.cdate = cdate;
+        this.udate = udate;
+        this.count = count;
+        this.uri = uri;
+        this.summary = summary;
     }
 
-    protected EsBlog(){
+    protected EsBlog() {
 
     }
 }
