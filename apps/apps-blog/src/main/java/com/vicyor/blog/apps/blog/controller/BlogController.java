@@ -98,7 +98,6 @@ public class BlogController {
             @RequestParam(value = "page", defaultValue = "0", required = false) int page,
             @RequestParam(value = "pagesize", defaultValue = "10", required = false) int pagesize
     ) {
-        System.out.println(String.format("tag=%s,page=%d,pagesize=%d", tag, page, pagesize));
         //term查询
         MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("tag", tag);
         SearchQuery searchQuery = new NativeSearchQuery(matchQuery);

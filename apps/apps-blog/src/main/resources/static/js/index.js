@@ -56,7 +56,7 @@ function parseCountRank(blogs) {
         var $p = $("<p></p>");
         var $i = $("<i></i>");
         var $img = $("<img></img>");
-        $img.prop("src", blog.uri);
+        $img.prop("src", "/blog/" + blog.uri);
         $p.text(blog.summary);
         $li.append($b);
         $b.append($a);
@@ -102,6 +102,7 @@ function getBlog() {
         }
     })
 }
+
 function getBlogsByTag(val) {
     $.ajax({
         'url': "/blog/blogs/tag?tag=" + val + "&page=" + (pageConf.currentPage - 1) + "&pagesize=" + pageConf.pageSize,
@@ -133,16 +134,23 @@ function getBlogsByTag(val) {
         }
     })
 }
+
 function initAClickEvent() {
+    var href = window.location.href.toString();
     var arr = $("#cloud").find("a");
     $.each(arr, function (index, a) {
         var $a = $(a);
         $a.prop("href", "javascript:;");
         $a.on('click', function () {
-            var val=$a.text();
-            pageConf.pageSize = 10;
-            pageConf.currentPage = 1;
-            getBlogsByTag(val);
+            if (href.indexOf("/blog/index") > 0) {
+                var val = $a.text();
+                pageConf.pageSize = 10;
+                pageConf.currentPage = 1;
+                getBlogsByTag(val);
+            }else{
+                window.location.href="/blog/"
+            }
         })
     })
+
 }

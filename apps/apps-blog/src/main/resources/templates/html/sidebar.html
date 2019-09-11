@@ -22,6 +22,15 @@
         </form>
         <script>
             $(function () {
+                if (!window.pageConf) {
+                    window.pageConf = {};
+                    pageConf.pageSize = 10;
+                    pageConf.currentPage = 1;
+                }
+            })
+        </script>
+        <script>
+            $(function () {
                 $("input[name='Submit']").on('click', function () {
                     pageConf.pageSize = 10;
                     pageConf.currentPage = 1;
@@ -38,19 +47,19 @@
         </script>
         <h2 class="hometitle">标签云</h2>
         <ul id="cloud">
-            <a href="/">java</a>
-            <a href="/">spring cloud</a>
-            <a href="/">spring boot</a>
-            <a href="/">mysql</a>
-            <a href="/">redis</a>
-            <a href="/">rabbitmq</a>
-            <a href="/">elastic search</a>
-            <a href="/">spring</a>
-            <a href="/">activiti</a>
-            <a href="/">spring mvc</a>
-            <a href="/">mybatis</a>
-            <a href="/">nginx</a>
-            <a href="/">李白</a>
+            <a href="javascript:;">java</a>
+            <a href="javascript:;">spring cloud</a>
+            <a href="javascript:;">spring boot</a>
+            <a href="javascript:;">mysql</a>
+            <a href="javascript:;">redis</a>
+            <a href="javascript:;">rabbitmq</a>
+            <a href="javascript:;">elastic search</a>
+            <a href="javascript:;">spring</a>
+            <a href="javascript:;">activiti</a>
+            <a href="javascript:;">spring mvc</a>
+            <a href="javascript:;">mybatis</a>
+            <a href="javascript:;">nginx</a>
+            <a href="javascript:;">李白</a>
         </ul>
     </div>
     <div class="paihang" id="clickrank" th:fragment="clickrank">
@@ -107,7 +116,27 @@
     <div class="weixin" th:fragment="weixin">
         <h2 class="hometitle">官方微信</h2>
         <ul>
-            <img src="images/wx.jpg">
+            <img src="/blog/images/weixin.jpg">
+        </ul>
+    </div>
+    <div class="lmnav" th:fragment="lmnav">
+        <h2 class="hometitle">栏目导航</h2>
+        <ul class="navbor">
+            <li><a href="#">关于我</a></li>
+            <li><a href="share.html">模板分享</a>
+                <ul>
+                    <li><a href="list.html">个人博客模板</a></li>
+                    <li><a href="#">HTML5模板</a></li>
+                </ul>
+            </li>
+            <li><a href="list.html">学无止境</a>
+                <ul>
+                    <li><a href="list.html">学习笔记</a></li>
+                    <li><a href="#">HTML5+CSS3</a></li>
+                    <li><a href="#">网站建设</a></li>
+                </ul>
+            </li>
+            <li><a href="#">慢生活</a></li>
         </ul>
     </div>
 </div>
