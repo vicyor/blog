@@ -1,7 +1,12 @@
 package com.vicyor.blog.apps.blog.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vicyor.blog.apps.blog.domain.EsBlog;
 import com.vicyor.blog.apps.blog.repository.EsBlogRepository;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.index.query.IdsQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +15,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.elasticsearch.core.query.*;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -44,7 +52,6 @@ public class BlogController {
         List result = new ArrayList();
         List blogs = null;
         long length = 0;
-        System.out.println(String.format("keyword=%s,page=%d,pagesize=%d",keyword,page,pageSize));
         if (keyword.equals("")) {
             Sort sort = new Sort(Sort.Direction.DESC, "udate");
             SearchQuery query = new NativeSearchQuery(QueryBuilders.boolQuery());
@@ -81,6 +88,9 @@ public class BlogController {
         return blogs;
     }
 
+    /**
+     * 根据tag查询
+     */
     @ResponseBody
     @GetMapping("/tag")
     public List listBlogsByTag(
@@ -88,7 +98,7 @@ public class BlogController {
             @RequestParam(value = "page", defaultValue = "0", required = false) int page,
             @RequestParam(value = "pagesize", defaultValue = "10", required = false) int pagesize
     ) {
-        System.out.println(String.format("tag=%s,page=%d,pagesize=%d",tag,page,pagesize));
+        System.out.println(String.format("tag=%s,page=%d,pagesize=%d", tag, page, pagesize));
         //term查询
         MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("tag", tag);
         SearchQuery searchQuery = new NativeSearchQuery(matchQuery);
@@ -100,5 +110,41 @@ public class BlogController {
         result.add(aggregatedPage.getTotalElements());
         result.add(aggregatedPage.getContent());
         return result;
+    }
+
+    @GetMapping("/article/{id}")
+    public String article(HttpServletRequest request,
+                          @PathVariable("id") String id
+    ) throws Exception {
+        GetQuery getQuery = new GetQuery();
+        getQuery.setId(id);
+        EsBlog blog = elasticsearchTemplate.queryForObject(getQuery, EsBlog.class);
+        ObjectMapper mapper = new ObjectMapper();
+        //将日期格式进行转化 jackson 会根据 JsonFormat进行解析
+        String json = mapper.writeValueAsString(blog);
+        HashMap blogMap = mapper.readValue(json, HashMap.class);
+        request.setAttribute("blog", blogMap);
+        return "article";
+    }
+
+    @PostMapping("/count/{id}")
+    @ResponseBody
+    public void addVisterCount(@PathVariable("id") String id,
+                               @RequestParam("count") int count
+    ) throws Exception {
+        UpdateQuery query = new UpdateQueryBuilder()
+                .withIndexName("blog")
+                .withType("blog")
+                .withId(id)
+                .build();
+        UpdateRequest updateRequest = new UpdateRequest();
+        updateRequest.doc(XContentFactory
+                .jsonBuilder()
+                .startObject()
+                .field("count", count + 1)
+                .endObject()
+        );
+        query.setUpdateRequest(updateRequest);
+        elasticsearchTemplate.update(query);
     }
 }

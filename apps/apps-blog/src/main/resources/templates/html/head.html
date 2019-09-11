@@ -5,17 +5,26 @@
     <meta name="keywords" content="个人博客,姚克威个人博客,个人博客模板,姚克威"/>
     <meta name="description" content="姚克威个人博客，该网站是为了记录姚克威同学的学习而编写的。"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/base.css" rel="stylesheet">
-    <link href="css/index.css" rel="stylesheet">
-    <link href="css/m.css" rel="stylesheet">
-    <link href="layui/css/layui.css" rel="stylesheet">
-    <link rel="icon" href="images/logo.png"/>
+    <link th:href="${path+'/css/base.css'}" rel="stylesheet">
+    <link th:href="${path+'/css/index.css'}" rel="stylesheet">
+    <link th:href="${path+'/css/m.css'}" rel="stylesheet">
+    <link th:href="${path+'/layui/css/layui.css'}" rel="stylesheet">
+    <link rel="icon" th:href="${path+'/images/logo.png'}"/>
 
-    <script src="js/jquery-3.3.1.js"></script>
-    <script src="js/index.js"></script>
-    <script src="layui/layui.js"></script>
+    <script th:src="${path+'/js/jquery-3.3.1.js'}"></script>
+    <script th:src="${path+'/js/index.js'}"></script>
+    <script th:src="${path+'/layui/layui.js'}"></script>
+    <link rel="stylesheet" th:href="${path+'/editor.md-master/css/editormd.css'}"/>
+    <link rel="stylesheet" th:href="${path+'/editor.md-master/css/editormd.preview.css'}">
+    <script th:src="${path+'/editor.md-master/lib/marked.min.js'}"></script>
+    <script th:src="${path+'/editor.md-master/lib/prettify.min.js'}"></script>
+    <script th:src="${path+'/editor.md-master/lib/raphael.min.js'}"></script>
+    <script th:src="${path+'/editor.md-master/lib/underscore.min.js'}"></script>
+    <script th:src="${path+'/editor.md-master/lib/sequence-diagram.min.js'}"></script>
+    <script th:src="${path+'/editor.md-master/lib/flowchart.min.js'}"></script>
+    <script th:src="${path+'/editor.md-master/editormd.min.js'}"></script>
     <!--[if lt IE 9]>
-    <script src="js/modernizr.js"></script>
+    <script th:src="${path+'/js/modernizr.js'}"></script>
     <![endif]-->
     <script>
         window.onload = function () {

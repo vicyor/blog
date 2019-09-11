@@ -22,7 +22,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
  * 时间:2019/9/3 21:13
  **/
 @Configuration
-public class JavaConfig {
+public class JWTTokenParseConfig {
     @Bean
     @Primary
     public DefaultTokenServices tokenServices() throws Exception {

@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header">
+    <div class="tophead">
+        <div class="logo"><a href="/">个人博客</a></div>
+        <div id="mnav">
+            <h2><span class="navicon"></span></h2>
+            <ul>
+                <li><a th:href="${path+'/'}">网站首页</a></li>
+                <li><a th:href="${path+'/about.html'}">关于作者</a></li>
+                <li><a th:href="${path+'/share.html'}">模板分享</a></li>
+                <li><a th:href="${path+'/list.html'}">学无止境</a></li>
+                <li><a th:href="${path+'/gbook.html'}">留言</a></li>
+            </ul>
+        </div>
+        <nav class="topnav" id="topnav">
+            <ul>
+                <li><a th:href="${path+'/'}">网站首页</a></li>
+                <li><a th:href="${path+'/about.html'}">关于作者</a></li>
+                <li><a th:href="${path+'/share.html'}">模板分享</a></li>
+                <li><a th:href="${path+'/list.html'}">学无止境</a></li>
+                <li><a th:href="${path+'/gbook.html'}">留言</a></li>
+                <li th:if="${authentication == null}"><a th:href="${path +'/login'}" style="color: #1abc9c">登录</a></li>
+                <li th:if="${authentication !=null}"><a href="javascript:;"
+                                                        th:text="${'欢迎回来  '+authentication.principal}"
+                                                        style="color: #1abc9c"></a></li>
+                <li th:if="${authentication !=null}"><a href="javascript:;" style="color: #1abc9c" id="lo">退出</a></li>
+            </ul>
+        </nav>
+
+    </div>
+</header>
+</html>

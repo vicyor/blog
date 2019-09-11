@@ -15,6 +15,18 @@ spring:
   thymeleaf:
     #    开发时关闭缓存,上线时开启缓存减少服务端压力
     cache: false
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+  http:
+    encoding:
+      charset: UTF-8
+  redis:
+    database: 0
+    host: www.vicyor.com
+    port: 6379
 mybatis:
   mapper-locations: classpath:mapper/**.xml
   configuration:

@@ -2,6 +2,7 @@ package com.vicyor.blog.apps.blog.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -40,6 +41,7 @@ public class EsBlog implements Serializable {
             format = DateFormat.custom,
             pattern = "yyyy-MM-dd hh:mm:ss"
     )
+    @CreationTimestamp //数据库自动映射字段
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Date cdate;
     //更新时间
