@@ -1,6 +1,5 @@
 package com.vicyor.blog.apps.blog.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vicyor.blog.apps.blog.domain.EsBlog;
 import com.vicyor.blog.apps.blog.repository.EsBlogRepository;
@@ -16,12 +15,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.*;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,5 +142,43 @@ public class BlogController {
         );
         query.setUpdateRequest(updateRequest);
         elasticsearchTemplate.update(query);
+    }
+
+    @GetMapping("/update/{id}")
+    public String updateBlog(
+            @PathVariable("id") String id,
+            HttpServletRequest request
+    ) {
+        IdsQueryBuilder queryBuilder = QueryBuilders.idsQuery().addIds(id);
+        GetQuery query = new GetQuery();
+        query.setId(id);
+        EsBlog blog = elasticsearchTemplate.queryForObject(query, EsBlog.class);
+        request.setAttribute("blog", blog);
+        return "update";
+    }
+
+    @PostMapping("/save/{id}")
+    @ResponseBody
+    public void updateArticle(@RequestParam(value = "content", required = true) String content,
+                              @PathVariable(value = "id") String id,
+                              HttpServletRequest request
+    ) throws Exception {
+        UpdateRequest updateRequest = new UpdateRequest();
+        updateRequest.doc(XContentFactory
+                .jsonBuilder()
+                .startObject()
+                .field("content", content)
+                .endObject());
+        UpdateQuery query = new UpdateQuery();
+        query.setId(id);
+        query.setIndexName("blog");
+        query.setType("blog");
+        query.setUpdateRequest(updateRequest);
+        elasticsearchTemplate.update(query);
+    }
+
+    @RequestMapping("/new")
+    public String newBlog() {
+        return "createBlog";
     }
 }

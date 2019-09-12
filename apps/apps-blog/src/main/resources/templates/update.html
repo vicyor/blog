@@ -1,0 +1,146 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="html/head::head"></head>
+<body>
+<header th:replace="html/header.html::header"></header>
+
+<article>
+    <input type="hidden" th:value="${blog.content}" id="blog-content"/>
+    <h1 class="t_nav">
+        <span>您现在的位置是：首页 > 文章 > [[${blog.title}]]</span>
+        <a th:href="${path+'/'}" class="n1">网站首页</a>
+        <a href="javascript:;" class="n2" th:text="${blog.title}"></a>
+    </h1>
+    <div class="infos">
+        <div class="newsview">
+            <h3 class="news_title">欢迎各位英雄好汉捧场！</h3>
+            <div class="news_author">
+                <span class="au01"><a href="mailto:2457569580@qq.com">kindboy</a></span>
+                <span class="au02" th:text="${blog.udate}"></span><span class="au03">
+                浏览次数 : <b th:text="${blog.count}"></b></span>
+            </div>
+            <div class="tags">
+                <a href="javascript:;">个人博客</a>
+                <a href="javascript:;" th:text="${blog.tag}"></a>
+                <a href="javascript:;" style="float: right;margin-right: 40px;" id="save">保存</a>
+            </div>
+            <div class="news_about"><strong>简介</strong>[[${blog.summary}]]</div>
+            <div id="layout" class="editor">
+                <div class="news_infos" id="editor-md" style="padding:10px;width: 760px;height: 1500px;">
+                    <textarea></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="share"></div>
+        <div class="news_pl">
+            <h2>文章评论</h2>
+            <ul>
+                <div class="gbko"></div>
+            </ul>
+        </div>
+        <div class="otherlink">
+            <h2>相关文章</h2>
+            <ul>
+            </ul>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="cloud" th:replace="html/sidebar.html::cloud"></div>
+        <div class="paihang" th:replace="html/sidebar.html::clickrank"></div>
+        <div class="weixin" th:replace="html/sidebar.html::weixin"></div>
+    </div>
+</article>
+<footer th:replace="html/foot.html::foot"></footer>
+<script th:src="${path+'/js/nav.js'}"></script>
+<script>
+    $(function () {
+        $.ajax({
+            url: '/blog/blogs/count/' + '[[${blog.id}]]' + "?count=" + '[[${blog.count}]]',
+            method: 'post'
+        })
+    });
+    $(function () {
+        var testEditor;
+        var str = $("#blog-content").val();
+        //testEditor.getMarkdown()获取文档
+        window.testEditor = editormd("editor-md", {
+            width: "90%",
+            height: '740px',
+            path: '[[${path}]]/editor.md-master/lib/',
+            markdown: str,
+            theme: "dark",
+            previewTheme: "dark",
+            editorTheme: "pastel-on-dark",
+            // codeFold: true,
+            //syncScrolling : false,
+            saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
+            searchReplace: true,
+            //watch : false,                // 关闭实时预览
+            //  htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+            //   toolbar  : false,             //关闭工具栏
+            //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+            emoji: false,
+            taskList: false,
+            tocm: false,         // Using [TOCM]
+            tex: false,                   // 开启科学公式TeX语言支持，默认关闭
+            flowChart: false,             // 开启流程图支持，默认关闭
+            toolbarAutoFixed: false,
+            sequenceDiagram: false,       // 开启时序/序列图支持，默认关闭,
+            dialogLockScreen: false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+            dialogShowMask: false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+            dialogDraggable: false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+            dialogMaskOpacity: 0.5,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+            dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: "/blog/file/upload",
+            onload: function () {
+                console.log('onload', this);
+                //this.fullscreen();
+                //this.unwatch();
+                //this.watch().fullscreen();
+
+                //this.setMarkdown("#PHP");
+                //this.width("100%");
+                //this.height(480);
+                //this.resize("100%", 640);
+            }
+        });
+    });
+    $(function () {
+        $.ajax({
+            url: '/blog/blogs/tag?tag=' + "[[${blog.tag}]]",
+            method: 'get',
+            success: function (data) {
+                console.log(data);
+                var blogs = data[1];
+                var $ul = $(".otherlink ul");
+                $.each(blogs, function (index, blog) {
+                    var $li = $("<li></li>");
+                    var $a = $("<a></a>");
+                    $a.prop('href', '/blog/blogs/article/' + blog.id);
+                    $a.prop('title', blog.title);
+                    $a.text(blog.title + "----" + blog.udate);
+                    $li.append($a);
+                    $ul.append($li);
+                })
+            }
+        })
+    });
+    $(function () {
+        $("#save").on('click', function () {
+            var text = testEditor.getMarkdown();
+            $.ajax({
+                url: '/blog/blogs/save/[[${blog.id}]]',
+                method: 'post',
+                data: {
+                    content: text
+                },
+                success:function () {
+                    window.location.href='/blog/blogs/article/[[${blog.id}]]';
+                }
+            })
+        })
+    });
+</script>
+</body>
+</html>

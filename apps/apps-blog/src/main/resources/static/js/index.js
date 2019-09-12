@@ -135,7 +135,7 @@ function getBlogsByTag(val) {
     })
 }
 
-function initAClickEvent() {
+function initclick() {
     var href = window.location.href.toString();
     var arr = $("#cloud").find("a");
     $.each(arr, function (index, a) {

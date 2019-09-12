@@ -1,0 +1,9 @@
+.editormd-toolbar {
+    position: absolute !important;
+    left: 0px !important;
+}
+
+.editormd-dialog {
+    left: 400px !important;
+    top: 150px !important;
+}

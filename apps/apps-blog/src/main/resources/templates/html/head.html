@@ -12,10 +12,10 @@
     <link rel="icon" th:href="${path+'/images/logo.png'}"/>
 
     <script th:src="${path+'/js/jquery-3.3.1.js'}"></script>
-    <script th:src="${path+'/js/index.js'}"></script>
     <script th:src="${path+'/layui/layui.js'}"></script>
     <link rel="stylesheet" th:href="${path+'/editor.md-master/css/editormd.css'}"/>
     <link rel="stylesheet" th:href="${path+'/editor.md-master/css/editormd.preview.css'}">
+    <link rel="stylesheet" th:href="${path +'/css/update.css'}">
     <script th:src="${path+'/editor.md-master/lib/marked.min.js'}"></script>
     <script th:src="${path+'/editor.md-master/lib/prettify.min.js'}"></script>
     <script th:src="${path+'/editor.md-master/lib/raphael.min.js'}"></script>
@@ -26,6 +26,7 @@
     <!--[if lt IE 9]>
     <script th:src="${path+'/js/modernizr.js'}"></script>
     <![endif]-->
+    <script th:src="${path+'/js/index.js'}"></script>
     <script>
         window.onload = function () {
             var oH2 = document.getElementsByTagName("h2")[0];

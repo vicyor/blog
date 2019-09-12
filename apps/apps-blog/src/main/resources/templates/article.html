@@ -20,6 +20,7 @@
             var testEditor;
             var str= $("#blog-content").val();
             testEditor = editormd.markdownToHTML("read-editormd", {
+                path: '[[${path}]]/editor.md-master/lib/',
                 markdown: str,
                 htmlDecode: "style,script,iframe",  // you can filter tags decode
                 emoji: true,
@@ -68,6 +69,7 @@
             <div class="tags">
                 <a href="javascript:;">个人博客</a>
                 <a href="javascript:;" th:text="${blog.tag}"></a>
+                <a th:href="${path+'/blogs/update/'+blog.id}" style="float: right;margin-right: 40px;">编辑</a>
             </div>
             <div class="news_about"><strong>简介</strong>[[${blog.summary}]]</div>
             <div class="news_infos" id="read-editormd" style="padding:10px;width: 760px;height: 1500px;">
@@ -91,7 +93,6 @@
         <div class="cloud" th:replace="html/sidebar.html::cloud"></div>
         <div class="paihang" th:replace="html/sidebar.html::clickrank"></div>
         <div class="weixin" th:replace="html/sidebar.html::weixin"></div>
-        <div class="ad" id="left_flow2"><img src="images/ad.jpg"></div>
     </div>
 </article>
 <footer th:replace="html/foot.html::foot"></footer>
