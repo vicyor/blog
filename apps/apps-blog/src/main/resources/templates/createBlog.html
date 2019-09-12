@@ -1,89 +1,98 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="gb2312">
-<title>ÁôÑÔ_ÑîÇà¸öÈË²©¿Í - Ò»¸öÕ¾ÔÚwebÇ°¶ËÉè¼ÆÖ®Â·µÄÅ®¼¼ÊõÔ±¸öÈË²©¿ÍÍøÕ¾</title>
-<meta name="keywords" content="¸öÈË²©¿Í,ÑîÇà¸öÈË²©¿Í,¸öÈË²©¿ÍÄ£°å,ÑîÇà" />
-<meta name="description" content="ÑîÇà¸öÈË²©¿Í£¬ÊÇÒ»¸öÕ¾ÔÚwebÇ°¶ËÉè¼ÆÖ®Â·µÄÅ®³ÌĞòÔ±¸öÈËÍøÕ¾£¬Ìá¹©¸öÈË²©¿ÍÄ£°åÃâ·Ñ×ÊÔ´ÏÂÔØµÄ¸öÈËÔ­´´ÍøÕ¾¡£" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="css/base.css" rel="stylesheet">
-<link href="css/index.css" rel="stylesheet">
-<link href="css/m.css" rel="stylesheet">
-<!--[if lt IE 9]>
-<script src="js/modernizr.js"></script>
-<![endif]-->
-<script>
-window.onload = function ()
-{
-	var oH2 = document.getElementsByTagName("h2")[0];
-	var oUl = document.getElementsByTagName("ul")[0];
-	oH2.onclick = function ()
-	{
-		var style = oUl.style;
-		style.display = style.display == "block" ? "none" : "block";
-		oH2.className = style.display == "block" ? "open" : ""
-	}
-}
-</script>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="html/head.html::head"></head>
 <body>
-<header>
-  <div class="tophead">
-    <div class="logo"><a href="/">ÑîÇà¸öÈË²©¿Í</a></div>
-    <div id="mnav">
-      <h2><span class="navicon"></span></h2>
-      <ul>
-        <li><a href="index.html">ÍøÕ¾Ê×Ò³</a></li>
-        <li><a href="about.html">¹ØÓÚÎÒ</a></li>
-        <li><a href="share.html">Ä£°å·ÖÏí</a></li>
-        <li><a href="list.html">Ñ§ÎŞÖ¹¾³</a></li>
-        <li><a href="info.html">ÂıÉú»î</a></li>
-        <li><a href="createBlog.html">ÁôÑÔ</a></li>
-      </ul>
-    </div>
-    <nav class="topnav" id="topnav">
-      <ul>
-        <li><a href="index.html">ÍøÕ¾Ê×Ò³</a></li>
-        <li><a href="about.html">¹ØÓÚÎÒ</a></li>
-        <li><a href="share.html">Ä£°å·ÖÏí</a></li>
-        <li><a href="list.html">Ñ§ÎŞÖ¹¾³</a></li>
-        <li><a href="info.html">ÂıÉú»î</a></li>
-        <li><a href="createBlog.html">ÁôÑÔ</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+<header th:replace="html/header.html::header"></header>
+<script>
+    $(function () {
+        //TODO å¾ˆå¤šä¸œè¥¿æ²¡åšå•Šï¼Œåƒæ ‡é¢˜,summary,tagä¿®æ”¹ç­‰
+        $("#save").on('click', function () {
+            var text = testEditor.getMarkdown();
+            $.ajax({
+                url: '/blog/blogs/new/[[${blog.id}]]',
+                method: 'post',
+                data: {
+                    content: text
+                },
+                success:function (data) {
+                    window.location.href='/blog/blogs/article/'+data.id;
+                }
+            })
+        })
+    });
+</script>
 <article>
-  <h1 class="t_nav"><span>Ïñ¡°²İ¸ù¡±Ò»Ñù£¬½ôÌù×ÅµØÃæ£¬µÍµ÷µÄ´æÔÚ£¬¶¬È¥´ºÀ´£¬¿İÈÙÎŞí¦¡£</span><a href="/" class="n1">ÍøÕ¾Ê×Ò³</a><a href="/" class="n2">ÁôÑÔ</a></h1>
-  <div class="ab_box">
+    <h1 class="t_nav"><span>åƒâ€œè‰æ ¹â€ä¸€æ ·ï¼Œç´§è´´ç€åœ°é¢ï¼Œä½è°ƒçš„å­˜åœ¨ï¼Œå†¬å»æ˜¥æ¥ï¼Œæ¯è£æ— æ™ã€‚</span><a href="/" class="n1">ç½‘ç«™é¦–é¡µ</a><a href="/" class="n2">æ–°å»ºåšå®¢</a>
+    </h1>
     <div class="leftbox">
-      <div class="newsview">
-        <div class="news_infos"> ´Ë´¦°²×°²å¼ş </div>
-      </div>
+        <div class="tags">
+            <a href="javascript:;">ä¸ªäººåšå®¢</a>
+            <a href="javascript:;" style="float: right;margin-right: 40px;" id="save">ä¿å­˜</a>
+        </div>
+        <div id="layout" class="editor">
+            <div class="news_infos" id="editor-md" style="padding:10px;width: 760px;height: 1500px;margin:20px;">
+                <textarea></textarea>
+            </div>
+        </div>
     </div>
     <div class="rightbox">
-      <div class="aboutme">
-        <h2 class="hometitle">¹ØÓÚÎÒ</h2>
-        <div class="avatar"> <img src="images/avatar.jpg"> </div>
-        <div class="ab_con">
-          <p>ÍøÃû£ºdancesmile | ÑîÇà</p>
-          <p>Ö°Òµ£ºWebÇ°¶ËÉè¼ÆÊ¦¡¢ÍøÒ³Éè¼Æ </p>
-          <p>¸öÈËÎ¢ĞÅ£ºyangqq_1987</p>
-          <p>ÓÊÏä£ºdancesmiling@qq.com</p>
-        </div>
-      </div>
-      <div class="weixin">
-        <h2 class="hometitle">Î¢ĞÅ¹Ø×¢</h2>
-        <ul>
-          <img src="images/wx.jpg">
-        </ul>
-      </div>
+        <div class="about" th:replace="html/sidebar::about"></div>
+        <div class="weixin" th:replace="html/sidebar.html::weixin"></div>
     </div>
-  </div>
+    </div>
 </article>
-<footer>
-  <p>Design by <a href="/">ÑîÇà¸öÈË²©¿Í</a> <a href="/">ÊñICP±¸11002373ºÅ-1</a></p>
-</footer>
+<footer th:replace="html/foot.html::foot"></footer>
 <script src="js/nav.js"></script>
+<script>
+    $(function () {
+        $(function () {
+            var testEditor;
+            var str = $("#blog-content").val();
+            //testEditor.getMarkdown()è·å–æ–‡æ¡£
+            window.testEditor = editormd("editor-md", {
+                width: "90%",
+                height: '740px',
+                path: '[[${path}]]/editor.md-master/lib/',
+                markdown: str,
+                theme: "dark",
+                previewTheme: "dark",
+                editorTheme: "pastel-on-dark",
+                // codeFold: true,
+                //syncScrolling : false,
+                saveHTMLToTextarea: true,    // ä¿å­˜ HTML åˆ° Textarea
+                searchReplace: true,
+                //watch : false,                // å…³é—­å®æ—¶é¢„è§ˆ
+                //  htmlDecode: "style,script,iframe|on*",            // å¼€å¯ HTML æ ‡ç­¾è§£æï¼Œä¸ºäº†å®‰å…¨æ€§ï¼Œé»˜è®¤ä¸å¼€å¯
+                //   toolbar  : false,             //å…³é—­å·¥å…·æ 
+                //previewCodeHighlight : false, // å…³é—­é¢„è§ˆ HTML çš„ä»£ç å—é«˜äº®ï¼Œé»˜è®¤å¼€å¯
+                emoji: false,
+                taskList: false,
+                tocm: false,         // Using [TOCM]
+                tex: false,                   // å¼€å¯ç§‘å­¦å…¬å¼TeXè¯­è¨€æ”¯æŒï¼Œé»˜è®¤å…³é—­
+                flowChart: false,             // å¼€å¯æµç¨‹å›¾æ”¯æŒï¼Œé»˜è®¤å…³é—­
+                toolbarAutoFixed: false,
+                sequenceDiagram: false,       // å¼€å¯æ—¶åº/åºåˆ—å›¾æ”¯æŒï¼Œé»˜è®¤å…³é—­,
+                dialogLockScreen: false,   // è®¾ç½®å¼¹å‡ºå±‚å¯¹è¯æ¡†ä¸é”å±ï¼Œå…¨å±€é€šç”¨ï¼Œé»˜è®¤ä¸ºtrue
+                dialogShowMask: false,     // è®¾ç½®å¼¹å‡ºå±‚å¯¹è¯æ¡†æ˜¾ç¤ºé€æ˜é®ç½©å±‚ï¼Œå…¨å±€é€šç”¨ï¼Œé»˜è®¤ä¸ºtrue
+                dialogDraggable: false,    // è®¾ç½®å¼¹å‡ºå±‚å¯¹è¯æ¡†ä¸å¯æ‹–åŠ¨ï¼Œå…¨å±€é€šç”¨ï¼Œé»˜è®¤ä¸ºtrue
+                dialogMaskOpacity: 0.5,    // è®¾ç½®é€æ˜é®ç½©å±‚çš„é€æ˜åº¦ï¼Œå…¨å±€é€šç”¨ï¼Œé»˜è®¤å€¼ä¸º0.1
+                dialogMaskBgColor: "#000", // è®¾ç½®é€æ˜é®ç½©å±‚çš„èƒŒæ™¯é¢œè‰²ï¼Œå…¨å±€é€šç”¨ï¼Œé»˜è®¤ä¸º#fff
+                imageUpload: true,
+                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                imageUploadURL: "/blog/file/upload",
+                onload: function () {
+                    console.log('onload', this);
+                    //this.fullscreen();
+                    //this.unwatch();
+                    //this.watch().fullscreen();
+
+                    //this.setMarkdown("#PHP");
+                    //this.width("100%");
+                    //this.height(480);
+                    //this.resize("100%", 640);
+                }
+            });
+        });
+    })
+</script>
 </body>
 </html>

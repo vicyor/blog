@@ -177,7 +177,7 @@ public class BlogController {
         elasticsearchTemplate.update(query);
     }
 
-    @RequestMapping("/new")
+    @GetMapping("/new")
     public String newBlog() {
         return "createBlog";
     }
