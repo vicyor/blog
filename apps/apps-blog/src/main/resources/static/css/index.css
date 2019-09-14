@@ -127,7 +127,6 @@ h3.blogtitle { line-height: 30px; height: 30px; margin: 10px 0; }
 .otherlink ul { margin: 10px 0 }
 .otherlink li { line-height: 24px; height: 24px; display: block; width: 290px; float: left; overflow: hidden; margin-right: 30px; padding-left: 10px; }
 .otherlink li a:hover { text-decoration: underline; color: #000 }
-/*��������*/
 .news_pl { margin: 10px 0; width: 100%; background: #FFF; border-radius: 10px; overflow: hidden; margin: 20px 0 }
 .news_pl h2 { background: url(../images/newsbg03.png) no-repeat left 10px center; border-bottom: #000 2px solid; line-height: 40px; font-size: 14px; padding-left: 30px; color: #000 }
 .xzsm ul, .ffsm ul { padding: 20px; line-height: 24px; border-top: 6px solid #a6b5c5; }

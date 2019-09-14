@@ -212,7 +212,7 @@ public class BlogController {
         String summary = requestParams.get("summary");
         String tag = requestParams.get("tag");
         //blog图片为用户头像
-        EsBlog blog = new EsBlog(title, tag, content, new Date(), new Date(), 1, UserUtil.blogUser().getImageUri(), summary);
+        EsBlog blog = new EsBlog(title, tag, content, new Date(), new Date(), 1, UserUtil.blogUser().getImageUri(), summary, UserUtil.blogUser().getUsername());
         IndexQuery query = new IndexQuery();
         query.setObject(blog);
         query.setIndexName("blog");

@@ -42,7 +42,7 @@ public class EsBlog implements Serializable {
             pattern = "yyyy-MM-dd hh:mm:ss"
     )
     @CreationTimestamp //数据库自动映射字段
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
     private Date cdate;
     //更新时间
     @Field(type = FieldType.Date,
@@ -50,14 +50,15 @@ public class EsBlog implements Serializable {
             format = DateFormat.custom,
             pattern = "yyyy-MM-dd hh:mm:ss"
     )
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
     private Date udate;
     //浏览数量
     private long count;
     //图片uri
     private String uri = "images/text02.jpg";
-
-    public EsBlog(String title, String tag, String content, Date cdate, Date udate, long count, String uri, String summary) {
+    //作者 对应username 非name
+    private String author;
+    public EsBlog(String title, String tag, String content, Date cdate, Date udate, long count, String uri, String summary,String author) {
         this.title = title;
         this.tag = tag;
         this.content = content;
@@ -66,6 +67,7 @@ public class EsBlog implements Serializable {
         this.count = count;
         this.uri = uri;
         this.summary = summary;
+        this.author=author;
     }
 
     protected EsBlog() {
