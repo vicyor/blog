@@ -64,7 +64,7 @@ public class BlogController {
             length = esBlogs.getTotalElements();
             blogs = esBlogs.getContent();
         } else {
-            Page<EsBlog> blogPage = esBlogRepository.findDistinctEsBlogByContentMatchesOrTitleMatchesOrTagMatchesOOrderByUdateDesc(keyword, keyword, keyword, PageRequest.of(page, pageSize));
+            Page<EsBlog> blogPage = esBlogRepository.findDistinctEsBlogByContentMatchesOrTitleMatchesOrTagMatchesOrderByUdateDesc(keyword, keyword, keyword, PageRequest.of(page, pageSize));
             length = blogPage.getTotalElements();
             blogs = blogPage.getContent();
         }

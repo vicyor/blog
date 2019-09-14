@@ -16,5 +16,5 @@ public interface EsBlogRepository extends ElasticsearchRepository<EsBlog, String
    /**
     * match 查询
     */
-   Page<EsBlog> findDistinctEsBlogByContentMatchesOrTitleMatchesOrTagMatchesOOrderByUdateDesc(String content, String title, String tag, Pageable pageable);
+   Page<EsBlog> findDistinctEsBlogByContentMatchesOrTitleMatchesOrTagMatchesOrderByUdateDesc(String content, String title, String tag, Pageable pageable);
 }
