@@ -3,6 +3,7 @@ package com.vicyor.blog.apps.blog.filter;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import com.vicyor.blog.apps.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,7 +42,12 @@ public class ServletContextLoadedFilter extends HttpFilter {
         if (!(uri.contains("css") || uri.contains("html") || uri.contains("images") || uri.contains("js"))) {
             //添加认证信息
             //在会话中添加用户信息
-            if (session.getAttribute("user") == null || !((BlogUser) session.getAttribute("user")).isLogin()) {
+            Object user = session.getAttribute("user");
+            if (user == null) {
+                BlogUser blogUser = userService.findBlogUser(authentication);
+                session.setAttribute("user", blogUser);
+            } else if (!(authentication instanceof AnonymousAuthenticationToken) && !((BlogUser) user).isLogin()) {
+                //更新user
                 BlogUser blogUser = userService.findBlogUser(authentication);
                 session.setAttribute("user", blogUser);
             }

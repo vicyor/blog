@@ -760,7 +760,7 @@ public class EsBlogRepositoryTest {
         String keyword = "静夜思";
 
         Page<EsBlog> page = repository
-                .findDistinctEsBlogByContentMatchesOrTitleMatchesOrTagMatches(keyword, keyword, keyword, PageRequest.of(0, 10));
+                .findDistinctEsBlogByContentMatchesOrTitleMatchesOrTagMatchesOOrderByUdateDesc(keyword, keyword, keyword, PageRequest.of(0, 10));
         System.out.println(page.getTotalElements());
     }
 

@@ -25,7 +25,7 @@ h3.blogtitle { line-height: 30px; height: 30px; margin: 10px 0; }
 .dtime { background: url(../images/newsbg02.png) no-repeat left center }
 .viewnum { background: url(../images/newsbg04.png) no-repeat left center }
 .pingl { background: url(../images/newsbg03.png) no-repeat left center }
-.blogpic img { width: 100% }
+.blogpic img { width: 100%;height: 135px; }
 .bloginfo p { color: #888; line-height: 24px }
 .more { font-size: 14px; }
 .pages { padding: 0 60px 25px; text-align: right }

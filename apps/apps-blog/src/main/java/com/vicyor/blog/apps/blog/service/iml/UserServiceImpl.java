@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
             authorities.add("ROLE_" + role);
         });
         blogUser.setAuthorities(authorities);
-        if (authentication instanceof AbstractAuthenticationToken) {
-            blogUser.setLogin(false);
+        if (! (authentication instanceof AnonymousAuthenticationToken)) {
+            blogUser.setLogin(true);
         }
         return blogUser;
     }

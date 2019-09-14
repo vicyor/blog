@@ -19,5 +19,5 @@ public class BlogUser {
     private String motto;
     private String imageUri = "/images/head.jpg";
     private Collection<? extends GrantedAuthority> authorities;
-    private boolean login = true;
+    private boolean login = false;
 }
