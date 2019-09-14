@@ -121,7 +121,6 @@ h3.blogtitle { line-height: 30px; height: 30px; margin: 10px 0; }
 .nextinfo { line-height: 24px; width: 100%; background: #FFF; border-radius: 10px; overflow: hidden; margin: 20px 0 }/*��һƪ��һƪ*/
 .nextinfo p { padding: 4px 10px; border-radius: 5px; }
 .nextinfo a:hover { color: #000; text-decoration: underline }
-/*�������*/
 .otherlink, .xzsm, .ffsm { width: 100%; background: #FFF; border-radius: 10px; overflow: hidden; margin: 20px 0 }
 .otherlink h2 { border-bottom: #000 2px solid; line-height: 40px; font-size: 14px; background: url(../images/5794.png) left 10px center no-repeat; padding-left: 40px; color: #000 }
 .otherlink ul { margin: 10px 0 }
@@ -141,7 +140,7 @@ h3.blogtitle { line-height: 30px; height: 30px; margin: 10px 0; }
 .ab_con { line-height: 30px; padding: 10px; }
 .ab_con p { background: #f6f6f6; margin: 5px 0; padding-left: 10px; border-radius: 5px; text-shadow: rgba(255, 255, 255, 0.3) 0px 1px 0px; }
 .ab_box .avatar { width: 100px; height: 100px; overflow: hidden; border-radius: 50px; margin: 10px auto 0; }
-..ab_box .avatar img { width: 100px; height: 100px }
+.ab_box .avatar img { width: 100px; height: 100px }
 .ab_box .news_infos { padding: 30px 0 }
 .meandblog { padding: 20px; border-radius: 10px; overflow: hidden; margin: 0 0 20px 0; }
 .meandblog li { background: #f1f1f1; line-height: 30px; margin: 5px 0; padding: 0 0 0 10px; border-radius: 10px; border-top: 2px solid #e2e2e2; text-shadow: #eae7e7 0px 0px 1px; }
