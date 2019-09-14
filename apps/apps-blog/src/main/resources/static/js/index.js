@@ -1,6 +1,5 @@
 function parseBlog(blogs, page, pagesize) {
-    var $div = $("article div.blogs")[0];
-    $div = $($div);
+    var $div = $("article div.blogs>div#blog");
     $div.find("li").remove();
     $.each(blogs, function (index, blog) {
         var $li = $("<li></li>");
@@ -54,6 +53,8 @@ function parseCountRank(blogs) {
         $a.prop("href", "/blog/blogs/article/" + blog.id);
         $a.text(blog.title);
         var $p = $("<p></p>");
+        var $ai=$("<a></a>");
+        $ai.prop("href", "/blog/blogs/article/" + blog.id);
         var $i = $("<i></i>");
         var $img = $("<img></img>");
         $img.prop("src", "/blog/" + blog.uri);
@@ -61,7 +62,8 @@ function parseCountRank(blogs) {
         $li.append($b);
         $b.append($a);
         $li.append($p);
-        $p.append($i);
+        $p.append($ai);
+        $ai.append($i)
         $i.append($img);
         $ul.append($li);
     })

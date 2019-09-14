@@ -21,4 +21,10 @@ public class UserUtil {
         Optional<Object> optional = Optional.ofNullable(request.getSession().getAttribute("user"));
         return optional.get() == null ? null : (BlogUser) optional.get();
     }
+    public static BlogUser anynomusBlogUser(){
+        BlogUser blogUser=new BlogUser();
+        blogUser.setUsername("匿名用户");
+        blogUser.setName("");
+        return null;
+    }
 }

@@ -6,4 +6,8 @@
         select oauth_user_info.* from oauth_user_info
         where username =#{username}
     </select>
+    <select id="findRole" resultType="java.util.ArrayList">
+        select role_name  from oauth_role
+        where role_id in (select role_id from oauth_user_role where username=#{username} )
+    </select>
 </mapper>

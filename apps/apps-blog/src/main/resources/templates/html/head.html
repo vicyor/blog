@@ -39,7 +39,7 @@
         }
         $(function () {
             //必须以post方式才能单点退出,post会删除 认证服务器的token
-            $("#lo").on('click', function () {
+            $(".lo").on('click', function () {
                 $.post("/blog/logout");
                 window.location.href = "/blog/";
             })

@@ -2,7 +2,6 @@
 <head th:replace="html/head::head"></head>
 <body>
 <header th:replace="html/header.html::header"></header>
-
 <article>
     <input type="hidden" th:value="${blog.content}" id="blog-content"/>
     <h1 class="t_nav">
@@ -59,7 +58,7 @@
 <script>
     $(function () {
         $.ajax({
-            url: '/blog/blogs/count/' + '[[${blog.id}]]' + "?count=" + '[[${blog.count}]]',
+            url: '/blog/blogs/count/[[${blog.id}]]?count=[[${blog.count}]]',
             method: 'post'
         })
     });
@@ -113,7 +112,7 @@
     });
     $(function () {
         $.ajax({
-            url: '/blog/blogs/tag?tag=' + "[[${blog.tag}]]",
+            url: "/blog/blogs/tag?tag=[[${blog.tag}]]",
             method: 'get',
             success: function (data) {
                 var blogs = data[1];

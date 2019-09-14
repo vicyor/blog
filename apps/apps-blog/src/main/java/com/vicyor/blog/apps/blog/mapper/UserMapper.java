@@ -4,6 +4,8 @@ import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 作者:姚克威
  * 时间:2019/9/4 22:22
@@ -11,4 +13,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper {
     public BlogUser findBlogUser(@Param("username") String username);
+    public List findRole(@Param("username")String username);
 }

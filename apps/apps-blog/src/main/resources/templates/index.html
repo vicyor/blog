@@ -44,6 +44,8 @@
                 getBlog();
             })
         </script>
+        <div id="blog"></div>
+        <div id="pg" style="margin-left: 28%;"></div>
     </div>
     <div class="sidebar">
         <div class="about" th:replace="html/sidebar::about"></div>
@@ -52,7 +54,6 @@
         <div class="paihang" th:replace="html/sidebar::clickrank"></div>
     </div>
 </article>
-<div id="pg" style="margin-left: 28%;"></div>
 <div class="blank"></div>
 <footer th:replace="html/foot::foot"></footer>
 <script th:src="${path+'/js/nav.js'}"></script>

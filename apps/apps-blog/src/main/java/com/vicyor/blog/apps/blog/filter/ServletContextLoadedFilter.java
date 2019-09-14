@@ -26,7 +26,7 @@ import java.util.Collection;
  **/
 @WebFilter(urlPatterns = "/*", filterName = "ServletContextPathFilter")
 @Component
-public class ServletContextPathFilter extends HttpFilter {
+public class ServletContextLoadedFilter extends HttpFilter {
     @Autowired
     private UserService userService;
 
@@ -38,21 +38,12 @@ public class ServletContextPathFilter extends HttpFilter {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         HttpSession session = request.getSession();
 
-        if (authentication instanceof AnonymousAuthenticationToken) {
-            if (session.getAttribute("user") == null) {
-                BlogUser blogUser = userService.findBlogUser(authentication);
-                session.setAttribute("user", blogUser);
-            }
-        }
         if (!(uri.contains("css") || uri.contains("html") || uri.contains("images") || uri.contains("js"))) {
             //添加认证信息
-            if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-                request.setAttribute("authentication", authentication);
-                //在会话中添加用户信息
-                if (session.getAttribute("user") == null) {
-                    BlogUser blogUser = userService.findBlogUser(authentication);
-                    session.setAttribute("user", blogUser);
-                }
+            //在会话中添加用户信息
+            if (session.getAttribute("user") == null || !((BlogUser) session.getAttribute("user")).isLogin()) {
+                BlogUser blogUser = userService.findBlogUser(authentication);
+                session.setAttribute("user", blogUser);
             }
         }
         chain.doFilter(request, response);

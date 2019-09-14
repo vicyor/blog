@@ -8,5 +8,5 @@ import org.springframework.security.core.Authentication;
  * 时间:2019/9/4 23:25
  **/
 public interface UserService {
-    public BlogUser findBlogUser( Authentication authentication);
+    public BlogUser     findBlogUser( Authentication authentication);
 }

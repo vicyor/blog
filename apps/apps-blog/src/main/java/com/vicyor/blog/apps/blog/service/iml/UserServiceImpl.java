@@ -4,6 +4,7 @@ import com.vicyor.blog.apps.blog.mapper.UserMapper;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import com.vicyor.blog.apps.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * 作者:姚克威
@@ -23,15 +27,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BlogUser findBlogUser(Authentication authentication) {
-
-        String username = authentication instanceof AnonymousAuthenticationToken ? "vicyor" : authentication.getPrincipal().toString();
+        String username = authentication.getPrincipal().toString();
         BlogUser blogUser = userMapper.findBlogUser(username);
-        Collection authorities = new ArrayList() {{
-            add("ROLE_USER");
-            add("ROLE_ADMIN");
-        }};
-        Collection<? extends GrantedAuthority> authority = authentication instanceof AnonymousAuthenticationToken ? authorities : authentication.getAuthorities();
-        blogUser.setAuthorities(authority);
+        List roles = userMapper.findRole(username);
+        Collection authorities = new ArrayList();
+        roles.forEach(role -> {
+            authorities.add("ROLE_" + role);
+        });
+        blogUser.setAuthorities(authorities);
+        if (authentication instanceof AbstractAuthenticationToken) {
+            blogUser.setLogin(false);
+        }
         return blogUser;
     }
+
+
 }
