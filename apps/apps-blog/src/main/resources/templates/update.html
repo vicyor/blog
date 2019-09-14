@@ -8,11 +8,14 @@
     <h1 class="t_nav">
         <span>您现在的位置是：首页 > 文章 > [[${blog.title}]]</span>
         <a th:href="${path+'/'}" class="n1">网站首页</a>
-        <a href="javascript:;" class="n2" th:text="${blog.title}"></a>
+        <a href="javascript:;" class="n2">更新博客</a>
     </h1>
     <div class="infos">
         <div class="newsview">
-            <h3 class="news_title">欢迎各位英雄好汉捧场！</h3>
+            <h3 class="news_title"><input type="text" th:value="${blog.title}" class="input_text"
+                                          style="width: 100%;height: 50px;margin-bottom: 20px"
+                                          id="title"></h3>
+            <br/>
             <div class="news_author">
                 <span class="au01"><a href="mailto:2457569580@qq.com">kindboy</a></span>
                 <span class="au02" th:text="${blog.udate}"></span><span class="au03">
@@ -23,9 +26,11 @@
                 <a href="javascript:;" th:text="${blog.tag}"></a>
                 <a href="javascript:;" style="float: right;margin-right: 40px;" id="save">保存</a>
             </div>
-            <div class="news_about"><strong>简介</strong>[[${blog.summary}]]</div>
+            <textarea id="summary" class="layui-textarea" th:text="${blog.summary}" style="width: 100%;margin:0px 0px;"
+                      placeholder="请输入摘要,未填写则和标题相同"></textarea>
+            <br/>
             <div id="layout" class="editor">
-                <div class="news_infos" id="editor-md" style="padding:10px;width: 760px;height: 1500px;">
+                <div class="news_infos" id="editor-md" style="padding:10px;width: 760px;height: 1000px;z-index: 10000">
                     <textarea></textarea>
                 </div>
             </div>
@@ -111,7 +116,6 @@
             url: '/blog/blogs/tag?tag=' + "[[${blog.tag}]]",
             method: 'get',
             success: function (data) {
-                console.log(data);
                 var blogs = data[1];
                 var $ul = $(".otherlink ul");
                 $.each(blogs, function (index, blog) {
@@ -135,12 +139,26 @@
                 data: {
                     content: text
                 },
-                success:function () {
-                    window.location.href='/blog/blogs/article/[[${blog.id}]]';
+                success: function () {
+                    window.location.href = '/blog/blogs/article/[[${blog.id}]]';
                 }
             })
         })
     });
+
+    $(function () {
+        $("#title").on('change', function () {
+            var str = $("#title").val();
+            var str2 = "[[${blog.title}]]";
+            console.log(str2);
+            $.post('/blog/blogs/save/[[${blog.id}]]?title=' + str);
+        });
+        $("#summary").on('change', function () {
+            var str = $("#summary").val();
+            var str1 = "[[${blog.summary}]]";
+            $.post("/blog/blogs/save/[[${blog.id}]]?summary=" + str);
+        });
+    })
 </script>
 </body>
 </html>

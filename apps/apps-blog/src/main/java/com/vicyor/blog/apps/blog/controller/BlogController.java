@@ -1,9 +1,12 @@
 package com.vicyor.blog.apps.blog.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vicyor.blog.apps.blog.domain.EsBlog;
 import com.vicyor.blog.apps.blog.repository.EsBlogRepository;
+import com.vicyor.blog.apps.blog.util.DateUtil;
+import com.vicyor.blog.apps.blog.util.TransformUtil;
+import com.vicyor.blog.apps.blog.util.UserUtil;
 import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.IdsQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
@@ -19,9 +22,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import javax.swing.text.html.Option;
+import javax.websocket.server.PathParam;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * 作者:姚克威
@@ -115,11 +119,7 @@ public class BlogController {
         GetQuery getQuery = new GetQuery();
         getQuery.setId(id);
         EsBlog blog = elasticsearchTemplate.queryForObject(getQuery, EsBlog.class);
-        ObjectMapper mapper = new ObjectMapper();
-        //将日期格式进行转化 jackson 会根据 JsonFormat进行解析
-        String json = mapper.writeValueAsString(blog);
-        HashMap blogMap = mapper.readValue(json, HashMap.class);
-        request.setAttribute("blog", blogMap);
+        request.setAttribute("blog", TransformUtil.transferObjToMap(blog));
         return "article";
     }
 
@@ -148,37 +148,85 @@ public class BlogController {
     public String updateBlog(
             @PathVariable("id") String id,
             HttpServletRequest request
-    ) {
+    ) throws Exception {
         IdsQueryBuilder queryBuilder = QueryBuilders.idsQuery().addIds(id);
         GetQuery query = new GetQuery();
         query.setId(id);
         EsBlog blog = elasticsearchTemplate.queryForObject(query, EsBlog.class);
-        request.setAttribute("blog", blog);
+        request.setAttribute("blog", TransformUtil.transferObjToMap(blog));
         return "update";
     }
 
     @PostMapping("/save/{id}")
     @ResponseBody
-    public void updateArticle(@RequestParam(value = "content", required = true) String content,
-                              @PathVariable(value = "id") String id,
+    public void updateArticle(@RequestParam(value = "content", required = false) String content,
+                              @RequestParam(value = "title", required = false) String title,
+                              @RequestParam(value = "summary", required = false) String summary,
+                              @PathVariable(value = "id", required = true) String id,
                               HttpServletRequest request
     ) throws Exception {
         UpdateRequest updateRequest = new UpdateRequest();
-        updateRequest.doc(XContentFactory
-                .jsonBuilder()
-                .startObject()
-                .field("content", content)
-                .endObject());
+        XContentBuilder xContentBuilder = XContentFactory.jsonBuilder().startObject();
+        Optional.ofNullable(content).ifPresent(con -> {
+            try {
+                xContentBuilder.field("content", con);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        Optional.ofNullable(title).ifPresent(tit -> {
+            try {
+                xContentBuilder.field("title", tit);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        Optional.ofNullable(summary).ifPresent(sum -> {
+            try {
+                xContentBuilder.field("summary", sum);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        xContentBuilder.field("udate", DateUtil.formatDate(new Date()));
+        xContentBuilder.endObject();
+        updateRequest.doc(xContentBuilder);
         UpdateQuery query = new UpdateQuery();
+        query.setUpdateRequest(updateRequest);
         query.setId(id);
         query.setIndexName("blog");
         query.setType("blog");
-        query.setUpdateRequest(updateRequest);
         elasticsearchTemplate.update(query);
     }
 
     @GetMapping("/new")
     public String newBlog() {
         return "createBlog";
+    }
+
+    @PostMapping("/new")
+    @ResponseBody
+    public String createBlog(@RequestBody Map<String, String> requestParams) {
+        String title = requestParams.get("title");
+        String content = requestParams.get("content");
+        String summary = requestParams.get("summary");
+        String tag = requestParams.get("tag");
+        //blog图片为用户头像
+        EsBlog blog = new EsBlog(title, tag, content, new Date(), new Date(), 1, UserUtil.blogUser().getImageUri(), summary);
+        IndexQuery query = new IndexQuery();
+        query.setObject(blog);
+        query.setIndexName("blog");
+        query.setType("blog");
+        return elasticsearchTemplate.index(query);
+    }
+
+    @RequestMapping("/delete/{id}")
+    public String deleteBlog(@PathVariable("id") String id) {
+        DeleteQuery query = new DeleteQuery();
+        query.setIndex("blog");
+        query.setType("blog");
+        query.setQuery(QueryBuilders.idsQuery().addIds(id));
+        elasticsearchTemplate.delete(query);
+        return "redirect:/index";
     }
 }

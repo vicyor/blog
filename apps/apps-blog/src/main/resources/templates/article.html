@@ -7,7 +7,7 @@
     <h1 class="t_nav">
         <span>您现在的位置是：首页 > 文章 > [[${blog.title}]]</span>
         <a th:href="${path+'/'}" class="n1">网站首页</a>
-        <a href="javascript:;" class="n2" th:text="${blog.title}"></a>
+        <a href="javascript:;" class="n2">个人博客</a>
     </h1>
     <script>
         $(function () {
@@ -60,7 +60,7 @@
     </script>
     <div class="infos">
         <div class="newsview">
-            <h3 class="news_title">欢迎各位英雄好汉捧场！</h3>
+            <h3 class="news_title">[[${blog.title}]]</h3>
             <div class="news_author">
                 <span class="au01"><a href="mailto:2457569580@qq.com">kindboy</a></span>
                 <span class="au02" th:text="${blog.udate}"></span><span class="au03">
@@ -69,10 +69,11 @@
             <div class="tags">
                 <a href="javascript:;">个人博客</a>
                 <a href="javascript:;" th:text="${blog.tag}"></a>
-                <a th:href="${path+'/blogs/update/'+blog.id}" style="float: right;margin-right: 40px;">编辑</a>
+                <a th:href="${path+'/blogs/delete/'+blog.id}" style="float: right;margin-right: 10px;">删除</a>
+                <a th:href="${path+'/blogs/update/'+blog.id}" style="float: right;margin-right: 10px;">编辑</a>
             </div>
             <div class="news_about"><strong>简介</strong>[[${blog.summary}]]</div>
-            <div class="news_infos" id="read-editormd" style="padding:10px;width: 760px;height: 1500px;">
+            <div class="news_infos" id="read-editormd" style="padding:10px;width: 760px;height: 1000px;">
                 <textarea></textarea>
             </div>
         </div>

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 作者:姚克威
@@ -20,11 +22,13 @@ public class GenerateClientDetailsServiceConfigProvider implements ClientDetails
             OauthClientDetail oauthClientDetail = entry.getValue();
             List<String> authorizedGrantTypes = oauthClientDetail.getAuthorizedGrantTypes();
             String[] types = authorizedGrantTypes.toArray(new String[authorizedGrantTypes.size()]);
+            List<String> collect = oauthClientDetail.getRedirectUri().stream().map(obj -> obj.toString()).collect(Collectors.toList());
+
             builder
                     .withClient(clientId)
                     .secret(oauthClientDetail.getClientSecret())
                     .authorizedGrantTypes(types)
-                    .redirectUris(oauthClientDetail.getRedirectUri())
+                    .redirectUris(collect.toArray(new String[collect.size()]))
                     .scopes(oauthClientDetail.getScope())
                     .resourceIds("blog")
                     .autoApprove(true)

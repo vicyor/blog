@@ -2,96 +2,116 @@
 <head th:replace="html/head.html::head"></head>
 <body>
 <header th:replace="html/header.html::header"></header>
-<script>
-    $(function () {
-        //TODO 很多东西没做啊，像标题,summary,tag修改等
-        $("#save").on('click', function () {
-            var text = testEditor.getMarkdown();
-            $.ajax({
-                url: '/blog/blogs/new/[[${blog.id}]]',
-                method: 'post',
-                data: {
-                    content: text
-                },
-                success:function (data) {
-                    window.location.href='/blog/blogs/article/'+data.id;
-                }
-            })
-        })
-    });
-</script>
 <article>
-    <h1 class="t_nav"><span>像“草根”一样，紧贴着地面，低调的存在，冬去春来，枯荣无恙。</span><a href="/" class="n1">网站首页</a><a href="/" class="n2">新建博客</a>
+    <h1 class="t_nav"><span>福兮祸之所倚,祸兮福之所伏。</span><a href="/" class="n1">网站首页</a><a href="/" class="n2">新建博客</a>
     </h1>
     <div class="leftbox">
-        <div class="tags">
-            <a href="javascript:;">个人博客</a>
-            <a href="javascript:;" style="float: right;margin-right: 40px;" id="save">保存</a>
-        </div>
+        <h3 class="news_title">
+            <input type="text" class="input_text"
+                   style="width: 100%;height: 50px;margin-bottom: 20px"
+                   id="title" placeholder="请输入标题"></h3>
         <div id="layout" class="editor">
-            <div class="news_infos" id="editor-md" style="padding:10px;width: 760px;height: 1500px;margin:20px;">
+            <div class="news_infos" id="editor-md"
+                 style="padding:10px;width: 760px;height: 1000px;margin:20px;z-index: 10000">
                 <textarea></textarea>
             </div>
+        </div>
+        <textarea id="summary" class="layui-textarea" style="padding:10px;width: 760px;margin:20px;"
+                  placeholder="请输入摘要,未填写则和标题相同"></textarea>
+        <div class="add-tag">
+            <label style="margin:0px 20px;float: left">文章标签:</label>
+            <input type="text" class="input_text" id="tag" placeholder="请输入标签,未填写和文章标题相同"/>
+        </div>
+        <br/>
+        <br/>
+        <div class="tags">
+            <a href="javascript:;" style="margin-left: 40%;" id="save">发布博客</a>
         </div>
     </div>
     <div class="rightbox">
         <div class="about" th:replace="html/sidebar::about"></div>
         <div class="weixin" th:replace="html/sidebar.html::weixin"></div>
     </div>
-    </div>
 </article>
 <footer th:replace="html/foot.html::foot"></footer>
-<script src="js/nav.js"></script>
 <script>
     $(function () {
-        $(function () {
-            var testEditor;
-            var str = $("#blog-content").val();
-            //testEditor.getMarkdown()获取文档
-            window.testEditor = editormd("editor-md", {
-                width: "90%",
-                height: '740px',
-                path: '[[${path}]]/editor.md-master/lib/',
-                markdown: str,
-                theme: "dark",
-                previewTheme: "dark",
-                editorTheme: "pastel-on-dark",
-                // codeFold: true,
-                //syncScrolling : false,
-                saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
-                searchReplace: true,
-                //watch : false,                // 关闭实时预览
-                //  htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
-                //   toolbar  : false,             //关闭工具栏
-                //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
-                emoji: false,
-                taskList: false,
-                tocm: false,         // Using [TOCM]
-                tex: false,                   // 开启科学公式TeX语言支持，默认关闭
-                flowChart: false,             // 开启流程图支持，默认关闭
-                toolbarAutoFixed: false,
-                sequenceDiagram: false,       // 开启时序/序列图支持，默认关闭,
-                dialogLockScreen: false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
-                dialogShowMask: false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
-                dialogDraggable: false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
-                dialogMaskOpacity: 0.5,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
-                dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
-                imageUpload: true,
-                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                imageUploadURL: "/blog/file/upload",
-                onload: function () {
-                    console.log('onload', this);
-                    //this.fullscreen();
-                    //this.unwatch();
-                    //this.watch().fullscreen();
-
-                    //this.setMarkdown("#PHP");
-                    //this.width("100%");
-                    //this.height(480);
-                    //this.resize("100%", 640);
-                }
-            });
+        var str = $("#blog-content").val();
+        //testEditor.getMarkdown()获取文档
+        window.testEditor = editormd("editor-md", {
+            width: "90%",
+            height: '740px',
+            path: '[[${path}]]/editor.md-master/lib/',
+            markdown: str,
+            theme: "dark",
+            previewTheme: "dark",
+            editorTheme: "pastel-on-dark",
+            // codeFold: true,
+            //syncScrolling : false,
+            saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
+            searchReplace: true,
+            //watch : false,                // 关闭实时预览
+            //  htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+            //   toolbar  : false,             //关闭工具栏
+            //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+            emoji: false,
+            taskList: false,
+            tocm: false,         // Using [TOCM]
+            tex: false,                   // 开启科学公式TeX语言支持，默认关闭
+            flowChart: false,             // 开启流程图支持，默认关闭
+            toolbarAutoFixed: false,
+            sequenceDiagram: false,       // 开启时序/序列图支持，默认关闭,
+            dialogLockScreen: false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+            dialogShowMask: false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+            dialogDraggable: false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+            dialogMaskOpacity: 0.5,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+            dialogMaskBgColor: "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+            imageUpload: true,
+            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL: "/blog/file/upload",
+            onload: function () {
+                console.log('onload', this);
+            }
         });
+    });
+    $(function () {
+        $("#save").on('click', function () {
+            layui.use(['layer'], function () {
+                var title = $("#title").val();
+                var content = testEditor.getMarkdown();
+                var summary = $("#summary").val();
+                var tag = $("#tag").val();
+                if (!title) {
+                    layer.tips("请输入标题", "#save");
+                    return;
+                }
+                if (!content) {
+                    layer.tips("请输入内容", "#save");
+                    return;
+                }
+                if (!summary) {
+                    summary = title;
+                }
+                if (!tag) {
+                    tag = title;
+                }
+                $.ajax({
+                    url: '/blog/blogs/new',
+                    method: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        "title": title,
+                        "content": content,
+                        "summary": summary,
+                        "tag": tag
+                    }),
+                    success: function (id) {
+                        window.location.href="/blog/blogs/article/"+id;
+                    }
+                })
+            })
+
+        })
     })
 </script>
 </body>

@@ -10,6 +10,11 @@
                 <li><a th:href="${path+'/share.html'}">模板分享</a></li>
                 <li><a th:href="${path+'/list.html'}">学无止境</a></li>
                 <li><a th:href="${path+'/blogs/new'}" style="color: #1abc9c">新建博客</a></li>
+                <li th:if="${authentication == null}"><a th:href="${path +'/login'}" style="color: #1abc9c">登录</a></li>
+                <li th:if="${authentication !=null}"><a href="javascript:;"
+                                                        th:text="${'欢迎回来  '+authentication.principal}"
+                                                        style="color: #1abc9c"></a></li>
+                <li th:if="${authentication !=null}"><a href="javascript:;" style="color: #1abc9c" id="lo">退出</a></li>
             </ul>
         </div>
         <nav class="topnav" id="topnav">

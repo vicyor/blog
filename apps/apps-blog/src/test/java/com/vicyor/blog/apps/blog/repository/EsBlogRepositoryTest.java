@@ -23,8 +23,8 @@ public class EsBlogRepositoryTest {
     private EsBlogRepository repository;
 
     public void before() {
-        repository.deleteAll();
-        for (int i = 0; i < 20; i++) {
+
+        for (int i = 0; i < 0; i++) {
             repository.save(new EsBlog("静夜思", "李白", "床前明月光，疑是地上霜" +
                     "举头望明月，低头思故乡", new Date(), new Date(), 2, "images/text02.jpg", "千古名诗"));
 
@@ -36,8 +36,10 @@ public class EsBlogRepositoryTest {
                     "长风破浪会有时，直挂云帆济沧海。", new Date(), new Date(), 4, "images/text02.jpg", "千古名诗"));
         }
     }
+
     @Before
-    public void before1(){
+    public void before1() {
+        repository.deleteAll();
         repository.save(new EsBlog("Elastic Search", "elastic search", "###### 1.全文索引\n" +
                 "```\n" +
                 "建立文本库(所有的数据) 例如所有汉字\n" +
@@ -752,6 +754,7 @@ public class EsBlogRepositoryTest {
                 "```", new Date(), new Date(), 2, "images/text02.jpg", "分布式搜索引擎"));
 
     }
+
     @Test
     public void testFindDistinctEsBlogByTitleContainingOrSummaryContainingOrContentContaining() {
         String keyword = "静夜思";

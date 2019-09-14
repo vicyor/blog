@@ -14,5 +14,5 @@ public class OauthClientDetail {
     private String clientSecret;
     private String scope = "all";
     private List<String> authorizedGrantTypes;
-    private String redirectUri;
+    private List<String> redirectUri;
 }

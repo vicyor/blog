@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div class="sidebar">
     <div class="about" th:fragment="about">
-        <div class="avatar"><img th:src="${path+session.user.imageUri}" alt="我的头像"></div>
+        <div class="avatar"><img th:src="${path+'/'+session.user.imageUri}" alt="我的头像"></div>
         <p class="abname">
             <span th:text="${session.user.username}"></span> |
             <span th:text="${session.user.name}"></span>
