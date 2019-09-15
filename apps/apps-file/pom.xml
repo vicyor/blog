@@ -11,6 +11,5 @@
 
     <groupId>com.vicyor.blog.apps</groupId>
     <artifactId>apps-file</artifactId>
-    <dependencies>
-    </dependencies>
+    <packaging>pom</packaging>
 </project>
