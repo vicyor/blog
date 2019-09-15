@@ -18,7 +18,7 @@ spring:
     password: vicyor123456
     url: jdbc:mysql://www.vicyor.com:3306/blog
   thymeleaf:
-    cache: false
+    cache: true
 server:
   port: 8080
   servlet:
