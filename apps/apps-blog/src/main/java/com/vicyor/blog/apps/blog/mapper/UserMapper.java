@@ -13,6 +13,9 @@ import java.util.Map;
  **/
 @Mapper
 public interface UserMapper {
-    public BlogUser findBlogUser(@Param("username") String username);
-    public List<String> findRole(@Param("username")String username);
+    BlogUser findBlogUser(@Param("username") String username);
+    List<String> findRole(@Param("username")String username);
+
+    void saveUser(BlogUser blogUser);
+    void saveUserInfo(BlogUser blogUser);
 }

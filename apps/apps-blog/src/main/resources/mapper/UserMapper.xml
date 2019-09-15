@@ -8,4 +8,10 @@
     <select id="findRole" resultType="java.lang.String">
         select role_name  from oauth_role where role_id in (select role_id from oauth_user_role where username=#{username} )
     </select>
+    <insert id="saveUser">
+        insert into oauth_user (username, password)values (#{username},#{password})
+    </insert>
+    <insert id="saveUserInfo">
+        insert into oauth_user_info (username, name, job, motto, image_uri) VALUES (#{username},#{name},#{job},#{motto},#{imageUri} )
+    </insert>
 </mapper>

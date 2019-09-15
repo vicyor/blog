@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--scan表示扫描xml配置-,scanPeriod为扫描周期,debug为logback自己的日志级别-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <contextName>app-wf-activiti</contextName>
+    <property name="log-dir" value="/logs/blog"/>
+    <property name="log-name" value="blog"/>
+
+    <!-- 控制台-->
+    <appender name="consoleAppender"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L- %msg%n</pattern>
+            <!-- 日志编码 -->
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+    </appender>
+    <!--文件-->
+    <appender name="fileAppender"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 把日志文件输出到:项目启动的目录下的log文件夹(无则自动创建)下 -->
+        <file>${log-dir}/${log-name}.log</file>
+        <!-- 把日志文件输出到:name为logFilePositionDir的property标签指定的位置下 -->
+        <!-- <file>${logFilePositionDir}/logFile.log</file> -->
+        <!-- 把日志文件输出到:当前磁盘下的log文件夹(无则自动创建)下 -->
+        <!-- <file>/log/logFile.log</file> -->
+        <!--日志文件滚动策略-->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- TimeBasedRollingPolicy策略会将过时的日志，另存到指定的文件中(无该文件则创建) -->
+            <!-- 把因为 过时 或 过大  而拆分后的文件也保存到目启动的目录下的log文件夹下  -->
+            <fileNamePattern>${log-dir}/${log-name}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 设置过时时间(单位:<fileNamePattern>标签中%d里最小的时间单位) -->
+            <!-- 系统会删除(分离出去了的)过时了的日志文件 -->
+            <!-- 本人这里:保存以最后一次日志为准,往前7天以内的日志文件 -->
+            <MaxHistory>7</MaxHistory>
+            <!-- 滚动策略可以嵌套；
+                     这里嵌套了一个SizeAndTimeBasedFNATP策略，
+                        主要目的是: 在每天都会拆分日志的前提下，
+                        当该天的日志大于规定大小时，
+                        也进行拆分并以【%i】进行区分，i从0开始
+            -->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <!-- 日志输出格式 -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}:%L- %msg%n</pattern>
+            <!-- 日志编码 -->
+            <charset class="java.nio.charset.Charset">UTF-8</charset>
+        </encoder>
+    </appender>
+
+
+    <!--
+        root:logger的根节点,appender-ref:确定使用哪个appender,将日志信息显示在console
+        注:如果不指定配置此项的话,那么SpringBoot启动后,将不会在console打印任何信息
+    -->
+    <root>
+        <appender-ref ref="consoleAppender"  />
+    </root>
+    <!--日志-->
+    <logger name="com.vicyor" level="info" additivity="false">
+        <appender-ref ref="fileAppender"/>
+    </logger>
+</configuration>

@@ -26,6 +26,7 @@
         <spring-boot-starter-security.version>2.1.7.RELEASE</spring-boot-starter-security.version>
         <mysql.version>8.0.13</mysql.version>
         <spring-boot-starter-data-redis.version>2.1.7.RELEASE</spring-boot-starter-data-redis.version>
+        <spring-boot-starter.version>2.1.7.RELEASE</spring-boot-starter.version>
         <!-- upgrade to thymeleaf version 3 -->
     </properties>
     <dependencyManagement>
@@ -92,6 +93,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${spring-boot-starter-data-redis.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-cache -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-cache</artifactId>
+                <version>${spring-boot-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -24,9 +24,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .formLogin().permitAll()
+                .formLogin().loginPage("/login").permitAll()
                 .and()
-                .authorizeRequests().anyRequest().authenticated()
+                //认证服务器没啥东西,全部放行
+                .authorizeRequests().anyRequest().permitAll()
                 .and()
                 .csrf().disable()
                 .logout().permitAll()

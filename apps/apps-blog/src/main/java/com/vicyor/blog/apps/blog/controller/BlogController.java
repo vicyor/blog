@@ -1,6 +1,7 @@
 package com.vicyor.blog.apps.blog.controller;
 
 import com.vicyor.blog.apps.blog.domain.EsBlog;
+import com.vicyor.blog.apps.blog.log.LogAnnotation;
 import com.vicyor.blog.apps.blog.repository.EsBlogRepository;
 import com.vicyor.blog.apps.blog.util.DateUtil;
 import com.vicyor.blog.apps.blog.util.TransformUtil;
@@ -12,6 +13,8 @@ import org.elasticsearch.index.query.IdsQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,8 +25,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.text.html.Option;
-import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.util.*;
 
@@ -45,6 +46,8 @@ public class BlogController {
      */
     @ResponseBody
     @GetMapping
+    @LogAnnotation("查询博客")
+    @Cacheable(cacheNames = "blogs", key = "#keyword")
     public List listBlogs(
             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
@@ -53,21 +56,9 @@ public class BlogController {
         List result = new ArrayList();
         List blogs = null;
         long length = 0;
-        if (keyword.equals("")) {
-            Sort sort = new Sort(Sort.Direction.DESC, "udate");
-            SearchQuery query = new NativeSearchQuery(QueryBuilders.boolQuery());
-            query.addIndices("blog");
-            query.addTypes("blog");
-            query.addSort(sort);
-            query.setPageable(PageRequest.of(page, pageSize));
-            AggregatedPage<EsBlog> esBlogs = elasticsearchTemplate.queryForPage(query, EsBlog.class);
-            length = esBlogs.getTotalElements();
-            blogs = esBlogs.getContent();
-        } else {
-            Page<EsBlog> blogPage = esBlogRepository.findDistinctEsBlogByContentMatchesOrTitleMatchesOrTagMatchesOrderByUdateDesc(keyword, keyword, keyword, PageRequest.of(page, pageSize));
-            length = blogPage.getTotalElements();
-            blogs = blogPage.getContent();
-        }
+        Page<EsBlog> blogPage = esBlogRepository.findDistinctEsBlogByContentContainingOrTitleContainingOrTagContainingOrderByUdateDesc(keyword, keyword, keyword, PageRequest.of(page, pageSize));
+        length = blogPage.getTotalElements();
+        blogs = blogPage.getContent();
         result.add(length);
         result.add(blogs);
         return result;
@@ -77,7 +68,9 @@ public class BlogController {
      * 根据字段排行获取博客
      */
     @ResponseBody
+    @LogAnnotation("博客排名(点击量)")
     @GetMapping("/rank/{field}")
+    @Cacheable(cacheNames = "blogs", key = "#field")
     public List<EsBlog> listBlogsBySort(@PathVariable("field") String field) {
         Sort sort = new Sort(Sort.Direction.DESC, field);
         SearchQuery query = new NativeSearchQuery(QueryBuilders.boolQuery());
@@ -93,7 +86,9 @@ public class BlogController {
      * 根据tag查询
      */
     @ResponseBody
+    @LogAnnotation("标签查询")
     @GetMapping("/tag")
+    @Cacheable(cacheNames = "blogs", key = "#tag")
     public List listBlogsByTag(
             @RequestParam(value = "tag", defaultValue = "", required = false) String tag,
             @RequestParam(value = "page", defaultValue = "0", required = false) int page,
@@ -112,6 +107,7 @@ public class BlogController {
         return result;
     }
 
+    @LogAnnotation("查看文章")
     @GetMapping("/article/{id}")
     public String article(HttpServletRequest request,
                           @PathVariable("id") String id
@@ -125,6 +121,7 @@ public class BlogController {
 
     @PostMapping("/count/{id}")
     @ResponseBody
+    @LogAnnotation("更新浏览量")
     public void addVisterCount(@PathVariable("id") String id,
                                @RequestParam("count") int count
     ) throws Exception {
@@ -144,6 +141,7 @@ public class BlogController {
         elasticsearchTemplate.update(query);
     }
 
+    @LogAnnotation("更细博客")
     @GetMapping("/update/{id}")
     public String updateBlog(
             @PathVariable("id") String id,
@@ -157,7 +155,9 @@ public class BlogController {
         return "update";
     }
 
+    @LogAnnotation("保存博客")
     @PostMapping("/save/{id}")
+    @CacheEvict(cacheNames = "blogs",allEntries = true)
     @ResponseBody
     public void updateArticle(@RequestParam(value = "content", required = false) String content,
                               @RequestParam(value = "title", required = false) String title,
@@ -199,12 +199,15 @@ public class BlogController {
         elasticsearchTemplate.update(query);
     }
 
+    @LogAnnotation("新建博客页")
     @GetMapping("/new")
     public String newBlog() {
         return "createBlog";
     }
 
+    @LogAnnotation("新建博客")
     @PostMapping("/new")
+    @CacheEvict(cacheNames = "blogs",allEntries = true)
     @ResponseBody
     public String createBlog(@RequestBody Map<String, String> requestParams) {
         String title = requestParams.get("title");
@@ -220,6 +223,8 @@ public class BlogController {
         return elasticsearchTemplate.index(query);
     }
 
+    @CacheEvict(cacheNames = "blogs",allEntries = true)
+    @LogAnnotation("删除博客")
     @RequestMapping("/delete/{id}")
     public String deleteBlog(@PathVariable("id") String id) {
         DeleteQuery query = new DeleteQuery();
@@ -229,4 +234,5 @@ public class BlogController {
         elasticsearchTemplate.delete(query);
         return "redirect:/index";
     }
+
 }

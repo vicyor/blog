@@ -1,0 +1,10 @@
+.sub{
+    width: 30%;
+    display: inline-block !important;
+    margin:0px 10px !important;
+}
+.reg{
+    width: 40%;
+    display: inline-block !important;
+    margin:0px !important;
+}

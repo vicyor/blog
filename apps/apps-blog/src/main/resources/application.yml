@@ -45,3 +45,6 @@ server:
   port: 80
   servlet:
     context-path: /blog
+logging:
+  level:
+    root: info

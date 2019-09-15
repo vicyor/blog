@@ -26,7 +26,6 @@
                 emoji: true,
                 taskList: true,
                 tex: true,
-                flowChart: true,
                 sequenceDiagram: true,
                 imageUpload: true,
                 imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
@@ -122,15 +121,6 @@
 <script th:src="${path+'/js/nav.js'}"></script>
 <script>
     $(function () {
-        var elm = $('#left_flow2');
-        var startPos = $(elm).offset().top;
-        $.event.add(window, "scroll", function () {
-            var p = $(window).scrollTop();
-            $(elm).css('position', ((p) > startPos) ? 'fixed' : '');
-            $(elm).css('top', ((p) > startPos) ? '0' : '');
-        });
-    });
-    $(function () {
         $("#comment").on('click', function () {
             var comment = $(".comment-box textarea").val();
             $(".comment-box textarea").val("");
@@ -168,7 +158,7 @@
         var $span4 = $('<span class="opt-box"></span>');
         var $a1 = $("<a class='del' href='javascript:;' >删除</a>");
         $a1.attr("commentid", comment.id);
-        if (uname ==comment.username)
+        if (uname == comment.username)
             $span4.append($a1);
         $div3.append($span3);
         $div3.append($span4);
@@ -196,12 +186,25 @@
             },
             method: 'get',
             success: function (comments) {
-                console.log(comments);
                 $.each(comments, function (index, comment) {
                     generateCommentLi(comment);
                 })
             }
         })
+    });
+    $(function () {
+        $(document).delegate(".del","click",function () {
+            var commentId = $(this).attr("commentid");
+            var $this=$(this);
+            $.ajax({
+                url: '/blog/comment/remove/'+commentId,
+                method: 'delete',
+                success: function () {
+                    $this.parents(".comment-line").remove();
+                }
+            });
+
+        });
     })
 </script>
 </body>
