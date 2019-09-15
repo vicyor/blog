@@ -3,12 +3,12 @@ package com.vicyor.blog.apps.blog.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -36,21 +36,22 @@ public class EsBlog implements Serializable {
     //总结
     private String summary;
     //创建时间
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     @Field(type = FieldType.Date,
-            index = false,
             format = DateFormat.custom,
-            pattern = "yyyy-MM-dd hh:mm:ss"
+            pattern = "yyyy-MM-dd hh:mm:ss",
+            fielddata = true
     )
-    @CreationTimestamp //数据库自动映射字段
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
+
     private Date cdate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     //更新时间
     @Field(type = FieldType.Date,
             index = false,
             format = DateFormat.custom,
-            pattern = "yyyy-MM-dd hh:mm:ss"
+            pattern = "yyyy-MM-dd hh:mm:ss",
+            fielddata = true
     )
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
     private Date udate;
     //浏览数量
     private long count;
@@ -58,7 +59,8 @@ public class EsBlog implements Serializable {
     private String uri = "images/text02.jpg";
     //作者 对应username 非name
     private String author;
-    public EsBlog(String title, String tag, String content, Date cdate, Date udate, long count, String uri, String summary,String author) {
+
+    public EsBlog(String title, String tag, String content, Date cdate, Date udate, long count, String uri, String summary, String author) {
         this.title = title;
         this.tag = tag;
         this.content = content;
@@ -67,7 +69,7 @@ public class EsBlog implements Serializable {
         this.count = count;
         this.uri = uri;
         this.summary = summary;
-        this.author=author;
+        this.author = author;
     }
 
     protected EsBlog() {

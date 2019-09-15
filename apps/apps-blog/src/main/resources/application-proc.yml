@@ -1,0 +1,50 @@
+spring:
+  data:
+    elasticsearch:
+      cluster-nodes: www.vicyor.com:9300
+      properties:
+        transport:
+          tcp:
+            connect_timeout: 60s
+      cluster-name: docker-cluster
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: vicyor123456
+    url: jdbc:mysql://www.vicyor.com:3306/blog
+  thymeleaf:
+    #    开发时关闭缓存,上线时开启缓存减少服务端压力
+    cache: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+  http:
+    encoding:
+      charset: UTF-8
+  redis:
+    database: 0
+    host: www.vicyor.com
+    port: 6379
+mybatis:
+  mapper-locations: classpath:mapper/**.xml
+  configuration:
+    map-underscore-to-camel-case: true
+security:
+  oauth2:
+    client:
+      client-id: blog
+      client-secret: blog
+      user-authorization-uri: http://129.204.72.141:8080/auth/oauth/authorize
+      access-token-uri: http://129.204.72.141:8080/auth/oauth/token
+    resource:
+      jwk:
+        key-set-uri: http://129.204.72.141:8080/auth/oauth/token_key
+server:
+  port: 80
+  servlet:
+    context-path: /blog
+logging:
+  level:
+    root: info

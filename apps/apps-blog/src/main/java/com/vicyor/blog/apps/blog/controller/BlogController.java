@@ -216,11 +216,8 @@ public class BlogController {
         String tag = requestParams.get("tag");
         //blog图片为用户头像
         EsBlog blog = new EsBlog(title, tag, content, new Date(), new Date(), 1, UserUtil.blogUser().getImageUri(), summary, UserUtil.blogUser().getUsername());
-        IndexQuery query = new IndexQuery();
-        query.setObject(blog);
-        query.setIndexName("blog");
-        query.setType("blog");
-        return elasticsearchTemplate.index(query);
+        blog = esBlogRepository.save(blog);
+        return blog.getId();
     }
 
     @CacheEvict(cacheNames = "blogs",allEntries = true)
