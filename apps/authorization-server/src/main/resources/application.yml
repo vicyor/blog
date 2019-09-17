@@ -9,8 +9,6 @@ sso:
                          - http://127.0.0.1/blog/login
                          - http://www.vicyor.com/blog/login
                          - http://129.204.72.141/blog/login
-                         - http://192.168.1.3/blog/login
-                         - http://192.168.1.2/blog/login
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
