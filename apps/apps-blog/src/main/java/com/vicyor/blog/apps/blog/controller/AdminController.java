@@ -4,12 +4,16 @@ import com.vicyor.blog.apps.blog.repository.CommentRepository;
 import com.vicyor.blog.apps.blog.repository.EsBlogRepository;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.internal.SearchContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.swing.*;
 import java.io.IOException;
 
 /**
@@ -120,7 +124,6 @@ public class AdminController {
                 .endObject()
                 .endObject()
                 .endObject();
-
         elasticsearchTemplate.putMapping("comment", "comment", builder);
         return "mapping成功";
     }
