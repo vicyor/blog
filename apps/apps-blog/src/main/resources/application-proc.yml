@@ -11,7 +11,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: vicyor123456
-    url: jdbc:mysql://www.vicyor.com:3306/blog
+    url: jdbc:mysql://106.13.74.154:3306/blog
   thymeleaf:
     #    开发时关闭缓存,上线时开启缓存减少服务端压力
     cache: true
