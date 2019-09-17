@@ -39,8 +39,7 @@ public class EsBlog implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     @Field(type = FieldType.Date,
             format = DateFormat.custom,
-            pattern = "yyyy-MM-dd hh:mm:ss",
-            fielddata = true
+            pattern = "yyyy-MM-dd hh:mm:ss"
     )
 
     private Date cdate;
@@ -49,8 +48,7 @@ public class EsBlog implements Serializable {
     @Field(type = FieldType.Date,
             index = false,
             format = DateFormat.custom,
-            pattern = "yyyy-MM-dd hh:mm:ss",
-            fielddata = true
+            pattern = "yyyy-MM-dd hh:mm:ss"
     )
     private Date udate;
     //浏览数量

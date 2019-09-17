@@ -1,7 +1,7 @@
 spring:
   data:
     elasticsearch:
-      cluster-nodes: www.vicyor.com:9300
+      cluster-nodes: 106.13.74.154:9300
       properties:
         transport:
           tcp:
@@ -11,7 +11,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: vicyor123456
-    url: jdbc:mysql://www.vicyor.com:3306/blog
+    url: jdbc:mysql://106.13.74.154:3306/blog
   thymeleaf:
     #    开发时关闭缓存,上线时开启缓存减少服务端压力
     cache: true
@@ -23,10 +23,6 @@ spring:
   http:
     encoding:
       charset: UTF-8
-  redis:
-    database: 0
-    host: www.vicyor.com
-    port: 6379
 mybatis:
   mapper-locations: classpath:mapper/**.xml
   configuration:
