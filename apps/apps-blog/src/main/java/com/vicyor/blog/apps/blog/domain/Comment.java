@@ -29,20 +29,20 @@ public class Comment implements Serializable {
     @Field(type = FieldType.Keyword)
     private String username;
     @Field(type = FieldType.Date,
-            index = false,
             format = DateFormat.custom,
             pattern = "yyyy-MM-dd hh:mm:ss"
     )
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Date cdate;
     private String blogId;
     private String image;
-    public Comment(String content, String username, Date cdate,String blogId,String image) {
+
+    public Comment(String content, String username, Date cdate, String blogId, String image) {
         this.content = content;
         this.username = username;
         this.cdate = cdate;
-        this.blogId=blogId;
-        this.image=image;
+        this.blogId = blogId;
+        this.image = image;
     }
 
     /**
