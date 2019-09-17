@@ -1,7 +1,7 @@
 spring:
   data:
     elasticsearch:
-      cluster-nodes: www.vicyor.com:9300
+      cluster-nodes: 106.13.74.154:9300
       properties:
         transport:
           tcp:
