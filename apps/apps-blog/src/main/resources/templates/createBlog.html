@@ -3,7 +3,7 @@
 <body>
 <header th:replace="html/header.html::header"></header>
 <article>
-    <h1 class="t_nav"><span th:text="${session.user.motto}"></span><a href="/" class="n1">网站首页</a><a href="/" class="n2">新建博客</a>
+    <h1 class="t_nav"><span th:text="${session.user.motto}"></span><a href="/blog" class="n1">网站首页</a><a href="/blogs/new" class="n2">新建博客</a>
     </h1>
     <div class="leftbox">
         <h3 class="news_title">
