@@ -1,6 +1,9 @@
 package com.vicyor.blog.apps.blog.util;
 
+import com.vicyor.blog.apps.blog.domain.EsBlog;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.GetQuery;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -21,10 +24,23 @@ public class UserUtil {
         Optional<Object> optional = Optional.ofNullable(request.getSession().getAttribute("user"));
         return optional.get() == null ? null : (BlogUser) optional.get();
     }
-    public static BlogUser anynomusBlogUser(){
-        BlogUser blogUser=new BlogUser();
+
+    public static BlogUser anynomusBlogUser() {
+        BlogUser blogUser = new BlogUser();
         blogUser.setUsername("匿名用户");
         blogUser.setName("");
         return null;
+    }
+
+    /**
+     * 判断当前用户是否拥有博客的修改权限
+     */
+    public static boolean hasBlog(ElasticsearchTemplate template, String blogId) {
+        GetQuery query = new GetQuery();
+        query.setId(blogId);
+        EsBlog blog = template.queryForObject(query, EsBlog.class);
+        String author = blog.getAuthor();
+        String username = blogUser().getUsername();
+        return author.equals(username);
     }
 }

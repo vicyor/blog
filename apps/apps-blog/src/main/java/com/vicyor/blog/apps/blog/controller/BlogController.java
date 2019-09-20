@@ -148,6 +148,9 @@ public class BlogController {
             @PathVariable("id") String id,
             HttpServletRequest request
     ) throws Exception {
+        if (!UserUtil.hasBlog(elasticsearchTemplate, id)) {
+            throw new RuntimeException("用户没有权限");
+        }
         IdsQueryBuilder queryBuilder = QueryBuilders.idsQuery().addIds(id);
         GetQuery query = new GetQuery();
         query.setId(id);
@@ -158,7 +161,7 @@ public class BlogController {
 
     @LogAnnotation("保存博客")
     @PostMapping("/save/{id}")
-    @CacheEvict(cacheNames = "blogs",allEntries = true)
+    @CacheEvict(cacheNames = "blogs", allEntries = true)
     @ResponseBody
     public void updateArticle(@RequestParam(value = "content", required = false) String content,
                               @RequestParam(value = "title", required = false) String title,
@@ -166,6 +169,7 @@ public class BlogController {
                               @PathVariable(value = "id", required = true) String id,
                               HttpServletRequest request
     ) throws Exception {
+
         UpdateRequest updateRequest = new UpdateRequest();
         XContentBuilder xContentBuilder = XContentFactory.jsonBuilder().startObject();
         Optional.ofNullable(content).ifPresent(con -> {
@@ -208,7 +212,7 @@ public class BlogController {
 
     @LogAnnotation("新建博客")
     @PostMapping("/new")
-    @CacheEvict(cacheNames = "blogs",allEntries = true)
+    @CacheEvict(cacheNames = "blogs", allEntries = true)
     @ResponseBody
     public String createBlog(@RequestBody Map<String, String> requestParams) {
         String title = requestParams.get("title");
@@ -221,10 +225,13 @@ public class BlogController {
         return blog.getId();
     }
 
-    @CacheEvict(cacheNames = "blogs",allEntries = true)
+    @CacheEvict(cacheNames = "blogs", allEntries = true)
     @LogAnnotation("删除博客")
     @RequestMapping("/delete/{id}")
     public String deleteBlog(@PathVariable("id") String id) {
+        if (!UserUtil.hasBlog(elasticsearchTemplate, id)) {
+            throw new RuntimeException("用户没有权限");
+        }
         DeleteQuery query = new DeleteQuery();
         query.setIndex("blog");
         query.setType("blog");
