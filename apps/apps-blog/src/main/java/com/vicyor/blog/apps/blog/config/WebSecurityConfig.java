@@ -11,13 +11,16 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 /**
  * 作者:姚克威
  * 时间:2019/9/4 10:29
+ * 覆盖掉 OAuth2Sso默认的WebSecurityConfig配置
  **/
 @EnableOAuth2Sso
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private BlogAuthenticationSuccessHandler handler;
-
+    /**
+     *
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

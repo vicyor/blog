@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 /**
  * 作者:姚克威
  * 时间:2019/9/3 21:13
+ * 认证服务器的和客户端的token加密方式和默认的token解密对不上,这里重写了下
  **/
 @Configuration
 public class JWTTokenParseConfig {
@@ -40,6 +41,7 @@ public class JWTTokenParseConfig {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        //singkey相当于盐
         converter.setSigningKey("blog");
         return converter;
     }

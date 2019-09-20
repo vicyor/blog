@@ -21,6 +21,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     SsoUserDetailService ssoUserDetailService;
 
+    /**
+     * 配置认证方式
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

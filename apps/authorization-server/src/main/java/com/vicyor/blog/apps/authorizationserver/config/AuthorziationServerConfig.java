@@ -31,7 +31,9 @@ public class AuthorziationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     ClientDetailsServiceConfigManager manager;
 
-
+    /**
+     * 配置token获取方式
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
@@ -39,6 +41,9 @@ public class AuthorziationServerConfig extends AuthorizationServerConfigurerAdap
                 .checkTokenAccess("isAuthenticated()");//isAuthenticated():排除anonymous   isFullyAuthenticated():排除anonymous以及remember-me
     }
 
+    /**
+     * 配置oauthclient信息
+     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
@@ -46,6 +51,9 @@ public class AuthorziationServerConfig extends AuthorizationServerConfigurerAdap
         manager.execute(builder, clientProperties);
     }
 
+    /**
+     * 配置token的方式
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
@@ -71,7 +79,6 @@ public class AuthorziationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenStore jwtTokenStore() {
         JwtTokenStore tokenStore = new JwtTokenStore(jwtAccessTokenConverter());
-
         /**
          * JwtHeaderConverter.convert(JwtHeaderConverter.java:54)"
          * JwkVerifyingJwtAccessTokenConverter.decode(JwkVerifyingJwtAccessTokenConverter.java:96)"
