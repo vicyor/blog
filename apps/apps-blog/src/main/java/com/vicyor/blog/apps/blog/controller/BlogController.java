@@ -224,7 +224,6 @@ public class BlogController {
         blog = esBlogRepository.save(blog);
         return blog.getId();
     }
-
     @CacheEvict(cacheNames = "blogs", allEntries = true)
     @LogAnnotation("删除博客")
     @RequestMapping("/delete/{id}")

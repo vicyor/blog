@@ -12,6 +12,8 @@ spring:
     username: root
     password: vicyor123456
     url: jdbc:mysql://106.13.74.154:3306/blog
+  thymeleaf:
+    cache: true
 security:
   oauth2:
     client:
