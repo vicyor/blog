@@ -75,3 +75,8 @@
     line-height: 20px;
     color: #79a5e5 !important;
 }
+.otherlink ul li{
+    border: 1px solid #090;
+    background-color: #F0F0F0;
+    margin: 20px;
+}
