@@ -3,6 +3,7 @@ package com.vicyor.blog.apps.blog.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Map;
 @Data
 public class GenerateViewObject implements Serializable {
     private static final long serialVersionUID = -2222585386164750838L;
-    private Map<String,Object> params;
+    private Map<String,Object> params=new HashMap<>();
     public void put(String key,Object value){
         params.put(key,value);
     }
