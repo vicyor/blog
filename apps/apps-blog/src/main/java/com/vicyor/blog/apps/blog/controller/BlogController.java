@@ -6,6 +6,7 @@ import com.vicyor.blog.apps.blog.repository.EsBlogRepository;
 import com.vicyor.blog.apps.blog.util.DateUtil;
 import com.vicyor.blog.apps.blog.util.TransformUtil;
 import com.vicyor.blog.apps.blog.util.UserUtil;
+import com.vicyor.blog.apps.blog.vo.GenerateViewObject;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
@@ -49,20 +50,20 @@ public class BlogController {
     @GetMapping
     @LogAnnotation("查询博客")
     @Cacheable(cacheNames = "blogs", key = "#keyword")
-    public List listBlogs(
+    public GenerateViewObject listBlogs(
             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "pagesize", required = false, defaultValue = "10") int pageSize
     ) {
-        List result = new ArrayList();
+        GenerateViewObject object = new GenerateViewObject();
         List blogs = null;
         long length = 0;
         Page<EsBlog> blogPage = esBlogRepository.findDistinctEsBlogByContentContainingOrTitleContainingOrTagContainingOrderByUdateDesc(keyword, keyword, keyword, PageRequest.of(page, pageSize));
         length = blogPage.getTotalElements();
         blogs = blogPage.getContent();
-        result.add(length);
-        result.add(blogs);
-        return result;
+        object.put("blogs", blogs);
+        object.put("length", length);
+        return object;
     }
 
     /**
@@ -90,11 +91,12 @@ public class BlogController {
     @LogAnnotation("标签查询")
     @GetMapping("/tag")
     @Cacheable(cacheNames = "blogs", key = "#tag")
-    public List listBlogsByTag(
+    public GenerateViewObject listBlogsByTag(
             @RequestParam(value = "tag", defaultValue = "", required = false) String tag,
             @RequestParam(value = "page", defaultValue = "0", required = false) int page,
             @RequestParam(value = "pagesize", defaultValue = "10", required = false) int pagesize
     ) {
+        GenerateViewObject object = new GenerateViewObject();
         //term查询
         MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("tag", tag);
         SearchQuery searchQuery = new NativeSearchQuery(matchQuery);
@@ -103,9 +105,9 @@ public class BlogController {
         searchQuery.addTypes("blog");
         AggregatedPage<EsBlog> aggregatedPage = elasticsearchTemplate.queryForPage(searchQuery, EsBlog.class);
         List result = new ArrayList();
-        result.add(aggregatedPage.getTotalElements());
-        result.add(aggregatedPage.getContent());
-        return result;
+        object.put("length", aggregatedPage.getTotalElements());
+        object.put("blogs", aggregatedPage.getContent());
+        return object;
     }
 
     @LogAnnotation("查看文章")

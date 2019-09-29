@@ -86,7 +86,7 @@ function getBlog() {
                     pages: 10,
                     first: false,
                     last: false,
-                    count: data[0],
+                    count: data.length,
                     limit: pageConf.pageSize,
                     curr: pageConf.currentPage,
                     jump: function (obj, first) {
@@ -96,7 +96,7 @@ function getBlog() {
                             //再次发送ajax请求
                             getBlog();
                         } else {
-                            parseBlog(data[1], pageConf.currentPage, pageConf.pageSize);
+                            parseBlog(data.blogs, pageConf.currentPage, pageConf.pageSize);
                         }
                     }
                 });
@@ -119,7 +119,7 @@ function getBlogsByTag(val) {
                     pages: 10,
                     first: false,
                     last: false,
-                    count: data[0],
+                    count: data.length,
                     limit: pageConf.pageSize,
                     curr: pageConf.currentPage,
                     jump: function (obj, first) {
@@ -128,7 +128,7 @@ function getBlogsByTag(val) {
                             pageConf.pageSize = obj.limit;
                             getBlogsByTag(val);
                         } else {
-                            parseBlog(data[1], pageConf.currentPage, pageConf.pageSize);
+                            parseBlog(data.blogs, pageConf.currentPage, pageConf.pageSize);
                         }
                     }
                 });
