@@ -55,15 +55,15 @@ public class BlogController {
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "pagesize", required = false, defaultValue = "10") int pageSize
     ) {
-        GenerateViewObject object = new GenerateViewObject();
+        GenerateViewObject viewObject = new GenerateViewObject();
         List blogs = null;
         long length = 0;
         Page<EsBlog> blogPage = esBlogRepository.findDistinctEsBlogByContentContainingOrTitleContainingOrTagContainingOrderByUdateDesc(keyword, keyword, keyword, PageRequest.of(page, pageSize));
         length = blogPage.getTotalElements();
         blogs = blogPage.getContent();
-        object.put("blogs", blogs);
-        object.put("length", length);
-        return object;
+        viewObject.put("blogs", blogs);
+        viewObject.put("length", length);
+        return viewObject;
     }
 
     /**
@@ -96,7 +96,7 @@ public class BlogController {
             @RequestParam(value = "page", defaultValue = "0", required = false) int page,
             @RequestParam(value = "pagesize", defaultValue = "10", required = false) int pagesize
     ) {
-        GenerateViewObject object = new GenerateViewObject();
+        GenerateViewObject viewObject = new GenerateViewObject();
         //term查询
         MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("tag", tag);
         SearchQuery searchQuery = new NativeSearchQuery(matchQuery);
@@ -105,9 +105,9 @@ public class BlogController {
         searchQuery.addTypes("blog");
         AggregatedPage<EsBlog> aggregatedPage = elasticsearchTemplate.queryForPage(searchQuery, EsBlog.class);
         List result = new ArrayList();
-        object.put("length", aggregatedPage.getTotalElements());
-        object.put("blogs", aggregatedPage.getContent());
-        return object;
+        viewObject.put("length", aggregatedPage.getTotalElements());
+        viewObject.put("blogs", aggregatedPage.getContent());
+        return viewObject;
     }
 
     @LogAnnotation("查看文章")
@@ -241,5 +241,4 @@ public class BlogController {
         elasticsearchTemplate.delete(query);
         return "redirect:/index";
     }
-
 }

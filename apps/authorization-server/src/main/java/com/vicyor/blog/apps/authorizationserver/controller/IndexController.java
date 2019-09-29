@@ -1,5 +1,7 @@
 package com.vicyor.blog.apps.authorizationserver.controller;
 
+import com.vicyor.blog.apps.authorizationserver.service.UserService;
+import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import java.util.Map;
  **/
 @Controller
 public class IndexController {
+    @Autowired
+    UserService userService;
     @GetMapping("/login")
     public String toLogin() {
         return "login";
@@ -30,8 +34,15 @@ public class IndexController {
 
     @PostMapping("/regester")
     @ResponseBody
-    public Map regesterUser(@RequestBody Map params) {
-        Map response= restTemplate.postForObject("http://127.0.0.1/blog/regester", params, HashMap.class);
-        return response;
+    public Map regesterUser(@RequestBody BlogUser blogUser) {
+        Map map = new HashMap();
+        try {
+            userService.saveUser(blogUser);
+            map.put("status", 200);
+        } catch (Exception e) {
+            map.put("status", 500);
+            map.put("result", e.getCause().toString());
+        }
+        return map;
     }
 }

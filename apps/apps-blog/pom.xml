@@ -11,6 +11,9 @@
 
     <groupId>com.vicyor.blog.apps</groupId>
     <artifactId>apps-blog</artifactId>
+    <properties>
+        <apps-blog-api.version>1.0-SNAPSHOT</apps-blog-api.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,6 +75,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vicyor.blog.apps.api</groupId>
+            <artifactId>apps-blog-api</artifactId>
+            <version>${apps-blog-api.version}</version>
         </dependency>
     </dependencies>
 

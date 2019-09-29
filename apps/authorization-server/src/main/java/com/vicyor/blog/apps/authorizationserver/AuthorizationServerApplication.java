@@ -1,5 +1,6 @@
 package com.vicyor.blog.apps.authorizationserver;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -10,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * 时间:2019/9/2 19:21
  **/
 @SpringBootApplication
+@MapperScan("com.vicyor.blog.apps.authorizationserver.mapper")
 public class AuthorizationServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(AuthorizationServerApplication.class);

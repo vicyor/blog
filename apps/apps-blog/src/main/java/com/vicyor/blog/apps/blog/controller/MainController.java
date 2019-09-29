@@ -36,18 +36,4 @@ public class MainController {
         //会去认证服务器登录
         return "index";
     }
-
-    @PostMapping("/regester")
-    @ResponseBody
-    public Map regesterUser(@RequestBody BlogUser blogUser) {
-        Map map = new HashMap();
-        try {
-            userService.saveUser(blogUser);
-            map.put("status", 200);
-        } catch (Exception e) {
-            map.put("status", 500);
-            map.put("result", e.getCause().toString());
-        }
-        return map;
-    }
 }

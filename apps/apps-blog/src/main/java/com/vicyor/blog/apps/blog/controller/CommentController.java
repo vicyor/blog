@@ -39,8 +39,8 @@ public class CommentController {
         String blogId = params.get("blogId");
         BlogUser blogUser = UserUtil.blogUser();
         Comment comment = new Comment(content, blogUser.getUsername(), new Date(), blogId,blogUser.getImageUri());
-        Comment com = repository.index(comment);
-        return com;
+         comment = repository.index(comment);
+        return comment;
     }
 
     @ResponseBody

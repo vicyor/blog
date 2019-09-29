@@ -2,10 +2,8 @@ package com.vicyor.blog.apps.blog.pojo;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * 作者:姚克威

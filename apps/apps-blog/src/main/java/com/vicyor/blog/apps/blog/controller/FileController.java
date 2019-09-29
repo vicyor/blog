@@ -29,7 +29,7 @@ public class FileController {
     @PostMapping("/upload")
     @ResponseBody
     public Map upload(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "editormd-image-file", required = false) MultipartFile attach) throws IOException {
-       //放绝对路径里
+       //文件放在服务器 /upload
         String path = "/upload";
         File directory = new File(path);
         if (!directory.exists())
@@ -41,7 +41,7 @@ public class FileController {
         FileCopyUtils.copy(inputStream,fileOutputStream);
         inputStream.close();
         fileOutputStream.close();
-        //文件传送到服务器
+        //客户端可以通过/up访问到upload目录
         Map map = new HashMap();
         map.put("success", 1);
         map.put("message", "上传成功");
