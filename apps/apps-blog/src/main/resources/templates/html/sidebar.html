@@ -20,31 +20,8 @@
             <input name="tbname" value="news" type="hidden">
             <input name="Submit" class="input_submit" value="搜索" type="submit">
         </form>
-        <script>
-            $(function () {
-                if (!window.pageConf) {
-                    window.pageConf = {};
-                    pageConf.pageSize = 10;
-                    pageConf.currentPage = 1;
-                }
-            })
-        </script>
-        <script>
-            $(function () {
-                $("input[name='Submit']").on('click', function () {
-                    pageConf.pageSize = 10;
-                    pageConf.currentPage = 1;
-                    getBlog();
-                })
-            })
-        </script>
     </div>
     <div class="cloud" th:fragment="cloud">
-        <script>
-            $(function () {
-                initclick();
-            })
-        </script>
         <h2 class="hometitle">标签云</h2>
         <ul id="cloud">
             <a href="javascript:;">java</a>
@@ -65,19 +42,7 @@
     </div>
     <div class="paihang" id="clickrank" th:fragment="clickrank">
         <script>
-            /**
-             * 获取点击排行
-             */
-            $(function () {
 
-                $.ajax({
-                    url: "/blog/blogs/rank/count",
-                    method: 'get',
-                    success: function (blogs) {
-                        parseCountRank(blogs);
-                    }
-                })
-            })
         </script>
         <h2 class="hometitle">点击排行</h2>
         <ul>
