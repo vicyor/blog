@@ -78,7 +78,9 @@ function getBlog() {
         url: "/blog/blogs?keyword=" + keyword + "&page=" + (pageConf.currentPage - 1) + "&pagesize=" + pageConf.pageSize,
         method: "get",
         success: function (data) {
+            data=data.params;
             layui.use(['laypage', 'layer'], function () {
+
                 var laypage = layui.laypage;
                 var layer = layui.layer;
                 laypage.render({
@@ -110,7 +112,8 @@ function getBlogsByTag(val) {
         'url': "/blog/blogs/tag?tag=" + val + "&page=" + (pageConf.currentPage - 1) + "&pagesize=" + pageConf.pageSize,
         'method': 'get',
         'success': function (data) {
-            console.log(data);
+            data=data.params;
+
             layui.use(['laypage', 'layer'], function () {
                 var laypage = layui.laypage;
                 var layer = layui.layer;
