@@ -4,18 +4,23 @@
 <header th:replace="html/header.html::header"></header>
 <article>
     <input type="hidden" th:value="${blog.content}" id="blog-content"/>
+    <input type="hidden" th:value="${blog.id}" id="blog-id">
+    <input type="hidden" th:value="${session.user.username}" id="username">
+    <input type="hidden" th:value="${path}" id="path">
     <h1 class="t_nav">
         <span>您现在的位置是：首页 > 文章 > [[${blog.title}]]</span>
         <a th:href="${path+'/'}" class="n1">网站首页</a>
         <a href="javascript:;" class="n2">个人博客</a>
     </h1>
     <script>
+        <!--更新博客浏览量-->
         $(function () {
             $.ajax({
                 url: '/blog/blogs/count/' + '[[${blog.id}]]' + "?count=" + '[[${blog.count}]]',
                 method: 'post'
             })
-        })
+        });
+        //mkdown插件
         $(function () {
             var testEditor;
             var str = $("#blog-content").val();
@@ -35,13 +40,14 @@
                 theme: "gray",//顶部的主题
                 previewTheme: "dark"//显示的主题
             });
-        })
+        });
+        //相关文章
         $(function () {
             $.ajax({
                 url: '/blog/blogs/tag?tag=' + "[[${blog.tag}]]",
                 method: 'get',
                 success: function (data) {
-                    var blogs = data[1];
+                    var blogs = data.params.blogs;
                     var $ul = $(".otherlink ul");
                     $.each(blogs, function (index, blog) {
                         var $li = $("<li></li>");
@@ -119,102 +125,5 @@
 </article>
 <footer th:replace="html/foot.html::foot"></footer>
 <script th:src="${path+'/js/nav.js'}"></script>
-<script>
-    $(function () {
-        $("#comment").on('click', function () {
-            var comment = $(".comment-box textarea").val();
-            $(".comment-box textarea").val("");
-            if (comment) {
-                $.ajax({
-                    url: '/blog/comment/save',
-                    type: 'post',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        content: comment,
-                        blogId: '[[${blog.id}]]'
-                    }), success(comment) {
-                        generateCommentLi(comment);
-                    }
-                });
-            }
-        })
-    });
-
-    function generateCommentLi(comment) {
-        var $li = $('<li class="comment-line">');
-        var $div = $('<div style="display: inline-block" class="left-box">');
-        var $a = $('<a href="javascript:;"></a>');
-        var $img = $('<img class="small-image"/>');
-        $img.prop('src', '/blog/' + comment.image);
-        var $div2 = $('<div class="info-box left-box">');
-        var $a2 = $('<a href="javascript:;">');
-        var $span1 = $('<span class="name" ></span>');
-        $span1.text(comment.username + ":");
-        var $span2 = $('<span class="comment"></span>');
-        var $div3 = $('<div class="right-box"></div>');
-        var $span3 = $('<span class="date"></span>');
-        $span3.text(comment.cdate);
-        var uname = "[[${session.user.username}]]";
-        var $span4 = $('<span class="opt-box"></span>');
-        var $a1 = $("<a class='del' href='javascript:;' >删除</a>");
-        $a1.attr("commentid", comment.id);
-        if (uname == comment.username)
-            $span4.append($a1);
-        $div3.append($span3);
-        $div3.append($span4);
-        $span2.text(comment.content);
-        $li.append($div);
-        $div.append($a);
-        $a.append($img);
-        $li.append($div2);
-        $div2.append($a2);
-        $a2.append($span1);
-        $div2.append($span2);
-        $div2.append("<br/>");
-        $div2.append("<br/>");
-        $li.append($div3);
-        var $ul = $("ul.comment-list");
-        $ul.prepend($li);
-    }
-
-    $(function () {
-        //初始加载评论
-        $.ajax({
-            url: '/blog/comment/list',
-            data: {
-                "blogId": '[[${blog.id}]]'
-            },
-            method: 'get',
-            success: function (comments) {
-                $.each(comments, function (index, comment) {
-                    generateCommentLi(comment);
-                })
-            }
-        })
-    });
-    $(function () {
-        $(document).delegate(".del", "click", function () {
-            var commentId = $(this).attr("commentid");
-            var $this = $(this);
-            $.ajax({
-                url: '/blog/comment/remove/' + commentId,
-                method: 'delete',
-                success: function () {
-                    $this.parents(".comment-line").remove();
-                }
-            });
-
-        });
-    });
-    //删除blog
-    $(function () {
-        $("#delBlog").on('click', function () {
-            var bool = confirm("确定删除?");
-            if (bool) {
-                    window.location.href='[[${path}]]/blogs/delete/[[${blog.id}]]';
-             }
-        })
-    });
-</script>
 </body>
 </html>
