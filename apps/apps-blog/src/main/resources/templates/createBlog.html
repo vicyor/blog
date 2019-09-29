@@ -35,6 +35,7 @@
 </article>
 <footer th:replace="html/foot.html::foot"></footer>
 <script>
+    //markdown插件
     $(function () {
         var str = $("#blog-content").val();
         //testEditor.getMarkdown()获取文档
@@ -74,6 +75,7 @@
             }
         });
     });
+    //博客保存
     $(function () {
         $("#save").on('click', function () {
             layui.use(['layer'], function () {

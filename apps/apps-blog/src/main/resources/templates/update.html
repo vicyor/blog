@@ -56,12 +56,14 @@
 <footer th:replace="html/foot.html::foot"></footer>
 <script th:src="${path+'/js/nav.js'}"></script>
 <script>
+    <!--计数增加-->
     $(function () {
         $.ajax({
             url: '/blog/blogs/count/[[${blog.id}]]?count=[[${blog.count}]]',
             method: 'post'
         })
     });
+    //markdown插件
     $(function () {
         var testEditor;
         var str = $("#blog-content").val();
@@ -110,6 +112,7 @@
             }
         });
     });
+    //相关链接
     $(function () {
         $.ajax({
             url: "/blog/blogs/tag?tag=[[${blog.tag}]]",
@@ -129,6 +132,7 @@
             }
         })
     });
+    //保存文件
     $(function () {
         $("#save").on('click', function () {
             var text = testEditor.getMarkdown();
@@ -144,14 +148,15 @@
             })
         })
     });
-
     $(function () {
+        //修改标题
         $("#title").on('change', function () {
             var str = $("#title").val();
             var str2 = "[[${blog.title}]]";
             console.log(str2);
             $.post('/blog/blogs/save/[[${blog.id}]]?title=' + str);
         });
+        //修改总结
         $("#summary").on('change', function () {
             var str = $("#summary").val();
             var str1 = "[[${blog.summary}]]";
