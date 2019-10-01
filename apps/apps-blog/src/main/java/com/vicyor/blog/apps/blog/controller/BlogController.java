@@ -48,7 +48,7 @@ public class BlogController {
      */
     @ResponseBody
     @GetMapping
-    @LogAnnotation("查询博客")
+    @LogAnnotation("按关键字分页查询所有博客")
     @Cacheable(cacheNames = "blogs", key = "#keyword")
     public GenerateViewObject listBlogs(
             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
@@ -70,7 +70,7 @@ public class BlogController {
      * 根据字段排行获取博客
      */
     @ResponseBody
-    @LogAnnotation("博客排名(点击量)")
+    @LogAnnotation("根据博客浏览量获取排名前10的博客")
     @GetMapping("/rank/{field}")
     @Cacheable(cacheNames = "blogs", key = "#field")
     public List<EsBlog> listBlogsBySort(@PathVariable("field") String field) {
@@ -88,7 +88,7 @@ public class BlogController {
      * 根据tag查询
      */
     @ResponseBody
-    @LogAnnotation("标签查询")
+    @LogAnnotation("按博客标签去查询所有的博客")
     @GetMapping("/tag")
     @Cacheable(cacheNames = "blogs", key = "#tag")
     public GenerateViewObject listBlogsByTag(
@@ -110,7 +110,7 @@ public class BlogController {
         return viewObject;
     }
 
-    @LogAnnotation("查看文章")
+    @LogAnnotation("浏览blog")
     @GetMapping("/{author}/article/{id}")
     public String article(HttpServletRequest request,
                           @PathVariable("id") String id,
@@ -125,7 +125,7 @@ public class BlogController {
 
     @PostMapping("/count/{id}")
     @ResponseBody
-    @LogAnnotation("更新浏览量")
+    @LogAnnotation("更新博客浏览量")
     public void addVisterCount(@PathVariable("id") String id,
                                @RequestParam("count") int count
     ) throws Exception {
@@ -145,7 +145,7 @@ public class BlogController {
         elasticsearchTemplate.update(query);
     }
 
-    @LogAnnotation("更细博客")
+    @LogAnnotation("前往博客更新页")
     @GetMapping("/{author}/update/{id}")
     public String updateBlog(
             @PathVariable("id") String id,
@@ -160,7 +160,7 @@ public class BlogController {
         return "update";
     }
 
-    @LogAnnotation("保存博客")
+    @LogAnnotation("保存博客的修改内容")
     @PostMapping("/{author}/save/{id}")
     @CacheEvict(cacheNames = "blogs", allEntries = true)
     @ResponseBody
@@ -206,7 +206,7 @@ public class BlogController {
         elasticsearchTemplate.update(query);
     }
 
-    @LogAnnotation("新建博客页")
+    @LogAnnotation("前往博客新建页")
     @GetMapping("/{username}/new")
     public String newBlog(
             @PathVariable("username") String username
@@ -214,7 +214,7 @@ public class BlogController {
         return "createBlog";
     }
 
-    @LogAnnotation("新建博客")
+    @LogAnnotation("保存新建的博客")
     @PostMapping("/{username}/new")
     @CacheEvict(cacheNames = "blogs", allEntries = true)
     @ResponseBody
@@ -232,10 +232,12 @@ public class BlogController {
         return blog.getId();
     }
 
-    @CacheEvict(cacheNames = "blogs", allEntries = true)
+
     @LogAnnotation("删除博客")
-    @RequestMapping("/{author}/delete/{id}")
-    public String deleteBlog(@PathVariable("id") String id,
+    @DeleteMapping("/{author}/delete/{id}")
+    @CacheEvict(cacheNames = "blogs", allEntries = true)
+    @ResponseBody
+    public void deleteBlog(@PathVariable("id") String id,
                              @PathVariable("author") String author
     ) {
         DeleteQuery query = new DeleteQuery();
@@ -243,6 +245,5 @@ public class BlogController {
         query.setType("blog");
         query.setQuery(QueryBuilders.idsQuery().addIds(id));
         elasticsearchTemplate.delete(query);
-        return "redirect:/index";
     }
 }

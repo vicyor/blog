@@ -32,7 +32,7 @@ public class CommentController {
 
     @ResponseBody
     @PostMapping("/{blogId}/save")
-    @LogAnnotation("保存评论")
+    @LogAnnotation("保存个人评论")
     @CacheEvict(cacheNames = "comments", key = "#params.get('blogId')", allEntries = true)
     public Comment saveComment(
             @RequestBody Map<String, String> params,
@@ -47,7 +47,7 @@ public class CommentController {
 
     @ResponseBody
     @GetMapping("/{blogId}/list")
-    @LogAnnotation("获取评论")
+    @LogAnnotation("获取博客所有评论")
     @Cacheable(cacheNames = "comments", key = "#blogId")
     public List<Comment> listComments(@PathVariable("blogId") String blogId
     ) {
@@ -57,7 +57,7 @@ public class CommentController {
 
     @DeleteMapping("/remove/{commentId}")
     @ResponseBody
-    @LogAnnotation("删除评论")
+    @LogAnnotation("删除个人评论")
     @CacheEvict(cacheNames = "comments", allEntries = true)
     public void deleteComment(@PathVariable("commentId") String commentId) {
         repository.deleteById(commentId);

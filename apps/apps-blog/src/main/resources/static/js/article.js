@@ -95,7 +95,10 @@ $(function () {
         if (bool) {
             $.ajax({
                 url: url,
-                method: 'delete'
+                method: 'delete',
+                success:function () {
+                    window.location.href=$("#path").val();
+                }
             });
             window.location.href = $("#path").val();
         }
