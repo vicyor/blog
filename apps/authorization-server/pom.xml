@@ -56,5 +56,14 @@
             <version>${apps-blog-api.version}</version>
         </dependency>
     </dependencies>
-
+<!--    打包插件只能出现在要打包的项目pom中-->
+    <build>
+        <plugins>
+            <!-- springboot maven打包-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

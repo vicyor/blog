@@ -79,8 +79,16 @@
         <dependency>
             <groupId>com.vicyor.blog.apps.api</groupId>
             <artifactId>apps-blog-api</artifactId>
-            <version>${apps-blog-api.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
+    <build>
+        <plugins>
+            <!-- springboot maven打包-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

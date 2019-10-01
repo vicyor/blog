@@ -29,15 +29,7 @@
         <spring-boot-starter.version>2.1.7.RELEASE</spring-boot-starter.version>
         <!-- upgrade to thymeleaf version 3 -->
     </properties>
-    <build>
-        <plugins>
-            <!-- springboot maven打包-->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+
     <dependencyManagement>
         <dependencies>
             <!--导入elasticsearch-->
