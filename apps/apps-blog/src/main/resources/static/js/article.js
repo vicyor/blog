@@ -8,7 +8,7 @@ $(function () {
         $(".comment-box textarea").val("");
         if (comment) {
             $.ajax({
-                url: '/blog/comment/'+$("#blog-id").val()+'/save',
+                url: $("#path").val() + '/comment/' + $("#username").val() + '/' + $("#blog-id").val() + '/save',
                 type: 'post',
                 contentType: 'application/json',
                 data: JSON.stringify({
@@ -62,7 +62,7 @@ function generateCommentLi(comment) {
 //初始加载评论
 $(function () {
     $.ajax({
-        url: '/blog/comment/'+blogId+'/list',
+        url: '/blog/comment/' + blogId + '/list',
         method: 'get',
         success: function (comments) {
             $.each(comments, function (index, comment) {
@@ -77,7 +77,7 @@ $(function () {
         var commentId = $(this).attr("commentid");
         var $this = $(this);
         $.ajax({
-            url: '/blog/comment/remove/'+$("#blog-id").val()+"/" + commentId,
+            url: '/blog/comment/' + $("#username").val() + '/remove/' + $("#blog-id").val() + "/" + commentId,
             method: 'delete',
             success: function () {
                 $this.parents(".comment-line").remove();
@@ -89,15 +89,15 @@ $(function () {
 //删除blog
 $(function () {
     $("#delBlog").on('click', function () {
-        var url=$("#path").val()+'/blogs/'+$("#author").val()+'/delete/'+blogId;
+        var url = $("#path").val() + '/blogs/' + $("#author").val() + '/delete/' + blogId;
         console.log(url);
         var bool = confirm("确定删除?");
 
-         if (bool) {
+        if (bool) {
             $.ajax({
                 url: url,
-                success:function () {
-                    window.location.href=$("#path").val();
+                success: function () {
+                    window.location.href = $("#path").val();
                 }
             });
 

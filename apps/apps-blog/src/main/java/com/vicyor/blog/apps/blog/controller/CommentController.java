@@ -31,23 +31,26 @@ public class CommentController {
     CommentRepository repository;
 
     @ResponseBody
-    @PostMapping("/{blogId}/save")
-    @LogAnnotation("保存个人评论")
-    @CacheEvict(cacheNames = "comments", key = "#params.get('blogId')", allEntries = true)
+    @PostMapping("/{username}/{blogId}/save")
+    @LogAnnotation("保存评论")
+    //刷新指定blog的缓存
+    @CacheEvict(cacheNames = "comments", key = "#params.get('blogId')")
     public Comment saveComment(
             @RequestBody Map<String, String> params,
-            @PathVariable("blogId") String blogId
+            @PathVariable("blogId") String blogId,
+            @PathVariable("username") String username
     ) {
         String content = params.get("content");
         BlogUser blogUser = UserUtil.blogUser();
-        Comment comment = new Comment(content, UserUtil.blogUser().getUsername(), new Date(), blogId, blogUser.getImageUri());
+        Comment comment = new Comment(content, username, new Date(), blogId, blogUser.getImageUri());
+        //会嵌入主键
         comment = repository.index(comment);
         return comment;
     }
 
     @ResponseBody
     @GetMapping("/{blogId}/list")
-    @LogAnnotation("获取博客所有评论")
+    @LogAnnotation("获取指定博客的所有评论")
     @Cacheable(cacheNames = "comments", key = "#blogId")
     public List<Comment> listComments(@PathVariable("blogId") String blogId
     ) {
@@ -55,11 +58,12 @@ public class CommentController {
         return comments;
     }
 
-    @DeleteMapping("/remove/{blogId}/{commentId}")
+    @DeleteMapping("/{username}/remove/{blogId}/{commentId}")
     @ResponseBody
     @LogAnnotation("删除个人评论")
     @CacheEvict(cacheNames = "comments", key = "#blogId")
     public void deleteComment(
+            @PathVariable("username") String username,
             @PathVariable("commentId") String commentId,
             @PathVariable("blogId") String blogId
     ) {

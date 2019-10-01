@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/**", "/user/**").authenticated()
                 //rbac 博客,注解权限,自定义判定方式,会根据用户判断
-                .antMatchers("/**/update/**","/**/save/**","/**/delete/**","/**/remove/**")
+                .antMatchers("/blog/blogs/**/update/**","/blog/blogs/**/save/**","/blog/blogs/**/delete/**","/blog/comment/**/remove/**")
                 .access("@customPermission.hasPermission(request,authentication)")
                 .anyRequest().permitAll()
                 .and()
