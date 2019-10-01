@@ -17,6 +17,7 @@
         <module>apps-file</module>
         <module>authorization-server</module>
         <module>api</module>
+        <module>apps-user</module>
     </modules>
 
 </project>

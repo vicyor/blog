@@ -2,7 +2,9 @@ package com.vicyor.blog.apps.blog.controller;
 
 import com.vicyor.blog.apps.blog.domain.EsBlog;
 import com.vicyor.blog.apps.blog.log.LogAnnotation;
+import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import com.vicyor.blog.apps.blog.repository.EsBlogRepository;
+import com.vicyor.blog.apps.blog.service.UserService;
 import com.vicyor.blog.apps.blog.util.DateUtil;
 import com.vicyor.blog.apps.blog.util.TransformUtil;
 import com.vicyor.blog.apps.blog.util.UserUtil;
@@ -42,7 +44,8 @@ public class BlogController {
     EsBlogRepository esBlogRepository;
     @Autowired
     ElasticsearchTemplate elasticsearchTemplate;
-
+    @Autowired
+    UserService userService;
     /**
      * 根据关键字获取blog
      * 分页查询
@@ -121,6 +124,9 @@ public class BlogController {
         getQuery.setId(blogId);
         EsBlog blog = elasticsearchTemplate.queryForObject(getQuery, EsBlog.class);
         request.setAttribute("blog", TransformUtil.transferObjToMap(blog));
+        BlogUser blogAuthor=userService.findBlogUser(blog.getAuthor());
+        request.setAttribute("blogAuthor",blogAuthor);
+        //将博客作者放入request中
         return "article";
     }
 

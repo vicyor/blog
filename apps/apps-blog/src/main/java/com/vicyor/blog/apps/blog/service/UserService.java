@@ -11,4 +11,6 @@ public interface UserService {
     BlogUser findBlogUser(Authentication authentication);
 
     void saveUser(BlogUser blogUser);
+
+    BlogUser findBlogUser(String author);
 }

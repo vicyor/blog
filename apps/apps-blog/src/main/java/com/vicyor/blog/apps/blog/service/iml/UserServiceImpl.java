@@ -47,5 +47,10 @@ public class UserServiceImpl implements UserService {
         userMapper.saveUserInfo(blogUser);
     }
 
+    @Override
+    public BlogUser findBlogUser(String author) {
+        return userMapper.findBlogUser(author);
+    }
+
 
 }

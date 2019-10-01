@@ -9,6 +9,15 @@
         <p class="abposition"><span th:text="${session.user.job}"></span></p>
         <div class="abtext"><span th:text="${session.user.motto}"></span></div>
     </div>
+    <div class="about-author" th:fragment="about-author">
+        <div class="avatar"><img th:src="${path+'/'+blogAuthor.imageUri}" alt="作者头像"></div>
+        <p class="abname">
+            <span th:text="${blogAuthor.username}"></span> |
+            <span th:text="${blogAuthor.name}"></span>
+        </p>
+        <p class="abposition"><span th:text="${blogAuthor.job}"></span></p>
+        <div class="abtext"><span th:text="${blogAuthor.motto}"></span></div>
+    </div>
     <div class="search" th:fragment="search">
         <form action="javacript:;" method="post" name="searchform" id="searchform">
             <input name="keyboard" id="keyboard" class="input_text" placeholder="请输入关键字"
