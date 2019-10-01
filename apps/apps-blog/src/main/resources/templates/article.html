@@ -3,13 +3,13 @@
 <body>
 <header th:replace="html/header.html::header"></header>
 <article>
-    <input type="hidden" th:value="${blog.content}" id="blog-content"/>
-    <input type="hidden" th:value="${blog.id}" id="blog-id">
+    <input type="hidden" th:value="${blogId}" id="blog-id">
     <input type="hidden" th:value="${session.user.username}" id="username">
     <input type="hidden" th:value="${path}" id="path">
-    <input type="hidden" th:value="${blog.author}" id="author">
+    <input type="hidden" th:value="${author}" id="author">
+    <input type="hidden" id="type">
     <h1 class="t_nav">
-        <span>您现在的位置是：首页 > 文章 > [[${blog.title}]]</span>
+        <span id="title"></span>
         <a th:href="${path+'/'}" class="n1">网站首页</a>
         <a href="javascript:;" class="n2">个人博客</a>
     </h1>
@@ -17,35 +17,47 @@
         <!--更新博客浏览量-->
         $(function () {
             $.ajax({
-                url: '/blog/blogs/count/' + '[[${blog.id}]]' + "?count=" + '[[${blog.count}]]',
+                url: '/blog/blogs/count/' + $("#blog-id").val() ,
                 method: 'post'
             })
         });
         //mkdown插件
         $(function () {
-            var testEditor;
-            var str = $("#blog-content").val();
-            testEditor = editormd.markdownToHTML("read-editormd", {
-                path: '[[${path}]]/editor.md-master/lib/',
-                markdown: str,
-                htmlDecode: "style,script,iframe",  // you can filter tags decode
-                emoji: true,
-                taskList: true,
-                tex: true,
-                sequenceDiagram: true,
-                imageUpload: true,
-                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                // imageUploadURL : "../src/",//注意你后端的上传图片服务地址
+            $.ajax({
+                url:'[[${path}]]/blogs/[[${author}]]/article/get/[[${blogId}]]',
+                method:'get',
+                success:function (blog) {
+                    var str=blog.content;
+                    $("#title").text("您现在的位置是：首页 > 文章 > "+blog.title);
+                    $("#tag").val(blog.tag);
+                    $("#a-tag").text(blog.tag);
+                    $(".news_title").val(blog.title);
+                    $(".news_about").html("<strong>简介</strong>"+blog.summary);
+                    $(".au02").text(blog.udate);
+                    $("#b-count").text(blog.count);
+                    var testEditor= editormd.markdownToHTML("read-editormd", {
+                        path: '[[${path}]]/editor.md-master/lib/',
+                        markdown: str,
+                        htmlDecode: "style,script,iframe",  // you can filter tags decode
+                        emoji: true,
+                        taskList: true,
+                        tex: true,
+                        sequenceDiagram: true,
+                        imageUpload: true,
+                        imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                        // imageUploadURL : "../src/",//注意你后端的上传图片服务地址
 
-                //editorTheme: "pastel-on-dark",//编辑器的主题颜色
-                theme: "gray",//顶部的主题
-                previewTheme: "dark"//显示的主题
+                        //editorTheme: "pastel-on-dark",//编辑器的主题颜色
+                        theme: "gray",//顶部的主题
+                        previewTheme: "dark"//显示的主题
+                    });
+                }
             });
         });
         //相关文章
         $(function () {
             $.ajax({
-                url: '/blog/blogs/tag?tag=' + "[[${blog.tag}]]",
+                url: '/blog/blogs/tag?tag=' + $("#tag").val(),
                 method: 'get',
                 success: function (data) {
                     var blogs = data.params.blogs;
@@ -65,21 +77,21 @@
     </script>
     <div class="infos">
         <div class="newsview">
-            <h3 class="news_title">[[${blog.title}]]</h3>
+            <h3 class="news_title"></h3>
             <div class="news_author">
                 <span class="au01"><a href="mailto:2457569580@qq.com">kindboy</a></span>
-                <span class="au02" th:text="${blog.udate}"></span><span class="au03">
-                浏览次数 : <b th:text="${blog.count}"></b></span>
+                <span class="au02" ></span><span class="au03">
+                浏览次数 : <b  id="b-count"></b></span>
             </div>
             <div class="tags">
                 <a href="javascript:;">个人博客</a>
-                <a href="javascript:;" th:text="${blog.tag}"></a>
-                <a th:if="${session.user.username == blog.author}" href="javascript:;"
+                <a href="javascript:;" id="a-tag"></a>
+                <a th:if="${session.user.username == author}" href="javascript:;"
                    style="float: right;margin-right: 10px;" id="delBlog">删除</a>
-                <a th:if="${session.user.username == blog.author}" th:href="${path+'/blogs/'+blog.author+'/update/'+blog.id}"
+                <a th:if="${session.user.username == author}" th:href="${path+'/blogs/'+author+'/update/'+blogId}"
                    style="float: right;margin-right: 10px;">编辑</a>
             </div>
-            <div class="news_about"><strong>简介</strong>[[${blog.summary}]]</div>
+            <div class="news_about"><strong>简介</strong></div>
             <div class="news_infos" id="read-editormd" style="padding:10px;height: 1000px;">
                 <textarea></textarea>
             </div>

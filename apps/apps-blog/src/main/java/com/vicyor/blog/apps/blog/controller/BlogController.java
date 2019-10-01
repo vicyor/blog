@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 作者:姚克威
@@ -46,6 +47,7 @@ public class BlogController {
     ElasticsearchTemplate elasticsearchTemplate;
     @Autowired
     UserService userService;
+
     /**
      * 根据关键字获取blog
      * 分页查询
@@ -114,28 +116,42 @@ public class BlogController {
         return viewObject;
     }
 
-    @LogAnnotation("浏览blog")
+    @LogAnnotation("前往浏览blog页")
     @GetMapping("/{author}/article/{blogId}")
     public String article(HttpServletRequest request,
                           @PathVariable("blogId") String blogId,
                           @PathVariable("author") String author
     ) throws Exception {
+        request.setAttribute("blogId", blogId);
+        request.setAttribute("author", author);
+        //sidebar about-author
+        BlogUser blogAuthor = userService.findBlogUser(author);
+        request.setAttribute("blogAuthor", blogAuthor);
+        return "article";
+    }
+
+    @LogAnnotation("ajax获取博客")
+    @ResponseBody
+    @GetMapping("/{author}/article/get/{blogId}")
+    @Cacheable(cacheNames = "blog",key = "#blogId")
+    public EsBlog getArticle(
+            @PathVariable("author") String author,
+            @PathVariable("blogId") String blogId
+    ) {
         GetQuery getQuery = new GetQuery();
         getQuery.setId(blogId);
         EsBlog blog = elasticsearchTemplate.queryForObject(getQuery, EsBlog.class);
-        request.setAttribute("blog", TransformUtil.transferObjToMap(blog));
-        BlogUser blogAuthor=userService.findBlogUser(blog.getAuthor());
-        request.setAttribute("blogAuthor",blogAuthor);
-        //将博客作者放入request中
-        return "article";
+        return blog;
     }
 
     @PostMapping("/count/{id}")
     @ResponseBody
     @LogAnnotation("更新博客浏览量")
-    public void addVisterCount(@PathVariable("id") String id,
-                               @RequestParam("count") int count
+    public  void addVisterCount(@PathVariable("id") String id
     ) throws Exception {
+        GetQuery getQuery = new GetQuery();
+        getQuery.setId(id);
+        EsBlog blog = elasticsearchTemplate.queryForObject(getQuery, EsBlog.class);
         UpdateQuery query = new UpdateQueryBuilder()
                 .withIndexName("blog")
                 .withType("blog")
@@ -145,7 +161,7 @@ public class BlogController {
         updateRequest.doc(XContentFactory
                 .jsonBuilder()
                 .startObject()
-                .field("count", count + 1)
+                .field("count", blog.getCount() + 1)
                 .endObject()
         );
         query.setUpdateRequest(updateRequest);
@@ -170,6 +186,7 @@ public class BlogController {
     @LogAnnotation("保存博客的修改内容")
     @PostMapping("/{author}/save/{id}")
     @CacheEvict(cacheNames = "blogs", allEntries = true)
+    @CachePut(cacheNames = "blog",key = "#id")
     @ResponseBody
     public void updateArticle(@RequestParam(value = "content", required = false) String content,
                               @RequestParam(value = "title", required = false) String title,
@@ -242,10 +259,10 @@ public class BlogController {
 
     @LogAnnotation("删除博客")
     @RequestMapping("/{author}/delete/{id}")
-    @CacheEvict(cacheNames = "blogs",allEntries = true)
+    @CacheEvict(cacheNames = "blogs", allEntries = true)
     @ResponseBody
     public void deleteBlog(@PathVariable("id") String id,
-                             @PathVariable("author") String author
+                           @PathVariable("author") String author
     ) {
         DeleteQuery query = new DeleteQuery();
         query.setIndex("blog");
