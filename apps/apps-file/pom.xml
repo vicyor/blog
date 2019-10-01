@@ -11,5 +11,6 @@
 
     <groupId>com.vicyor.blog.apps</groupId>
     <artifactId>apps-file</artifactId>
+<!--    未开发-->
     <packaging>pom</packaging>
 </project>
