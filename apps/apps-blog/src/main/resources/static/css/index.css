@@ -35,7 +35,7 @@ h3.blogtitle { line-height: 30px; height: 30px; margin: 10px 0; }
 .pages a:hover { background: #CCC; }
 .sidebar { float: right; width: 28%; overflow: hidden; position: relative }
 .sidebar>div{
-    margin: 10px 0;
+    margin: 18px 0;
 }
 .about { background: #FFF url(../images/banner.png) no-repeat top center; overflow: hidden; }
 .about-author { background: #FFF url(../images/banner.png) no-repeat top center; overflow: hidden; }
@@ -83,7 +83,7 @@ h3.blogtitle { line-height: 30px; height: 30px; margin: 10px 0; }
 .links ul { padding: 20px; overflow: hidden }
 .links ul a { line-height: 24px; margin: 0 10px 0 0; display: block; float: left }
 .links ul a:hover { text-decoration: underline }
-.weixin { background: #FFF; overflow: hidden; margin: 20px 0; }
+.weixin { background: #FFF; overflow: hidden;  }
 .weixin img { width: 100% }
 /*lmnav*/
 .lmnav { background: #FFF; overflow: hidden; margin-bottom: 20px }
