@@ -23,6 +23,7 @@ $(function () {
 
 //渲染评论
 function generateCommentLi(comment) {
+    console.log(comment);
     var $li = $('<li class="comment-line">');
     var $div = $('<div style="display: inline-block" class="left-box">');
     var $a = $('<a href="javascript:;"></a>');

@@ -34,7 +34,7 @@ public class CommentController {
     @PostMapping("/{username}/{blogId}/save")
     @LogAnnotation("保存评论")
     //刷新指定blog的缓存
-    @CacheEvict(cacheNames = "comments", key = "#params.get('blogId')")
+    @CacheEvict(cacheNames = "comments", key = "#blogId")
     public Comment saveComment(
             @RequestBody Map<String, String> params,
             @PathVariable("blogId") String blogId,
