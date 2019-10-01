@@ -31,32 +31,35 @@ public class CommentController {
     CommentRepository repository;
 
     @ResponseBody
-    @PostMapping("/save")
+    @PostMapping("/{blogId}/save")
     @LogAnnotation("保存评论")
-    @CacheEvict(cacheNames = "comments",key = "#params.get('blogId')",allEntries = true)
-    public Comment saveComment(@RequestBody Map<String, String> params) {
+    @CacheEvict(cacheNames = "comments", key = "#params.get('blogId')", allEntries = true)
+    public Comment saveComment(
+            @RequestBody Map<String, String> params,
+            @PathVariable("blogId") String blogId
+    ) {
         String content = params.get("content");
-        String blogId = params.get("blogId");
         BlogUser blogUser = UserUtil.blogUser();
-        Comment comment = new Comment(content, blogUser.getUsername(), new Date(), blogId,blogUser.getImageUri());
-         comment = repository.index(comment);
+        Comment comment = new Comment(content, UserUtil.blogUser().getUsername(), new Date(), blogId, blogUser.getImageUri());
+        comment = repository.index(comment);
         return comment;
     }
 
     @ResponseBody
-    @GetMapping("/list")
+    @GetMapping("/{blogId}/list")
     @LogAnnotation("获取评论")
-    @Cacheable(cacheNames = "comments",key = "#blogId")
-    public List<Comment> listComments(@RequestParam("blogId") String blogId
+    @Cacheable(cacheNames = "comments", key = "#blogId")
+    public List<Comment> listComments(@PathVariable("blogId") String blogId
     ) {
-        List<Comment> comments = repository.findCommentsByBlogIdEquals( blogId);
+        List<Comment> comments = repository.findCommentsByBlogIdEquals(blogId);
         return comments;
     }
+
     @DeleteMapping("/remove/{commentId}")
     @ResponseBody
     @LogAnnotation("删除评论")
-    @CacheEvict(cacheNames = "comments",allEntries = true)
-    public void deleteComment(@PathVariable("commentId") String commentId){
+    @CacheEvict(cacheNames = "comments", allEntries = true)
+    public void deleteComment(@PathVariable("commentId") String commentId) {
         repository.deleteById(commentId);
     }
 }

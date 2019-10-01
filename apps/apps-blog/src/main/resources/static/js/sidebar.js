@@ -59,11 +59,11 @@ function parseCountRank(blogs) {
         var $li = $("<li></li>");
         var $b = $("<b></b>");
         var $a = $("<a></a>");
-        $a.prop("href", "/blog/blogs/article/" + blog.id);
+        $a.prop("href", "/blog/blogs/"+blog.author+"/article/" + blog.id);
         $a.text(blog.title);
         var $p = $("<p></p>");
         var $ai=$("<a></a>");
-        $ai.prop("href", "/blog/blogs/article/" + blog.id);
+        $ai.prop("href", "/blog/blogs/"+blog.author+"/article/" + blog.id);
         var $i = $("<i></i>");
         var $img = $("<img></img>");
         $img.prop("src", "/blog/" + blog.uri);

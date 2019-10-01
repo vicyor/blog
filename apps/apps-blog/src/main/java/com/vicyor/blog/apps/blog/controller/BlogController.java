@@ -111,9 +111,10 @@ public class BlogController {
     }
 
     @LogAnnotation("查看文章")
-    @GetMapping("/article/{id}")
+    @GetMapping("/{author}/article/{id}")
     public String article(HttpServletRequest request,
-                          @PathVariable("id") String id
+                          @PathVariable("id") String id,
+                          @PathVariable("author") String author
     ) throws Exception {
         GetQuery getQuery = new GetQuery();
         getQuery.setId(id);
@@ -145,14 +146,12 @@ public class BlogController {
     }
 
     @LogAnnotation("更细博客")
-    @GetMapping("/update/{id}")
+    @GetMapping("/{author}/update/{id}")
     public String updateBlog(
             @PathVariable("id") String id,
-            HttpServletRequest request
+            HttpServletRequest request,
+            @PathVariable("author") String author
     ) throws Exception {
-        if (!UserUtil.hasBlog(elasticsearchTemplate, id)) {
-            throw new RuntimeException("用户没有权限");
-        }
         IdsQueryBuilder queryBuilder = QueryBuilders.idsQuery().addIds(id);
         GetQuery query = new GetQuery();
         query.setId(id);
@@ -162,14 +161,15 @@ public class BlogController {
     }
 
     @LogAnnotation("保存博客")
-    @PostMapping("/save/{id}")
+    @PostMapping("/{author}/save/{id}")
     @CacheEvict(cacheNames = "blogs", allEntries = true)
     @ResponseBody
     public void updateArticle(@RequestParam(value = "content", required = false) String content,
                               @RequestParam(value = "title", required = false) String title,
                               @RequestParam(value = "summary", required = false) String summary,
                               @PathVariable(value = "id", required = true) String id,
-                              HttpServletRequest request
+                              HttpServletRequest request,
+                              @PathVariable("author") String author
     ) throws Exception {
 
         UpdateRequest updateRequest = new UpdateRequest();
@@ -207,33 +207,37 @@ public class BlogController {
     }
 
     @LogAnnotation("新建博客页")
-    @GetMapping("/new")
-    public String newBlog() {
+    @GetMapping("/{username}/new")
+    public String newBlog(
+            @PathVariable("username") String username
+    ) {
         return "createBlog";
     }
 
     @LogAnnotation("新建博客")
-    @PostMapping("/new")
+    @PostMapping("/{username}/new")
     @CacheEvict(cacheNames = "blogs", allEntries = true)
     @ResponseBody
-    public String createBlog(@RequestBody Map<String, String> requestParams) {
+    public String createBlog(
+            @RequestBody Map<String, String> requestParams,
+            @PathVariable("username") String username
+    ) {
         String title = requestParams.get("title");
         String content = requestParams.get("content");
         String summary = requestParams.get("summary");
         String tag = requestParams.get("tag");
         //blog图片为用户头像
-        EsBlog blog = new EsBlog(title, tag, content, new Date(), new Date(), 1, UserUtil.blogUser().getImageUri(), summary, UserUtil.blogUser().getUsername());
+        EsBlog blog = new EsBlog(title, tag, content, new Date(), new Date(), 1, UserUtil.blogUser().getImageUri(), summary, username);
         blog = esBlogRepository.save(blog);
         return blog.getId();
     }
 
     @CacheEvict(cacheNames = "blogs", allEntries = true)
     @LogAnnotation("删除博客")
-    @RequestMapping("/delete/{id}")
-    public String deleteBlog(@PathVariable("id") String id) {
-        if (!UserUtil.hasBlog(elasticsearchTemplate, id)) {
-            throw new RuntimeException("用户没有权限");
-        }
+    @RequestMapping("/{author}/delete/{id}")
+    public String deleteBlog(@PathVariable("id") String id,
+                             @PathVariable("author") String author
+    ) {
         DeleteQuery query = new DeleteQuery();
         query.setIndex("blog");
         query.setType("blog");

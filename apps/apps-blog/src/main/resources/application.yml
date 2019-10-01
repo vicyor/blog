@@ -17,6 +17,9 @@ server:
   port: 80
   servlet:
     context-path: /blog
+#设置会话超时时间
+    session:
+      timeout: 120m
 logging:
   level:
     root: info

@@ -7,7 +7,7 @@
             <ul>
                 <li><a th:href="${path+'/'}">网站首页</a></li>
                 <li><a href="https://github.com/vicyor/blog">模板分享</a></li>
-                <li><a th:href="${path+'/blogs/new'}" style="color: #1abc9c">新建博客</a></li>
+                <li><a th:href="${path+'/blogs/'+session.user.username+'/new'}" style="color: #1abc9c">新建博客</a></li>
                 <li th:if="${!session.user.login}"><a th:href="${path +'/login'}" style="color: #1abc9c">登录</a></li>
                 <li th:if="${session.user.login}"><a href="javascript:;"
                                                      th:text="${'欢迎回来  '+session.user.name}"
@@ -20,7 +20,7 @@
             <ul>
                 <li><a th:href="${path+'/'}">网站首页</a></li>
                 <li><a href="https://github.com/vicyor/blog">模板分享</a></li>
-                <li><a th:href="${path+'/blogs/new'}" style="color: #1abc9c">新建博客</a></li>
+                <li><a th:href="${path+'/blogs/'+session.user.username+'/new'}" style="color: #1abc9c">新建博客</a></li>
                 <li th:if="${!session.user.login}"><a th:href="${path +'/login'}" style="color: #1abc9c">登录</a></li>
                 <li th:if="${session.user.login}"><a href="javascript:;"
                                                      th:text="${'欢迎回来  '+session.user.name}"

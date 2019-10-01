@@ -7,6 +7,7 @@
     <input type="hidden" th:value="${blog.id}" id="blog-id">
     <input type="hidden" th:value="${session.user.username}" id="username">
     <input type="hidden" th:value="${path}" id="path">
+    <input type="hidden" th:value="${blog.author}" id="author">
     <h1 class="t_nav">
         <span>您现在的位置是：首页 > 文章 > [[${blog.title}]]</span>
         <a th:href="${path+'/'}" class="n1">网站首页</a>
@@ -75,7 +76,7 @@
                 <a href="javascript:;" th:text="${blog.tag}"></a>
                 <a th:if="${session.user.username == blog.author}" href="javascript:;"
                    style="float: right;margin-right: 10px;" id="delBlog">删除</a>
-                <a th:if="${session.user.username == blog.author}" th:href="${path+'/blogs/update/'+blog.id}"
+                <a th:if="${session.user.username == blog.author}" th:href="${path+'/blogs/'+blog.author+'/update/'+blog.id}"
                    style="float: right;margin-right: 10px;">编辑</a>
             </div>
             <div class="news_about"><strong>简介</strong>[[${blog.summary}]]</div>

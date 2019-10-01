@@ -8,12 +8,11 @@ $(function () {
         $(".comment-box textarea").val("");
         if (comment) {
             $.ajax({
-                url: '/blog/comment/save',
+                url: '/blog/comment/'+$("#blog-id").val()+'/save',
                 type: 'post',
                 contentType: 'application/json',
                 data: JSON.stringify({
-                    content: comment,
-                    'blogId': blogId
+                    content: comment
                 }), success(comment) {
                     generateCommentLi(comment);
                 }
@@ -63,10 +62,7 @@ function generateCommentLi(comment) {
 //初始加载评论
 $(function () {
     $.ajax({
-        url: '/blog/comment/list',
-        data: {
-            'blogId': blogId
-        },
+        url: '/blog/comment/'+blogId+'/list',
         method: 'get',
         success: function (comments) {
             $.each(comments, function (index, comment) {
@@ -94,8 +90,14 @@ $(function () {
 $(function () {
     $("#delBlog").on('click', function () {
         var bool = confirm("确定删除?");
+        var url=$("#path").val()+'/blogs/'+$("#author").val()+'/delete/'+blogId;
+        console.log(url);
         if (bool) {
-            window.location.href = $("#path").val() + blogId;
+            $.ajax({
+                url: url,
+                method: 'delete'
+            });
+            window.location.href = $("#path").val();
         }
     })
 });

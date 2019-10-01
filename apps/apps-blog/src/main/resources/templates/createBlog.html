@@ -98,7 +98,7 @@
                     tag = title;
                 }
                 $.ajax({
-                    url: '/blog/blogs/new',
+                    url: '/blog/blogs/[[${session.user.username}]]/new',
                     method: 'post',
                     contentType: 'application/json',
                     data: JSON.stringify({
@@ -108,7 +108,7 @@
                         "tag": tag
                     }),
                     success: function (id) {
-                        window.location.href="/blog/blogs/article/"+id;
+                        window.location.href="/blog/blogs/[[${session.user.username}]]/article/"+id;
                     }
                 })
             })
