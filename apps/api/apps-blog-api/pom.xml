@@ -11,5 +11,4 @@
 
     <groupId>com.vicyor.blog.apps.api</groupId>
     <artifactId>apps-blog-api</artifactId>
-    <packaging>pom</packaging>
 </project>
