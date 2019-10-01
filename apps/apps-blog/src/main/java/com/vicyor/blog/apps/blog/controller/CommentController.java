@@ -55,11 +55,14 @@ public class CommentController {
         return comments;
     }
 
-    @DeleteMapping("/remove/{commentId}")
+    @DeleteMapping("/remove/{blogId}/{commentId}")
     @ResponseBody
     @LogAnnotation("删除个人评论")
-    @CacheEvict(cacheNames = "comments", allEntries = true)
-    public void deleteComment(@PathVariable("commentId") String commentId) {
+    @CacheEvict(cacheNames = "comments", key = "#blogId")
+    public void deleteComment(
+            @PathVariable("commentId") String commentId,
+            @PathVariable("blogId") String blogId
+    ) {
         repository.deleteById(commentId);
     }
 }

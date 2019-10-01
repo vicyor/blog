@@ -16,6 +16,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -111,13 +112,13 @@ public class BlogController {
     }
 
     @LogAnnotation("浏览blog")
-    @GetMapping("/{author}/article/{id}")
+    @GetMapping("/{author}/article/{blogId}")
     public String article(HttpServletRequest request,
-                          @PathVariable("id") String id,
+                          @PathVariable("blogId") String blogId,
                           @PathVariable("author") String author
     ) throws Exception {
         GetQuery getQuery = new GetQuery();
-        getQuery.setId(id);
+        getQuery.setId(blogId);
         EsBlog blog = elasticsearchTemplate.queryForObject(getQuery, EsBlog.class);
         request.setAttribute("blog", TransformUtil.transferObjToMap(blog));
         return "article";
@@ -234,8 +235,8 @@ public class BlogController {
 
 
     @LogAnnotation("删除博客")
-    @DeleteMapping("/{author}/delete/{id}")
-    @CacheEvict(cacheNames = "blogs", allEntries = true)
+    @RequestMapping("/{author}/delete/{id}")
+    @CacheEvict(cacheNames = "blogs",allEntries = true)
     @ResponseBody
     public void deleteBlog(@PathVariable("id") String id,
                              @PathVariable("author") String author

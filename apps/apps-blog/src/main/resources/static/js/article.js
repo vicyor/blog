@@ -77,7 +77,7 @@ $(function () {
         var commentId = $(this).attr("commentid");
         var $this = $(this);
         $.ajax({
-            url: '/blog/comment/remove/' + commentId,
+            url: '/blog/comment/remove/'+$("#blog-id").val()+"/" + commentId,
             method: 'delete',
             success: function () {
                 $this.parents(".comment-line").remove();
@@ -89,18 +89,18 @@ $(function () {
 //删除blog
 $(function () {
     $("#delBlog").on('click', function () {
-        var bool = confirm("确定删除?");
         var url=$("#path").val()+'/blogs/'+$("#author").val()+'/delete/'+blogId;
         console.log(url);
-        if (bool) {
+        var bool = confirm("确定删除?");
+
+         if (bool) {
             $.ajax({
                 url: url,
-                method: 'delete',
                 success:function () {
                     window.location.href=$("#path").val();
                 }
             });
-            window.location.href = $("#path").val();
+
         }
     })
 });
