@@ -42,16 +42,14 @@ public class ReplyComment implements Serializable {
     )
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Date cdate;
-    private String blogId;
     private String image;
 
-    public ReplyComment(String id, String content, String from, String to, Date cdate, String blogId, String image) {
-        this.id = id;
+    public ReplyComment(String content, String from, String to, String parentCommentId, Date cdate, String image) {
         this.content = content;
         this.from = from;
         this.to = to;
+        this.parentCommentId = parentCommentId;
         this.cdate = cdate;
-        this.blogId = blogId;
         this.image = image;
     }
 
