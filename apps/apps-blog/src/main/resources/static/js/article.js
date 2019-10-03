@@ -8,6 +8,7 @@ $(function () {
         var comment = $textarea.val();
         $textarea.val("");
         var placeholder = $textarea.prop('placeholder');
+        var $this = $(this);
         if (comment && placeholder == '想对作者说点什么') {
             $.ajax({
                 url: $("#path").val() + '/comment/' + $("#username").val() + '/' + $("#blog-id").val() + '/save',
@@ -38,13 +39,16 @@ $(function () {
                 }),
                 contentType: "application/json"
                 , success: function () {
-                    $textarea.prop("placeholder","想对作者说点什么");
+                    $textarea.prop("placeholder", "想对作者说点什么");
                     $textarea.val("");
                     $replyLi.removeClass("reply-li");
+
                 }
             });
 
         }
+        //触发一下所有的收起回复按钮
+        $(".retract").trigger('click');
     })
 });
 
@@ -58,7 +62,8 @@ function generateCommentLi(comment) {
     var $div2 = $('<div class="info-box left-box">');
     var $a2 = $('<a href="javascript:;">');
     var $span1 = $('<span class="name" ></span>');
-    $span1.text(comment.username + ":");
+    $span1.text(comment.username);
+    var $colonSpan = $('<span>:</span>');
     var $span2 = $('<span class="comment"></span>');
     var $div3 = $('<div class="right-box"></div>');
     var $span3 = $('<span class="date"></span>');
@@ -84,12 +89,13 @@ function generateCommentLi(comment) {
     $li.append($div2);
     $div2.append($a2);
     $a2.append($span1);
+    $div2.append($colonSpan);
     $div2.append($span2);
     $div2.append("<br/>");
     $div2.append("<br/>");
     $li.append($div3);
     var $ul = $("ul.comment-list");
-    $ul.prepend($li);
+    $ul.append($li);
 }
 
 //初始加载评论
@@ -107,18 +113,25 @@ $(function () {
 //删除评论
 $(function () {
     $(document).delegate(".del", "click", function () {
-        var commentId = $(this).attr("commentid");
         var $this = $(this);
+        var commentId = $this.attr("commentid");
+        var url = '/blog/comment/' + $("#username").val() + '/remove/' +$("#blog-id").val()+"/"+ commentId;
+        if ($this.hasClass("reply-del")) {
+            var parentCommentId=$this.parent(".opt-box").find("a.reply").attr("commentid");
+            url = $("#path").val() + "/replyComment/" + $("#username").val() + "/remove/" +parentCommentId+'/'+ commentId;
+        }
         $.ajax({
-            url: '/blog/comment/' + $("#username").val() + '/remove/' + $("#blog-id").val() + "/" + commentId,
-            method: 'delete',
-            success: function () {
-                $this.parents(".comment-line").remove();
-            }
-        });
-
+                url: url,
+                method: 'delete',
+                success: function () {
+                    $this.closest("li.comment-line").remove();
+                }
+            });
+        //触发一下所有的收起回复按钮
+        $(".retract").trigger('click');
     });
-});
+})
+;
 //删除blog
 $(function () {
     $("#delBlog").on('click', function () {
@@ -139,23 +152,23 @@ $(function () {
 //评论移入显示删除,回复按钮
 $(function () {
     $(document).delegate('li.comment-line', 'mousemove', function () {
-        $(this).find(".del").removeClass('hid');
-        $(this).find(".reply").removeClass('hid');
-        $(this).find(".see-reply").removeClass('hid');
+        $(this).find(">.right-box .del").removeClass('hid');
+        $(this).find(">.right-box .reply").removeClass('hid');
+        $(this).find(">.right-box .see-reply").removeClass('hid');
     });
     $(document).delegate('li.comment-line', 'mouseout', function () {
-        $(this).find('.del').addClass('hid');
-        $(this).find('.reply').addClass('hid');
-        $(this).find(".see-reply").addClass('hid');
+        $(this).find('>.right-box .del').addClass('hid');
+        $(this).find('>.right-box .reply').addClass('hid');
+        $(this).find(">.right-box .see-reply").addClass('hid');
+
     });
 });
 //添加回复功能
 $(function () {
     $(document).delegate('.reply', 'click', function () {
         var $textArea = $(".comment-box textarea");
-        var username = $(this).parents("li").find('.name').text();
-        username = username.substring(0, username.indexOf(':'));
-        $(this).parents("li").addClass('reply-li');
+        var username = $(this).closest("li").find('>.info-box .name').text();
+        $(this).closest("li").addClass('reply-li');
         $textArea.prop('placeholder', '回复' + username + ":");
         $textArea.focus();
     });
@@ -164,12 +177,77 @@ $(function () {
 $(function () {
     $(document).delegate(".see-reply", "click", function () {
         var commentId = $(this).attr("commentid");
+        var $pLi = $(this).parents("li");
+        $pLi.find(".reply-comment-div").remove();
+        var $this = $(this);
         $.ajax({
             url: $("#path").val() + "/replyComment/" + commentId,
             method: 'get',
             success: function (data) {
-                console.log(data);
+                var $bDiv = $("<div class='reply-comment-div'></div>");
+                var $ul = $("<ul class='reply-comment-ul'></ul>");
+                $.each(data, function (index, value) {
+                    var $li = $("<li class='reply-comment-li comment-line'></li>");
+                    var $div = $("<div class='left-box'></div>");
+                    var $a = $("<a href='javascript:;'></a>");
+                    var $img = $("<img class='small-image'/>");
+                    $img.prop('src', $("#path").val() + "/" + value.image);
+                    $a.append($img);
+                    $div.append($a);
+                    $li.append($div);
+                    $ul.append($li);
+                    var $div1 = $("<div class='info-box left-box'></div>");
+                    var $a1 = $("<a href='javascript:;'></a>");
+                    var $span1 = $("<span class='name'></span>");
+                    $span1.text(value.from);
+                    var $colonSpan = $("<span style='color: lightblue'></span>");
+                    $colonSpan.text(":回复" + value.to + ":");
+                    var $span2 = $("<span class='comment'></span>");
+                    $span2.text(value.content);
+                    $a1.append($span1);
+                    $div1.append($a1);
+                    $div1.append($colonSpan);
+                    $div1.append($span2);
+                    $div1.append($("<br/>"));
+                    $div1.append($("<br/>"));
+                    $li.append($div1);
+                    var $div2 = $("<div class='right-box'></div>");
+                    var $dateSpan = $("<span class='date'></span>");
+                    $dateSpan.text(value.cdate);
+                    var $optSpan = $("<span class='opt-box'></span>");
+                    var $aReply = $("<a class='reply hid' href='javascript:;'></a>");
+                    $aReply.attr('commentid', value.parentCommentId);
+                    $aReply.text("回复");
+                    var $aDel = $("<a class='del hid reply-del' href='javascript:;'></a>");
+                    $aDel.attr('commentid', value.id);
+                    $aDel.text("删除");
+                    $optSpan.append($aReply);
+                    if (value.from == $("#username").val()) {
+                        $optSpan.append($aDel);
+                    }
+                    $div2.append($dateSpan);
+                    $div2.append($optSpan);
+                    $li.append($div2);
+                });
+                $bDiv.append($ul);
+                $bDiv.append($("<br/>"));
+                $bDiv.append($("<br/>"));
+                $pLi.find(".right-box").before($bDiv);
+                //将查看回复变为收起回复
+                $this.text("收起回复");
+                $this.removeClass("see-reply");
+                $this.addClass("retract");
             }
         })
     });
+});
+//收起回复功能
+$(function () {
+    $(document).delegate(".retract", "click", function () {
+        var $this = $(this);
+        $this.parents("li.comment-line").find("div.reply-comment-div").remove();
+        $this.text("查看回复");
+        $this.removeClass("retract");
+        $this.addClass("see-reply");
+    })
 });

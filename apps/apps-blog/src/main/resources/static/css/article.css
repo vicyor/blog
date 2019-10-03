@@ -101,3 +101,11 @@
 .hid{
     display: none;
 }
+.reply-comment-li{
+    display: inline-block;
+    width: 80%;
+    margin-left: 100px;
+}
+.reply-comment-div{
+    margin-top: 40px;
+}

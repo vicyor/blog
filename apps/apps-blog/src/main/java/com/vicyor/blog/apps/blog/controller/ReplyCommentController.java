@@ -7,6 +7,9 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.query.*;
@@ -34,6 +37,7 @@ public class ReplyCommentController {
     @LogAnnotation("创建回复博客")
     @PostMapping("/{username}/create")
     @ResponseBody
+    @CacheEvict(cacheNames = "replyComments", key = "#replyComment.parentCommentId")
     public void createReplyComment(@PathVariable("username") String username, @RequestBody ReplyComment replyComment) {
         replyComment.setCdate(new Date());
         replyComment.setImage(UserUtil.blogUser().getImageUri());
@@ -43,15 +47,26 @@ public class ReplyCommentController {
 
     @LogAnnotation("根据commentId获取replyComment")
     @GetMapping("/{parentCommentId}")
+    @Cacheable(cacheNames = "replyComments", key = "#parentCommentId")
     @ResponseBody
     public List<ReplyComment> getReplyComment(
             @PathVariable("parentCommentId") String parentCommentId
     ) {
         TermQueryBuilder builder = QueryBuilders.termQuery("parentCommentId", parentCommentId);
         SearchQuery query = new NativeSearchQuery(builder);
+        query.addSort(Sort.by(Sort.Direction.ASC, "cdate"));
         List<ReplyComment> replyComments = template.queryForList(query, ReplyComment.class);
         return replyComments;
     }
 
-
+    @LogAnnotation("根据commentId删除replyComment")
+    @DeleteMapping("/{username}/remove/{parentCommentId}/{commentId}")
+    @ResponseBody
+    @CacheEvict(cacheNames = "replyComments", key = "#parentCommentId")
+    public void deleteCommentId(
+            @PathVariable("commentId") String commentId,
+            @PathVariable("parentCommentId") String parentCommentId
+    ) {
+        template.delete("reply-comment", "reply-comment", commentId);
+    }
 }

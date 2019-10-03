@@ -5,11 +5,13 @@ import com.vicyor.blog.apps.blog.log.LogAnnotation;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import com.vicyor.blog.apps.blog.repository.CommentRepository;
 import com.vicyor.blog.apps.blog.util.UserUtil;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.DeleteQuery;
 import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +56,7 @@ public class CommentController {
     @Cacheable(cacheNames = "comments", key = "#blogId")
     public List<Comment> listComments(@PathVariable("blogId") String blogId
     ) {
-        List<Comment> comments = repository.findCommentsByBlogIdEquals(blogId);
+        List<Comment> comments = repository.findCommentsByBlogIdEqualsOrderByCdate(blogId);
         return comments;
     }
 
@@ -63,10 +65,16 @@ public class CommentController {
     @LogAnnotation("删除个人评论")
     @CacheEvict(cacheNames = "comments", key = "#blogId")
     public void deleteComment(
+            @PathVariable("blogId") String blogId,
             @PathVariable("username") String username,
-            @PathVariable("commentId") String commentId,
-            @PathVariable("blogId") String blogId
+            @PathVariable("commentId") String commentId
     ) {
         repository.deleteById(commentId);
+        //刪除子评论
+        DeleteQuery deleteQuery = new DeleteQuery();
+        deleteQuery.setQuery(QueryBuilders.termQuery("parentCommentId", commentId));
+        deleteQuery.setIndex("reply-comment");
+        deleteQuery.setType("reply-comment");
+        template.delete(deleteQuery);
     }
 }
