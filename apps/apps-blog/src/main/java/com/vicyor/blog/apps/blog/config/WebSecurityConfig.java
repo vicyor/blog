@@ -29,6 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //rbac 博客,注解权限,自定义判定方式,会根据用户判断
                 .antMatchers("/blog/blogs/**/update/**","/blog/blogs/**/save/**","/blog/blogs/**/delete/**","/blog/comment/**/remove/**")
                 .access("@customPermission.hasPermission(request,authentication)")
+                //管理员权限才能对es进行操作
+                .antMatchers("/blog/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

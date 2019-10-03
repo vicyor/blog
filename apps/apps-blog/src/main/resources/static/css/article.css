@@ -84,6 +84,15 @@
     color: #79a5e5 !important;
     margin: 0 10px;
 }
+.see-reply{
+    margin: 0;
+    min-width: auto;
+    font-size: 12px;
+    height: 20px;
+    line-height: 20px;
+    color: #79a5e5 !important;
+    margin: 0 10px;
+}
 .otherlink ul li{
     border: 1px solid #090;
     background-color: #F0F0F0;

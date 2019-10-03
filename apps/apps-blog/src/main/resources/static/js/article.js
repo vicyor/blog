@@ -20,16 +20,30 @@ $(function () {
                 }
             });
         } else if (comment) {
+            var $replyLi = $(".reply-li");
             //对其它人的评论的回复
             var toRegex = /回复(\w+):/;
             //第一个捕获组()
             var to = placeholder.match(toRegex)[1];
-            var from =$("#username").val();
-            /**
-             * TODO
-             * 1.es的replayComment index和type没创建,mapping页没创建
-             * 2.前端的动态效果要添加查看回复的功能
-              */
+            var from = $("#username").val();
+            var parentCommentId = $replyLi.find(".right-box .opt-box>a.reply").attr('commentid');
+            $.ajax({
+                url: $("#path").val() + '/replyComment/' + from + '/create',
+                method: 'post',
+                data: JSON.stringify({
+                    content: comment,
+                    from: from,
+                    to: to,
+                    parentCommentId: parentCommentId
+                }),
+                contentType: "application/json"
+                , success: function () {
+                    $textarea.prop("placeholder","想对作者说点什么");
+                    $textarea.val("");
+                    $replyLi.removeClass("reply-li");
+                }
+            });
+
         }
     })
 });
@@ -55,9 +69,12 @@ function generateCommentLi(comment) {
     $a1.attr("commentid", comment.id);
     var $a3 = $("<a class='reply hid' href='javascript:;'>回复</a>");
     $a3.attr('commentid', comment.id);
+    var $a4 = $("<a class='see-reply hid' href='javascript:;'>查看回复</a>");
+    $a4.attr('commentid', comment.id);
     if (uname == comment.username)
         $span4.append($a1);
     $span4.append($a3);
+    $span4.append($a4);
     $div3.append($span3);
     $div3.append($span4);
     $span2.text(comment.content);
@@ -124,10 +141,12 @@ $(function () {
     $(document).delegate('li.comment-line', 'mousemove', function () {
         $(this).find(".del").removeClass('hid');
         $(this).find(".reply").removeClass('hid');
+        $(this).find(".see-reply").removeClass('hid');
     });
     $(document).delegate('li.comment-line', 'mouseout', function () {
         $(this).find('.del').addClass('hid');
         $(this).find('.reply').addClass('hid');
+        $(this).find(".see-reply").addClass('hid');
     });
 });
 //添加回复功能
@@ -136,7 +155,21 @@ $(function () {
         var $textArea = $(".comment-box textarea");
         var username = $(this).parents("li").find('.name').text();
         username = username.substring(0, username.indexOf(':'));
+        $(this).parents("li").addClass('reply-li');
         $textArea.prop('placeholder', '回复' + username + ":");
         $textArea.focus();
+    });
+});
+//查看回复功能
+$(function () {
+    $(document).delegate(".see-reply", "click", function () {
+        var commentId = $(this).attr("commentid");
+        $.ajax({
+            url: $("#path").val() + "/replyComment/" + commentId,
+            method: 'get',
+            success: function (data) {
+                console.log(data);
+            }
+        })
     });
 });

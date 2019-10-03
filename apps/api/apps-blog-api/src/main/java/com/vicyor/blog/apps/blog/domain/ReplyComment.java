@@ -18,7 +18,7 @@ import java.util.Date;
  **/
 @Data
 
-@Document(indexName = "replyComment", type = "replyComment")
+@Document(indexName = "reply-comment", type = "reply-comment")
 public class ReplyComment implements Serializable {
     private static final long serialVersionUID = -706588845757984703L;
     @Id
@@ -33,6 +33,9 @@ public class ReplyComment implements Serializable {
     //回复谁
     @Field(type = FieldType.Keyword)
     private String to;
+    //最外层评论
+    @Field(type = FieldType.Keyword)
+    private String parentCommentId;
     @Field(type = FieldType.Date,
             format = DateFormat.custom,
             pattern = "yyyy-MM-dd hh:mm:ss"

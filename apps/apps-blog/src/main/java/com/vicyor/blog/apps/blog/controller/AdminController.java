@@ -10,7 +10,9 @@ import org.elasticsearch.search.internal.SearchContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.swing.*;
@@ -30,13 +32,21 @@ public class AdminController {
     @Autowired
     CommentRepository commentRepository;
 
-    @RequestMapping("/delete")
+    @DeleteMapping("/delete")
     public String deleteAll() {
         repository.deleteAll();
         commentRepository.deleteAll();
         elasticsearchTemplate.deleteIndex("blog");
         elasticsearchTemplate.deleteIndex("comment");
+        elasticsearchTemplate.deleteIndex("replyComment");
         return "删除成功";
+    }
+
+
+    @RequestMapping("/create/blog")
+    public String createBlog() {
+        elasticsearchTemplate.createIndex("blog");
+        return "创建blog的index成功";
     }
 
     @RequestMapping("/mapping/blog")
@@ -82,19 +92,13 @@ public class AdminController {
                 .endObject();
 
         elasticsearchTemplate.putMapping("blog", "blog", builder);
-        return "mapping成功";
-    }
-
-    @RequestMapping("/create/blog")
-    public String index() {
-        elasticsearchTemplate.createIndex("blog");
-        return "创建index成功";
+        return "blog的mapping成功";
     }
 
     @RequestMapping("/create/comment")
     public String indexComment() {
         elasticsearchTemplate.createIndex("comment");
-        return "创建index成功";
+        return "创建comment的index成功";
     }
 
     @RequestMapping("/mapping/comment")
@@ -127,4 +131,53 @@ public class AdminController {
         elasticsearchTemplate.putMapping("comment", "comment", builder);
         return "mapping成功";
     }
+
+    @RequestMapping("/create/reply-comment")
+    @ResponseBody
+    public String createReplyComment() {
+        elasticsearchTemplate.createIndex("reply-comment");
+        return "创建reply-comment成功";
+    }
+
+    @RequestMapping("/mapping/reply-comment")
+    @ResponseBody
+    public String mappingReplyComment() throws Exception {
+        XContentBuilder builder = XContentFactory.jsonBuilder()
+                .startObject()
+                    .startObject("properties")
+                        .startObject("id")
+                            .field("type", "text")
+                        .endObject()
+                        .startObject("content")
+                            .field("type", "text")
+                            .field("analyzer", "ik_max_word")
+                        .endObject()
+                        .startObject("from")
+                            .field("type", "keyword")
+                        .endObject()
+                        .startObject("to")
+                            .field("type", "keyword")
+                        .endObject()
+                        .startObject("toCommentId")
+                            .field("type","keyword")
+                        .endObject()
+                        .startObject("parentCommentId")
+                            .field("type","keyword")
+                        .endObject()
+                        .startObject("cdate")
+                            .field("type", "date")
+                            .field("format", "yyyy-MM-dd HH:mm:ss")
+                        .endObject()
+                        .startObject("blogId")
+                            .field("type", "text")
+                        .endObject()
+                        .startObject("image")
+                            .field("type", "text")
+                        .endObject()
+                    .endObject()
+                .endObject();
+        elasticsearchTemplate.putMapping("reply-comment", "reply-comment", builder);
+        return "mapping成功";
+    }
 }
+
