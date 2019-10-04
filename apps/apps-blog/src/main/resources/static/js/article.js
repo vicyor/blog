@@ -130,8 +130,7 @@ $(function () {
         //触发一下所有的收起回复按钮
         $(".retract").trigger('click');
     });
-})
-;
+});
 //删除blog
 $(function () {
     $("#delBlog").on('click', function () {

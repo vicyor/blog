@@ -4,6 +4,7 @@ import com.vicyor.blog.apps.blog.domain.Comment;
 import com.vicyor.blog.apps.blog.log.LogAnnotation;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import com.vicyor.blog.apps.blog.repository.CommentRepository;
+import com.vicyor.blog.apps.blog.service.CommentService;
 import com.vicyor.blog.apps.blog.util.UserUtil;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,7 @@ import java.util.Map;
 @RequestMapping("/comment")
 public class CommentController {
     @Autowired
-    ElasticsearchTemplate template;
-    @Autowired
-    CommentRepository repository;
+    CommentService commentService;
 
     @ResponseBody
     @PostMapping("/{username}/{blogId}/save")
@@ -46,7 +45,7 @@ public class CommentController {
         BlogUser blogUser = UserUtil.blogUser();
         Comment comment = new Comment(content, username, new Date(), blogId, blogUser.getImageUri());
         //会嵌入主键
-        comment = repository.index(comment);
+        comment = commentService.addComment(comment);
         return comment;
     }
 
@@ -56,7 +55,7 @@ public class CommentController {
     @Cacheable(cacheNames = "comments", key = "#blogId")
     public List<Comment> listComments(@PathVariable("blogId") String blogId
     ) {
-        List<Comment> comments = repository.findCommentsByBlogIdEqualsOrderByCdate(blogId);
+        List<Comment> comments = commentService.listComments(blogId);
         return comments;
     }
 
@@ -69,12 +68,6 @@ public class CommentController {
             @PathVariable("username") String username,
             @PathVariable("commentId") String commentId
     ) {
-        repository.deleteById(commentId);
-        //刪除子评论
-        DeleteQuery deleteQuery = new DeleteQuery();
-        deleteQuery.setQuery(QueryBuilders.termQuery("parentCommentId", commentId));
-        deleteQuery.setIndex("reply-comment");
-        deleteQuery.setType("reply-comment");
-        template.delete(deleteQuery);
+        commentService.deleteComment(commentId);
     }
 }

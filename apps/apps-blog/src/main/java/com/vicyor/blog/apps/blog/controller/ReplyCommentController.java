@@ -2,6 +2,7 @@ package com.vicyor.blog.apps.blog.controller;
 
 import com.vicyor.blog.apps.blog.domain.ReplyComment;
 import com.vicyor.blog.apps.blog.log.LogAnnotation;
+import com.vicyor.blog.apps.blog.service.ReplyCommentService;
 import com.vicyor.blog.apps.blog.util.UserUtil;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
@@ -29,7 +30,7 @@ import java.util.Map;
 @RequestMapping("/replyComment")
 public class ReplyCommentController {
     @Autowired
-    private ElasticsearchTemplate template;
+    ReplyCommentService service;
 
     /**
      * 创建回复博客
@@ -41,21 +42,17 @@ public class ReplyCommentController {
     public void createReplyComment(@PathVariable("username") String username, @RequestBody ReplyComment replyComment) {
         replyComment.setCdate(new Date());
         replyComment.setImage(UserUtil.blogUser().getImageUri());
-        IndexQuery indexQuery = new IndexQueryBuilder().withIndexName("reply-comment").withType("reply-comment").withObject(replyComment).build();
-        String documentId = template.index(indexQuery);
+        service.createReplyComment(replyComment);
     }
 
-    @LogAnnotation("根据commentId获取replyComment")
+    @LogAnnotation("根据parentCommentId获取replyComment")
     @GetMapping("/{parentCommentId}")
     @Cacheable(cacheNames = "replyComments", key = "#parentCommentId")
     @ResponseBody
     public List<ReplyComment> getReplyComment(
             @PathVariable("parentCommentId") String parentCommentId
     ) {
-        TermQueryBuilder builder = QueryBuilders.termQuery("parentCommentId", parentCommentId);
-        SearchQuery query = new NativeSearchQuery(builder);
-        query.addSort(Sort.by(Sort.Direction.ASC, "cdate"));
-        List<ReplyComment> replyComments = template.queryForList(query, ReplyComment.class);
+        List<ReplyComment> replyComments = service.getCommentsByParentCommentId(parentCommentId);
         return replyComments;
     }
 
@@ -67,6 +64,6 @@ public class ReplyCommentController {
             @PathVariable("commentId") String commentId,
             @PathVariable("parentCommentId") String parentCommentId
     ) {
-        template.delete("reply-comment", "reply-comment", commentId);
+        service.deletCommentsByCommentId(commentId);
     }
 }

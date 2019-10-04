@@ -4,6 +4,9 @@ import com.vicyor.blog.apps.blog.domain.EsBlog;
 import com.vicyor.blog.apps.blog.log.LogAnnotation;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import com.vicyor.blog.apps.blog.repository.EsBlogRepository;
+import com.vicyor.blog.apps.blog.service.BlogService;
+import com.vicyor.blog.apps.blog.service.CommentService;
+import com.vicyor.blog.apps.blog.service.ReplyCommentService;
 import com.vicyor.blog.apps.blog.service.UserService;
 import com.vicyor.blog.apps.blog.util.DateUtil;
 import com.vicyor.blog.apps.blog.util.TransformUtil;
@@ -42,11 +45,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Controller
 public class BlogController {
     @Autowired
-    EsBlogRepository esBlogRepository;
-    @Autowired
-    ElasticsearchTemplate elasticsearchTemplate;
-    @Autowired
     UserService userService;
+    @Autowired
+    BlogService blogService;
+    @Autowired
+    CommentService commentService;
+    @Autowired
+    ReplyCommentService replyCommentService;
 
     /**
      * 根据关键字获取blog
@@ -64,7 +69,7 @@ public class BlogController {
         GenerateViewObject viewObject = new GenerateViewObject();
         List blogs = null;
         long length = 0;
-        Page<EsBlog> blogPage = esBlogRepository.findDistinctEsBlogByContentContainingOrTitleContainingOrTagContainingOrderByUdateDesc(keyword, keyword, keyword, PageRequest.of(page, pageSize));
+        Page<EsBlog> blogPage = blogService.listBlogs(keyword, keyword, keyword, PageRequest.of(page, pageSize));
         length = blogPage.getTotalElements();
         blogs = blogPage.getContent();
         viewObject.put("blogs", blogs);
@@ -80,13 +85,7 @@ public class BlogController {
     @GetMapping("/rank/{field}")
     @Cacheable(cacheNames = "blogs", key = "#field")
     public List<EsBlog> listBlogsBySort(@PathVariable("field") String field) {
-        Sort sort = new Sort(Sort.Direction.DESC, field);
-        SearchQuery query = new NativeSearchQuery(QueryBuilders.boolQuery());
-        query.addSort(sort);
-        query.addIndices("blog");
-        query.addTypes("blog");
-        query.setPageable(PageRequest.of(0, 10));
-        List<EsBlog> blogs = elasticsearchTemplate.queryForList(query, EsBlog.class);
+        List<EsBlog> blogs = blogService.listBlogsBySort(field);
         return blogs;
     }
 
@@ -103,20 +102,13 @@ public class BlogController {
             @RequestParam(value = "pagesize", defaultValue = "10", required = false) int pagesize
     ) {
         GenerateViewObject viewObject = new GenerateViewObject();
-        //term查询
-        MatchQueryBuilder matchQuery = QueryBuilders.matchQuery("tag", tag);
-        SearchQuery searchQuery = new NativeSearchQuery(matchQuery);
-        searchQuery.setPageable(PageRequest.of(page, pagesize));
-        searchQuery.addIndices("blog");
-        searchQuery.addTypes("blog");
-        AggregatedPage<EsBlog> aggregatedPage = elasticsearchTemplate.queryForPage(searchQuery, EsBlog.class);
-        List result = new ArrayList();
+        AggregatedPage<EsBlog> aggregatedPage = blogService.listBlogsByTag(tag, page, pagesize);
         viewObject.put("length", aggregatedPage.getTotalElements());
         viewObject.put("blogs", aggregatedPage.getContent());
         return viewObject;
     }
 
-    @LogAnnotation("前往浏览blog页")
+    @LogAnnotation("前往blog浏览页")
     @GetMapping("/{author}/article/{blogId}")
     public String article(HttpServletRequest request,
                           @PathVariable("blogId") String blogId,
@@ -133,39 +125,21 @@ public class BlogController {
     @LogAnnotation("ajax获取博客")
     @ResponseBody
     @GetMapping("/{author}/article/get/{blogId}")
-    @Cacheable(cacheNames = "blog",key = "#blogId")
+    @Cacheable(cacheNames = "blog", key = "#blogId")
     public EsBlog getArticle(
             @PathVariable("author") String author,
             @PathVariable("blogId") String blogId
     ) {
-        GetQuery getQuery = new GetQuery();
-        getQuery.setId(blogId);
-        EsBlog blog = elasticsearchTemplate.queryForObject(getQuery, EsBlog.class);
+        EsBlog blog = blogService.getArticle(blogId);
         return blog;
     }
 
     @PostMapping("/count/{id}")
     @ResponseBody
     @LogAnnotation("更新博客浏览量")
-    public  void addVisterCount(@PathVariable("id") String id
+    public void addVisterCount(@PathVariable("id") String id
     ) throws Exception {
-        GetQuery getQuery = new GetQuery();
-        getQuery.setId(id);
-        EsBlog blog = elasticsearchTemplate.queryForObject(getQuery, EsBlog.class);
-        UpdateQuery query = new UpdateQueryBuilder()
-                .withIndexName("blog")
-                .withType("blog")
-                .withId(id)
-                .build();
-        UpdateRequest updateRequest = new UpdateRequest();
-        updateRequest.doc(XContentFactory
-                .jsonBuilder()
-                .startObject()
-                .field("count", blog.getCount() + 1)
-                .endObject()
-        );
-        query.setUpdateRequest(updateRequest);
-        elasticsearchTemplate.update(query);
+        blogService.addVisterCount(id);
     }
 
     @LogAnnotation("前往博客更新页")
@@ -175,10 +149,7 @@ public class BlogController {
             HttpServletRequest request,
             @PathVariable("author") String author
     ) throws Exception {
-        IdsQueryBuilder queryBuilder = QueryBuilders.idsQuery().addIds(id);
-        GetQuery query = new GetQuery();
-        query.setId(id);
-        EsBlog blog = elasticsearchTemplate.queryForObject(query, EsBlog.class);
+        EsBlog blog = blogService.getArticle(id);
         request.setAttribute("blog", TransformUtil.transferObjToMap(blog));
         return "update";
     }
@@ -186,48 +157,15 @@ public class BlogController {
     @LogAnnotation("保存博客的修改内容")
     @PostMapping("/{author}/save/{id}")
     @CacheEvict(cacheNames = "blogs", allEntries = true)
-    @CachePut(cacheNames = "blog",key = "#id")
+    @CachePut(cacheNames = "blog", key = "#id")
     @ResponseBody
     public void updateArticle(@RequestParam(value = "content", required = false) String content,
                               @RequestParam(value = "title", required = false) String title,
                               @RequestParam(value = "summary", required = false) String summary,
                               @PathVariable(value = "id", required = true) String id,
-                              HttpServletRequest request,
                               @PathVariable("author") String author
     ) throws Exception {
-
-        UpdateRequest updateRequest = new UpdateRequest();
-        XContentBuilder xContentBuilder = XContentFactory.jsonBuilder().startObject();
-        Optional.ofNullable(content).ifPresent(con -> {
-            try {
-                xContentBuilder.field("content", con);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        Optional.ofNullable(title).ifPresent(tit -> {
-            try {
-                xContentBuilder.field("title", tit);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        Optional.ofNullable(summary).ifPresent(sum -> {
-            try {
-                xContentBuilder.field("summary", sum);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        xContentBuilder.field("udate", DateUtil.formatDate(new Date()));
-        xContentBuilder.endObject();
-        updateRequest.doc(xContentBuilder);
-        UpdateQuery query = new UpdateQuery();
-        query.setUpdateRequest(updateRequest);
-        query.setId(id);
-        query.setIndexName("blog");
-        query.setType("blog");
-        elasticsearchTemplate.update(query);
+        blogService.updateBlog(content, title, summary, id, author);
     }
 
     @LogAnnotation("前往博客新建页")
@@ -252,7 +190,7 @@ public class BlogController {
         String tag = requestParams.get("tag");
         //blog图片为用户头像
         EsBlog blog = new EsBlog(title, tag, content, new Date(), new Date(), 1, UserUtil.blogUser().getImageUri(), summary, username);
-        blog = esBlogRepository.save(blog);
+        blog = blogService.saveBlog(blog);
         return blog.getId();
     }
 
@@ -264,10 +202,9 @@ public class BlogController {
     public void deleteBlog(@PathVariable("id") String id,
                            @PathVariable("author") String author
     ) {
-        DeleteQuery query = new DeleteQuery();
-        query.setIndex("blog");
-        query.setType("blog");
-        query.setQuery(QueryBuilders.idsQuery().addIds(id));
-        elasticsearchTemplate.delete(query);
+        //删除博客
+        blogService.deleteBlog(id);
+        //删除评论
+
     }
 }

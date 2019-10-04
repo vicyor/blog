@@ -7,7 +7,6 @@
     <input type="hidden" th:value="${session.user.username}" id="username">
     <input type="hidden" th:value="${path}" id="path">
     <input type="hidden" th:value="${author}" id="author">
-    <input type="hidden" id="type">
     <h1 class="t_nav">
         <span id="title"></span>
         <a th:href="${path+'/'}" class="n1">网站首页</a>
@@ -57,7 +56,7 @@
         //相关文章
         $(function () {
             $.ajax({
-                url: '/blog/blogs/tag?tag=' + $("#tag").val(),
+                url: '/blog/blogs/tag?tag=' + $("#a-tag").text(),
                 method: 'get',
                 success: function (data) {
                     var blogs = data.params.blogs;

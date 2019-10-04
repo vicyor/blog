@@ -38,7 +38,7 @@ public class ReplyComment implements Serializable {
     private String parentCommentId;
     @Field(type = FieldType.Date,
             format = DateFormat.custom,
-            pattern = "yyyy-MM-dd hh:mm:ss"
+            pattern = "yyyy-MM-dd HH:mm:ss"
     )
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     private Date cdate;
