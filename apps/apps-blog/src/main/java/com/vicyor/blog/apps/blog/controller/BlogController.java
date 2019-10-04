@@ -107,6 +107,8 @@ public class BlogController {
         //sidebar about-author
         BlogUser blogAuthor = userService.findBlogUser(author);
         request.setAttribute("blogAuthor", blogAuthor);
+        EsBlog article = blogService.getArticle(blogId);
+        request.setAttribute("tag",article.getTag());
         return "article";
     }
 
