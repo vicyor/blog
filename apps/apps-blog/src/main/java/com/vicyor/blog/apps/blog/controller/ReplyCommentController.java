@@ -4,23 +4,14 @@ import com.vicyor.blog.apps.blog.domain.ReplyComment;
 import com.vicyor.blog.apps.blog.log.LogAnnotation;
 import com.vicyor.blog.apps.blog.service.ReplyCommentService;
 import com.vicyor.blog.apps.blog.util.UserUtil;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.TermQueryBuilder;
-import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.ResultsExtractor;
-import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 作者:姚克威

@@ -3,17 +3,11 @@ package com.vicyor.blog.apps.blog.controller;
 import com.vicyor.blog.apps.blog.domain.Comment;
 import com.vicyor.blog.apps.blog.log.LogAnnotation;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
-import com.vicyor.blog.apps.blog.repository.CommentRepository;
 import com.vicyor.blog.apps.blog.service.CommentService;
 import com.vicyor.blog.apps.blog.util.UserUtil;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.query.DeleteQuery;
-import org.springframework.data.elasticsearch.core.query.IndexQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

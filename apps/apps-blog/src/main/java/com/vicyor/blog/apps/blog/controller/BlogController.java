@@ -3,39 +3,27 @@ package com.vicyor.blog.apps.blog.controller;
 import com.vicyor.blog.apps.blog.domain.EsBlog;
 import com.vicyor.blog.apps.blog.log.LogAnnotation;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
-import com.vicyor.blog.apps.blog.repository.EsBlogRepository;
 import com.vicyor.blog.apps.blog.service.BlogService;
 import com.vicyor.blog.apps.blog.service.CommentService;
 import com.vicyor.blog.apps.blog.service.ReplyCommentService;
 import com.vicyor.blog.apps.blog.service.UserService;
-import com.vicyor.blog.apps.blog.util.DateUtil;
 import com.vicyor.blog.apps.blog.util.TransformUtil;
 import com.vicyor.blog.apps.blog.util.UserUtil;
 import com.vicyor.blog.apps.blog.vo.GenerateViewObject;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.index.query.IdsQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
-import org.springframework.data.elasticsearch.core.query.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 作者:姚克威
