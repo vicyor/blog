@@ -1,23 +1,6 @@
 spring:
-  data:
-    elasticsearch:
-      cluster-nodes: 106.13.74.154:9300
-      properties:
-        transport:
-          tcp:
-            connect_timeout: 60s
-      cluster-name: docker-cluster
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: vicyor123456
-    url: jdbc:mysql://106.13.74.154:3306/blog
   thymeleaf:
     cache: false
-mybatis:
-  mapper-locations: classpath:mapper/**.xml
-  configuration:
-    map-underscore-to-camel-case: true
 security:
   oauth2:
     client:
