@@ -85,6 +85,7 @@ $(function () {
         url: "/blog/blogs/rank/count",
         method: 'get',
         success: function (blogs) {
+            console.log(blogs);
             parseCountRank(blogs);
         }
     })

@@ -1,6 +1,7 @@
 package com.vicyor.blog.apps.blog.controller;
 
 import com.vicyor.blog.apps.blog.domain.EsBlog;
+import com.vicyor.blog.apps.blog.domain.Tag;
 import com.vicyor.blog.apps.blog.log.LogAnnotation;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import com.vicyor.blog.apps.blog.service.BlogService;
@@ -54,26 +55,19 @@ public class BlogController {
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "pagesize", required = false, defaultValue = "10") int pageSize
     ) {
-        GenerateViewObject viewObject = new GenerateViewObject();
-        List blogs = null;
-        long length = 0;
-        Page<EsBlog> blogPage = blogService.listBlogs(keyword, keyword, keyword, PageRequest.of(page, pageSize));
-        length = blogPage.getTotalElements();
-        blogs = blogPage.getContent();
-        viewObject.put("blogs", blogs);
-        viewObject.put("length", length);
-        return viewObject;
+        GenerateViewObject view = blogService.listBlogs(keyword, keyword, keyword, PageRequest.of(page, pageSize));
+        return view;
     }
 
     /**
-     * 根据字段排行获取博客
+     * 获取浏览量前10的blog
      */
     @ResponseBody
     @LogAnnotation("根据博客浏览量获取排名前10的博客")
     @GetMapping("/rank/{field}")
     @Cacheable(cacheNames = "blogs", key = "#field")
     public List<EsBlog> listBlogsBySort(@PathVariable("field") String field) {
-        List<EsBlog> blogs = blogService.listBlogsBySort(field);
+        List<EsBlog> blogs = blogService.listTop10BlogsByOrderByCountDesc();
         return blogs;
     }
 
@@ -90,9 +84,7 @@ public class BlogController {
             @RequestParam(value = "pagesize", defaultValue = "10", required = false) int pagesize
     ) {
         GenerateViewObject viewObject = new GenerateViewObject();
-        AggregatedPage<EsBlog> aggregatedPage = blogService.listBlogsByTag(tag, page, pagesize);
-        viewObject.put("length", aggregatedPage.getTotalElements());
-        viewObject.put("blogs", aggregatedPage.getContent());
+        viewObject = blogService.listBlogsByTag(tag, page, pagesize);
         return viewObject;
     }
 
@@ -106,9 +98,8 @@ public class BlogController {
         request.setAttribute("author", author);
         //sidebar about-author
         BlogUser blogAuthor = userService.findBlogUser(author);
-        request.setAttribute("blogAuthor", blogAuthor);
         EsBlog article = blogService.getArticle(blogId);
-        request.setAttribute("tag",article.getTag());
+        request.setAttribute("tag", article.getTag().getTag());
         return "article";
     }
 
@@ -146,8 +137,7 @@ public class BlogController {
 
     @LogAnnotation("保存博客的修改内容")
     @PostMapping("/{author}/save/{id}")
-    @CacheEvict(cacheNames = "blogs", allEntries = true)
-    @CachePut(cacheNames = "blog", key = "#id")
+    @CacheEvict(cacheNames = "blog", key = "#id")
     @ResponseBody
     public void updateArticle(@RequestParam(value = "content", required = false) String content,
                               @RequestParam(value = "title", required = false) String title,
@@ -177,9 +167,11 @@ public class BlogController {
         String title = requestParams.get("title");
         String content = requestParams.get("content");
         String summary = requestParams.get("summary");
-        String tag = requestParams.get("tag");
+        String tagName = requestParams.get("tag");
+        Tag tag = new Tag(tagName);
         //blog图片为用户头像
         EsBlog blog = new EsBlog(title, tag, content, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 1, UserUtil.blogUser().getImageUri(), summary, username);
+        blog.setTagId(tag.getId());
         blog = blogService.saveBlog(blog);
         return blog.getId();
     }
@@ -194,7 +186,5 @@ public class BlogController {
     ) {
         //删除博客
         blogService.deleteBlog(id);
-        //删除评论
-
     }
 }

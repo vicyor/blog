@@ -1,18 +1,17 @@
 package com.vicyor.blog.apps.blog.service;
 
 import com.vicyor.blog.apps.blog.domain.EsBlog;
-import org.springframework.data.domain.Page;
+import com.vicyor.blog.apps.blog.vo.GenerateViewObject;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 
 import java.util.List;
 
 public interface BlogService {
-    Page<EsBlog> listBlogs(String content, String title, String tag, Pageable pageable);
+    GenerateViewObject listBlogs(String content, String title, String tag, Pageable pageable);
 
-    List<EsBlog> listBlogsBySort(String field);
+    List<EsBlog> listTop10BlogsByOrderByCountDesc();
 
-    AggregatedPage<EsBlog> listBlogsByTag(String tag, int page, int pageSize);
+    GenerateViewObject listBlogsByTag(String tag, int page, int pageSize);
 
     EsBlog getArticle(String blogId);
 

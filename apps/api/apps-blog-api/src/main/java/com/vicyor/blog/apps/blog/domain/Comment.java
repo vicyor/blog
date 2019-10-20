@@ -8,8 +8,13 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * 作者:姚克威
@@ -36,7 +41,10 @@ public class Comment implements Serializable {
     private Date cdate;
     private String blogId;
     private String image;
-
+    @OneToMany(fetch = FetchType.LAZY) //懒加载
+    @OrderBy(value = "cdate")
+    @JoinColumn(name = "parentCommentId",referencedColumnName = "id")
+    private List<ReplyComment> replyComments;
     public Comment(String content, String username, Date cdate, String blogId, String image) {
         this.content = content;
         this.username = username;

@@ -115,18 +115,18 @@ $(function () {
     $(document).delegate(".del", "click", function () {
         var $this = $(this);
         var commentId = $this.attr("commentid");
-        var url = '/blog/comment/' + $("#username").val() + '/remove/' +$("#blog-id").val()+"/"+ commentId;
+        var url = '/blog/comment/' + $("#username").val() + '/remove/' + $("#blog-id").val() + "/" + commentId;
         if ($this.hasClass("reply-del")) {
-            var parentCommentId=$this.parent(".opt-box").find("a.reply").attr("commentid");
-            url = $("#path").val() + "/replyComment/" + $("#username").val() + "/remove/" +parentCommentId+'/'+ commentId;
+            var parentCommentId = $this.parent(".opt-box").find("a.reply").attr("commentid");
+            url = $("#path").val() + "/replyComment/" + $("#username").val() + "/remove/" + parentCommentId + '/' + commentId;
         }
         $.ajax({
-                url: url,
-                method: 'delete',
-                success: function () {
-                    $this.closest("li.comment-line").remove();
-                }
-            });
+            url: url,
+            method: 'delete',
+            success: function () {
+                $this.closest("li.comment-line").remove();
+            }
+        });
         //触发一下所有的收起回复按钮
         $(".retract").trigger('click');
     });
@@ -154,12 +154,13 @@ $(function () {
         $(this).find(">.right-box .del").removeClass('hid');
         $(this).find(">.right-box .reply").removeClass('hid');
         $(this).find(">.right-box .see-reply").removeClass('hid');
+        return false;
     });
-    $(document).delegate('li.comment-line', 'mouseout', function () {
+    $(document).delegate('li.comment-line', 'mouseout', function (event) {
         $(this).find('>.right-box .del').addClass('hid');
         $(this).find('>.right-box .reply').addClass('hid');
         $(this).find(">.right-box .see-reply").addClass('hid');
-
+        return false;
     });
 });
 //添加回复功能

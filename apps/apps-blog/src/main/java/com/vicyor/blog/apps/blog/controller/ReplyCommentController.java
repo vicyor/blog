@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/replyComment")
 public class ReplyCommentController {
     @Autowired
-    ReplyCommentService service;
+    ReplyCommentService replyCommentService;
 
     /**
      * 创建回复博客
@@ -33,7 +33,7 @@ public class ReplyCommentController {
     public void createReplyComment(@PathVariable("username") String username, @RequestBody ReplyComment replyComment) {
         replyComment.setCdate(new Date(System.currentTimeMillis()));
         replyComment.setImage(UserUtil.blogUser().getImageUri());
-        service.createReplyComment(replyComment);
+        replyCommentService.createReplyComment(replyComment);
     }
 
     @LogAnnotation("根据parentCommentId获取replyComment")
@@ -43,7 +43,7 @@ public class ReplyCommentController {
     public List<ReplyComment> getReplyComment(
             @PathVariable("parentCommentId") String parentCommentId
     ) {
-        List<ReplyComment> replyComments = service.getCommentsByParentCommentId(parentCommentId);
+        List<ReplyComment> replyComments = replyCommentService.getCommentsByParentCommentId(parentCommentId);
         return replyComments;
     }
 
@@ -55,6 +55,6 @@ public class ReplyCommentController {
             @PathVariable("commentId") String commentId,
             @PathVariable("parentCommentId") String parentCommentId
     ) {
-        service.deletCommentsByCommentId(commentId);
+        replyCommentService.deletCommentsByCommentId(commentId);
     }
 }

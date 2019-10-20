@@ -20,11 +20,12 @@ public class CommentServiceImpl implements CommentService {
     ElasticsearchTemplate template;
     @Autowired
     CommentRepository repository;
+
     @Autowired
     ReplyCommentService replyCommentService;
     @Override
     public Comment addComment(Comment comment) {
-        return repository.index(comment);
+        return repository.save(comment);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(String commentId) {
         repository.deleteById(commentId);
-        //删除子评论
+        //删除子评F论
         replyCommentService.deleteCommentsByParentCommentId(commentId);
     }
 }

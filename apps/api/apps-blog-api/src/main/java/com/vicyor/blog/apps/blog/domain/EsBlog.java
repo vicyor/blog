@@ -8,8 +8,13 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * 作者:姚克威
@@ -24,9 +29,9 @@ public class EsBlog implements Serializable {
     private String id;
     //博客标题
     private String title;
-    //标签
+    //标签Id
     @Field(type = FieldType.Keyword)
-    private String tag;
+    private String tagId;
     //内容
     @Field(type = FieldType.Text,
             analyzer = "ik_max_word"
@@ -56,7 +61,7 @@ public class EsBlog implements Serializable {
     //作者 对应username 非name
     private String author;
 
-    public EsBlog(String title, String tag, String content, Date cdate, Date udate, long count, String uri, String summary, String author) {
+    public EsBlog(String title, Tag tag, String content, Date cdate, Date udate, long count, String uri, String summary, String author) {
         this.title = title;
         this.tag = tag;
         this.content = content;
@@ -71,4 +76,14 @@ public class EsBlog implements Serializable {
     protected EsBlog() {
 
     }
+
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "tagId")
+    private Tag tag;
+
+    @OneToMany
+    @OrderBy("cdate")
+    @JoinColumn(name = "blogId", referencedColumnName = "id")
+    private List<Comment> comments;
+
 }

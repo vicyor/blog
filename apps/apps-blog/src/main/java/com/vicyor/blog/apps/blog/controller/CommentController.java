@@ -49,6 +49,7 @@ public class CommentController {
     @Cacheable(cacheNames = "comments", key = "#blogId")
     public List<Comment> listComments(@PathVariable("blogId") String blogId
     ) {
+
         List<Comment> comments = commentService.listComments(blogId);
         return comments;
     }
