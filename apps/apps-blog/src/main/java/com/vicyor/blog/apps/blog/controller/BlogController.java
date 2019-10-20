@@ -13,11 +13,8 @@ import com.vicyor.blog.apps.blog.util.UserUtil;
 import com.vicyor.blog.apps.blog.vo.GenerateViewObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -159,7 +156,7 @@ public class BlogController {
 
     @LogAnnotation("保存新建的博客")
     @PostMapping("/{username}/new")
-    @CacheEvict(cacheNames = "blogs", allEntries = true)
+    @CacheEvict(cacheNames = "blogs", allEntries = true,beforeInvocation = true)
     @ResponseBody
     public String createBlog(
             @RequestBody Map<String, String> requestParams,
@@ -180,7 +177,7 @@ public class BlogController {
 
     @LogAnnotation("删除博客")
     @RequestMapping("/{author}/delete/{id}")
-    @CacheEvict(cacheNames = "blogs", allEntries = true)
+    @CacheEvict(cacheNames = "blogs", allEntries = true,beforeInvocation = true)
     @ResponseBody
     public void deleteBlog(@PathVariable("id") String id,
                            @PathVariable("author") String author
