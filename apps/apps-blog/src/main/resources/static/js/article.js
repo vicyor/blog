@@ -45,10 +45,11 @@ $(function () {
 
                 }
             });
-            var count=$replyLi.attr("replycommentcount");
+            var $bigLi=$(".reply-li").parents(".bigLi");
+            var count=$bigLi.attr("replycommentcount");
             count=parseInt(count)+1;
-            $replyLi.attr("replycommentcount",count);
-            $replyLi.find(".count").text(count);
+            $bigLi.attr("replycommentcount",count);
+            $bigLi.find(".count").text(count);
         }
         //触发一下所有的收起回复按钮
         $(".retract").trigger('click');
@@ -106,6 +107,7 @@ function generateCommentLi(comment) {
         method: 'get',
         success: function (count) {
             $li.attr('replyCommentCount', count);
+            $li.addClass('bigLi');
             var $span = $("<span class='hid count'></span>");
             $span.text('( ' + count + ' )');
             $span4.append($span);
