@@ -45,7 +45,10 @@ $(function () {
 
                 }
             });
-
+            var count=$replyLi.attr("replycommentcount");
+            count=parseInt(count)+1;
+            $replyLi.attr("replycommentcount",count);
+            $replyLi.find(".count").text(count);
         }
         //触发一下所有的收起回复按钮
         $(".retract").trigger('click');
@@ -54,6 +57,7 @@ $(function () {
 
 //渲染评论
 function generateCommentLi(comment) {
+    var commentId = comment.id;
     var $li = $('<li class="comment-line">');
     var $div = $('<div style="display: inline-block" class="left-box">');
     var $a = $('<a href="javascript:;"></a>');
@@ -71,11 +75,11 @@ function generateCommentLi(comment) {
     var uname = $("#username").val();
     var $span4 = $('<span class="opt-box"></span>');
     var $a1 = $("<a class='del hid' href='javascript:;'>删除</a>");
-    $a1.attr("commentid", comment.id);
+    $a1.attr("commentid", commentId);
     var $a3 = $("<a class='reply hid' href='javascript:;'>回复</a>");
-    $a3.attr('commentid', comment.id);
+    $a3.attr('commentid', commentId);
     var $a4 = $("<a class='see-reply hid' href='javascript:;'>查看回复</a>");
-    $a4.attr('commentid', comment.id);
+    $a4.attr('commentid', commentId);
     if (uname == comment.username)
         $span4.append($a1);
     $span4.append($a3);
@@ -96,6 +100,17 @@ function generateCommentLi(comment) {
     $li.append($div3);
     var $ul = $("ul.comment-list");
     $ul.append($li);
+    //获取回复数量
+    $.ajax({
+        url: $("#path").val() + "/replyComment/count/" + commentId,
+        method: 'get',
+        success: function (count) {
+            $li.attr('replyCommentCount', count);
+            var $span = $("<span class='hid count'></span>");
+            $span.text('( ' + count + ' )');
+            $span4.append($span);
+        }
+    });
 }
 
 //初始加载评论
@@ -154,12 +169,14 @@ $(function () {
         $(this).find(">.right-box .del").removeClass('hid');
         $(this).find(">.right-box .reply").removeClass('hid');
         $(this).find(">.right-box .see-reply").removeClass('hid');
+        $(this).find(">.right-box .count").removeClass("hid");
         return false;
     });
     $(document).delegate('li.comment-line', 'mouseout', function (event) {
         $(this).find('>.right-box .del').addClass('hid');
         $(this).find('>.right-box .reply').addClass('hid');
         $(this).find(">.right-box .see-reply").addClass('hid');
+        $(this).find(">.right-box .count").addClass("hid");
         return false;
     });
 });
@@ -247,6 +264,7 @@ $(function () {
         var $this = $(this);
         $this.parents("li.comment-line").find("div.reply-comment-div").remove();
         $this.text("查看回复");
+
         $this.removeClass("retract");
         $this.addClass("see-reply");
     })

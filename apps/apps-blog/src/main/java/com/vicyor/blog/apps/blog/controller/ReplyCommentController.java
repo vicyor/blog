@@ -57,4 +57,9 @@ public class ReplyCommentController {
     ) {
         replyCommentService.deletCommentsByCommentId(commentId);
     }
+    @GetMapping("/count/{parentCommentId}")
+    @ResponseBody
+    public Long findReplyCommentCountByParentCommentId(@PathVariable("parentCommentId")String parentCommentId){
+        return replyCommentService.findReplyCommentCountByParentCommentId(parentCommentId);
+    }
 }

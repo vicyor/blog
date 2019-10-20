@@ -9,4 +9,5 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * 时间:2019/10/4 9:14
  **/
 public interface ReplyCommentRepository extends ElasticsearchRepository<ReplyComment, String> {
+    Long countByParentCommentIdEquals(String parentCommentId);
 }

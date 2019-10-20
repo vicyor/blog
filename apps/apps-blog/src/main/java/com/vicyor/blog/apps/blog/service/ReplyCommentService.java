@@ -12,4 +12,6 @@ public interface ReplyCommentService {
     List<ReplyComment> getCommentsByParentCommentId(String parentCommentId);
 
     void deletCommentsByCommentId(String commentId);
+
+    Long findReplyCommentCountByParentCommentId(String parentCommentId);
 }

@@ -56,4 +56,10 @@ public class ReplyCommentServiceImpl implements ReplyCommentService {
     public void deletCommentsByCommentId(String commentId) {
         repository.deleteById(commentId);
     }
+
+    @Override
+    public Long findReplyCommentCountByParentCommentId(String parentCommentId) {
+        Long count = repository.countByParentCommentIdEquals(parentCommentId);
+        return count;
+    }
 }

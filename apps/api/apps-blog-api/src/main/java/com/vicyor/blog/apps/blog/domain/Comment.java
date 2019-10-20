@@ -41,10 +41,7 @@ public class Comment implements Serializable {
     private Date cdate;
     private String blogId;
     private String image;
-    @OneToMany(fetch = FetchType.LAZY) //懒加载
-    @OrderBy(value = "cdate")
-    @JoinColumn(name = "parentCommentId",referencedColumnName = "id")
-    private List<ReplyComment> replyComments;
+
     public Comment(String content, String username, Date cdate, String blogId, String image) {
         this.content = content;
         this.username = username;
