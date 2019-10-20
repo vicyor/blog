@@ -18,7 +18,7 @@ function parseBlog(blogs, page, pagesize) {
         $p.text(blog.summary);
         var $div3 = $("<div class='autor'></div>");
         var $sp1 = $("<span class='lm'></span>");
-        $sp1.text(blog.tag);
+        $sp1.text(blog.tag.tag);
         var $sp2 = $("<span class='dtime'></span>");
         $sp2.text(blog.udate);
         var $sp3 = $("<span class='viewnum'></span>");

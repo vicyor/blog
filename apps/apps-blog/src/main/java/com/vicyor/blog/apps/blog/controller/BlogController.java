@@ -100,6 +100,7 @@ public class BlogController {
         BlogUser blogAuthor = userService.findBlogUser(author);
         EsBlog article = blogService.getArticle(blogId);
         request.setAttribute("tag", article.getTag().getTag());
+        request.setAttribute("blogAuthor",blogAuthor);
         return "article";
     }
 

@@ -15,6 +15,7 @@ $(function () {
         getBlog();
     })
 });
+
 //ajax根据keyword获取es的blog并渲染
 function getBlog() {
     var $input = $("input[name='Submit']");
@@ -24,7 +25,7 @@ function getBlog() {
         url: "/blog/blogs?keyword=" + keyword + "&page=" + (pageConf.currentPage - 1) + "&pagesize=" + pageConf.pageSize,
         method: "get",
         success: function (data) {
-            data=data.params;
+            data = data.params;
             layui.use(['laypage', 'layer'], function () {
                 var laypage = layui.laypage;
                 var layer = layui.layer;
@@ -51,6 +52,7 @@ function getBlog() {
         }
     })
 }
+
 //渲染排行榜的blog到指定盒子
 function parseCountRank(blogs) {
     var $ul = $("#clickrank ul");
@@ -59,11 +61,11 @@ function parseCountRank(blogs) {
         var $li = $("<li></li>");
         var $b = $("<b></b>");
         var $a = $("<a></a>");
-        $a.prop("href", "/blog/blogs/"+blog.author+"/article/" + blog.id);
+        $a.prop("href", "/blog/blogs/" + blog.author + "/article/" + blog.id);
         $a.text(blog.title);
         var $p = $("<p></p>");
-        var $ai=$("<a></a>");
-        $ai.prop("href", "/blog/blogs/"+blog.author+"/article/" + blog.id);
+        var $ai = $("<a></a>");
+        $ai.prop("href", "/blog/blogs/" + blog.author + "/article/" + blog.id);
         var $i = $("<i></i>");
         var $img = $("<img></img>");
         $img.prop("src", "/blog/" + blog.uri);
@@ -77,6 +79,7 @@ function parseCountRank(blogs) {
         $ul.append($li);
     })
 }
+
 /**
  * 获取点击排行
  */
@@ -85,18 +88,18 @@ $(function () {
         url: "/blog/blogs/rank/count",
         method: 'get',
         success: function (blogs) {
-            console.log(blogs);
             parseCountRank(blogs);
         }
     })
 });
+
 //根据标签获取blog
 function getBlogsByTag(val) {
     $.ajax({
         'url': "/blog/blogs/tag?tag=" + val + "&page=" + (pageConf.currentPage - 1) + "&pagesize=" + pageConf.pageSize,
         'method': 'get',
         'success': function (data) {
-            data=data.params;
+            data = data.params;
 
             layui.use(['laypage', 'layer'], function () {
                 var laypage = layui.laypage;
@@ -132,18 +135,31 @@ function initclick() {
         var $a = $(a);
         $a.prop("href", "javascript:;");
         $a.on('click', function () {
-            if (href.indexOf("/blog/index") > 0) {
-                var val = $a.text();
-                pageConf.pageSize = 10;
-                pageConf.currentPage = 1;
-                getBlogsByTag(val);
-            } else {
-                window.location.href = "/blog/"
-            }
+            var val = $a.text();
+            pageConf.pageSize = 10;
+            pageConf.currentPage = 1;
+            getBlogsByTag(val);
         })
     })
 }
+
 //执行初始化操作
 $(function () {
     initclick();
+});
+//从 es中查找所有的标签
+$(function () {
+    var $ul = $("#cloud");
+    $.ajax({
+        url: $("#path").val() + "/tag/listAllTags",
+        method: "get",
+        success: function (tags) {
+            $.each(tags, function (index, tag) {
+                var $a = $("<a></a>");
+                $a.prop('href', "javascript:;");
+                $a.text(tag.tag);
+                $ul.append($a);
+            })
+        }
+    })
 });

@@ -264,7 +264,6 @@ $(function () {
         var $this = $(this);
         $this.parents("li.comment-line").find("div.reply-comment-div").remove();
         $this.text("查看回复");
-
         $this.removeClass("retract");
         $this.addClass("see-reply");
     })
