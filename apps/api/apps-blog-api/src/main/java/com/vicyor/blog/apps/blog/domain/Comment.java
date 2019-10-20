@@ -30,9 +30,9 @@ public class Comment implements Serializable {
     private String username;
     @Field(type = FieldType.Date,
             format = DateFormat.custom,
-            pattern = "yyyy-MM-dd hh:mm:ss"
+            pattern = "yyyy-MM-dd HH:mm:ss"
     )
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date cdate;
     private String blogId;
     private String image;

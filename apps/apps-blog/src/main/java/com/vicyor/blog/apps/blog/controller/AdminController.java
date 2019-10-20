@@ -118,7 +118,7 @@ public class AdminController {
                 .endObject()
                 .startObject("cdate")
                 .field("type", "date")
-                .field("format", "yyyy-MM-dd hh:mm:ss")
+                .field("format", "yyyy-MM-dd HH:mm:ss")
                 .endObject()
                 .startObject("blogId")
                 .field("type", "text")

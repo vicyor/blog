@@ -35,14 +35,14 @@ public class EsBlog implements Serializable {
     //总结
     private String summary;
     //创建时间
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Field(type = FieldType.Date,
             format = DateFormat.custom,
             pattern = "yyyy-MM-dd HH:mm:ss"
     )
 
     private Date cdate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     //更新时间
     @Field(type = FieldType.Date,
             format = DateFormat.custom,
