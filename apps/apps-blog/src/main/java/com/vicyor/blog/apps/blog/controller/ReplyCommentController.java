@@ -10,7 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -31,7 +31,7 @@ public class ReplyCommentController {
     @ResponseBody
     @CacheEvict(cacheNames = "replyComments", key = "#replyComment.parentCommentId")
     public void createReplyComment(@PathVariable("username") String username, @RequestBody ReplyComment replyComment) {
-        replyComment.setCdate(new Date());
+        replyComment.setCdate(new Date(System.currentTimeMillis()));
         replyComment.setImage(UserUtil.blogUser().getImageUri());
         service.createReplyComment(replyComment);
     }

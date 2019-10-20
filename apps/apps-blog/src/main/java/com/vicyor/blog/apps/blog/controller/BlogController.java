@@ -21,7 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -179,7 +179,7 @@ public class BlogController {
         String summary = requestParams.get("summary");
         String tag = requestParams.get("tag");
         //blog图片为用户头像
-        EsBlog blog = new EsBlog(title, tag, content, new Date(), new Date(), 1, UserUtil.blogUser().getImageUri(), summary, username);
+        EsBlog blog = new EsBlog(title, tag, content, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 1, UserUtil.blogUser().getImageUri(), summary, username);
         blog = blogService.saveBlog(blog);
         return blog.getId();
     }

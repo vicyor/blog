@@ -11,7 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public class CommentController {
     ) {
         String content = params.get("content");
         BlogUser blogUser = UserUtil.blogUser();
-        Comment comment = new Comment(content, username, new Date(), blogId, blogUser.getImageUri());
+        Comment comment = new Comment(content, username, new Date(System.currentTimeMillis()), blogId, blogUser.getImageUri());
         //会嵌入主键
         comment = commentService.addComment(comment);
         return comment;
