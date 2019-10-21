@@ -135,7 +135,7 @@ public class BlogController {
 
     @LogAnnotation("保存博客的修改内容")
     @PostMapping("/{author}/save/{id}")
-    @CacheEvict(cacheNames = "blog", key = "#id")
+    @CacheEvict(cacheNames = {"blog","blogs"}, key = "#id",allEntries = true)
     @ResponseBody
     public void updateArticle(@RequestParam(value = "content", required = false) String content,
                               @RequestParam(value = "title", required = false) String title,

@@ -153,8 +153,6 @@
         //修改标题
         $("#title").on('change', function () {
             var str = $("#title").val();
-            var str2 = "[[${blog.title}]]";
-            console.log(str2);
             $.post('/blog/blogs/[[${blog.author}]]/save/[[${blog.id}]]?title=' + str);
         });
         //修改总结
