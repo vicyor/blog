@@ -136,8 +136,9 @@
     $(function () {
         $("#save").on('click', function () {
             var text = testEditor.getMarkdown();
+            var url='/blog/blogs/[[${blog.author}]]/save/[[${blog.id}]]';
             $.ajax({
-                url: '/blog/blogs/[[${blog.author}]]/save/[[${blog.id}]]',
+                url: url,
                 method: 'post',
                 data: {
                     content: text
@@ -159,7 +160,7 @@
         //修改总结
         $("#summary").on('change', function () {
             var str = $("#summary").val();
-            var str1 = "[[${blog.summary}]]";
+            alert(str);
             $.post("/blog/blogs/[[${blog.author}]]/save/[[${blog.id}]]?summary=" + str);
         });
     })

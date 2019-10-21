@@ -88,7 +88,7 @@ public class BlogServiceImpl implements BlogService {
             blog.setTitle(title);
         }
         if (!StringUtils.isEmpty(summary)) {
-            blog.setTitle(summary);
+            blog.setSummary(summary);
         }
         if (!StringUtils.isEmpty(author)) {
             blog.setAuthor(author);
