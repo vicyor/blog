@@ -1,4 +1,4 @@
-package com.vicyor.blog.apps.blog.service.TagService;
+package com.vicyor.blog.apps.blog.service;
 
 import com.vicyor.blog.apps.blog.domain.Tag;
 

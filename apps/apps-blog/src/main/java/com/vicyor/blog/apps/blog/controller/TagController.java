@@ -1,7 +1,7 @@
 package com.vicyor.blog.apps.blog.controller;
 
 import com.vicyor.blog.apps.blog.domain.Tag;
-import com.vicyor.blog.apps.blog.service.TagService.TagService;
+import com.vicyor.blog.apps.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
