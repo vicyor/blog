@@ -17,7 +17,7 @@
 
 CodeMirror.defineMode("cobol", function () {
   var BUILTIN = "builtin", COMMENT = "comment", STRING = "string",
-      ATOM = "atom", NUMBER = "number", KEYWORD = "keyword", MODTAG = "header",
+      ATOM = "atom", NUMBER = "number", KEYWORD = "keyword", MODTAG = "templates.html.header",
       COBOLLINENUM = "def", PERIOD = "link";
   function makeKeywords(str) {
     var obj = {}, words = str.split(" ");

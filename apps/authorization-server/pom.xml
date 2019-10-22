@@ -11,7 +11,8 @@
     <groupId>com.vicyor.blog.apps</groupId>
     <artifactId>authorization-server</artifactId>
     <properties>
-        <apps-blog-api.version>1.0-SNAPSHOT</apps-blog-api.version>
+        <apps-common-api.version>1.0-SNAPSHOT</apps-common-api.version>
+        <apps-user-api.version>1.0-SNAPSHOT</apps-user-api.version>
     </properties>
     <dependencies>
         <dependency>
@@ -41,7 +42,12 @@
         <dependency>
             <groupId>com.vicyor.blog.apps.api</groupId>
             <artifactId>apps-blog-api</artifactId>
-            <version>${apps-blog-api.version}</version>
+            <version>${apps-common-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vicyor.blog.apps</groupId>
+            <artifactId>apps-user-api</artifactId>
+            <version>${apps-user-api.version}</version>
         </dependency>
     </dependencies>
 <!--    打包插件只能出现在要打包的项目pom中-->

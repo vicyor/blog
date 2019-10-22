@@ -12,7 +12,9 @@
     <groupId>com.vicyor.blog.apps</groupId>
     <artifactId>apps-blog</artifactId>
     <properties>
-        <apps-blog-api.version>1.0-SNAPSHOT</apps-blog-api.version>
+        <apps-common-api.version>1.0-SNAPSHOT</apps-common-api.version>
+        <apps-es-api.version>1.0-SNAPSHOT</apps-es-api.version>
+        <apps-user-api.version>1.0-SNAPSHOT</apps-user-api.version>
     </properties>
     <dependencies>
         <dependency>
@@ -54,8 +56,18 @@
         </dependency>
         <dependency>
             <groupId>com.vicyor.blog.apps.api</groupId>
-            <artifactId>apps-blog-api</artifactId>
-            <version>${apps-blog-api.version}</version>
+            <artifactId>apps-common-api</artifactId>
+            <version>${apps-common-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vicyor.blog.apps</groupId>
+            <artifactId>apps-es-api</artifactId>
+            <version>${apps-es-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vicyor.blog.apps</groupId>
+            <artifactId>apps-user-api</artifactId>
+            <version>${apps-user-api.version}</version>
         </dependency>
     </dependencies>
     <build>

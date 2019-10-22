@@ -13,7 +13,9 @@
     <artifactId>api</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>apps-blog-api</module>
+        <module>apps-common-api</module>
+        <module>apps-es-api</module>
+        <module>apps-user-api</module>
     </modules>
     <dependencyManagement>
         <dependencies>

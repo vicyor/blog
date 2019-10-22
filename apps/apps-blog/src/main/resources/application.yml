@@ -22,6 +22,8 @@ spring:
     username: root
     password: vicyor123456
     url: jdbc:mysql://106.13.74.154:3306/blog
+    hikari:
+      maximum-pool-size: 10
   jpa:
     show-sql: true #显示sql语句
     generate-ddl: true #根据entity自动建表

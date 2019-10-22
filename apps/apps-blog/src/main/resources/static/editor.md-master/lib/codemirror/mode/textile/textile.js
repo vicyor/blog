@@ -24,7 +24,7 @@
     em: "em",
     footnote: "variable",
     footCite: "qualifier",
-    header: "header",
+    header: "templates.html.header",
     html: "comment",
     image: "string",
     italic: "em",
@@ -144,7 +144,7 @@
       state, "addition", "bold", "cite", "code", "deletion", "em", "footCite",
       "image", "italic", "link", "span", "strong", "sub", "sup", "table", "tableHeading"));
 
-    if (state.layoutType === "header")
+    if (state.layoutType === "templates.html.header")
       styles.push(TOKEN_STYLES.header + "-" + state.header);
 
     return styles.length ? styles.join(" ") : null;
@@ -320,8 +320,8 @@
       else
         return (state.mode = Modes.text)(stream, state);
 
-      if (match = type.match(RE("header"))) {
-        state.layoutType = "header";
+      if (match = type.match(RE("templates.html.header"))) {
+        state.layoutType = "templates.html.header";
         state.header = parseInt(match[0][1]);
       } else if (type.match(RE("bq"))) {
         state.layoutType = "quote";

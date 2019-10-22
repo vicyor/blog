@@ -77,7 +77,7 @@ CodeMirror.defineMode("gherkin", function () {
             return "bracket";
           } else {
             stream.match(/[^\|]*/);
-            return state.tableHeaderLine ? "header" : "string";
+            return state.tableHeaderLine ? "templates.html.header" : "string";
           }
         }
 

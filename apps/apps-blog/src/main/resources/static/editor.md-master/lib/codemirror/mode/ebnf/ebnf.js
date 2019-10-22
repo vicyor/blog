@@ -130,7 +130,7 @@
           return "operator";
         case "%":
           if (stream.match("%%")) {
-            return "header";
+            return "templates.html.header";
           } else if (stream.match(/[%][A-Za-z]+/)) {
             return "keyword";
           } else if (stream.match(/[%][}]/)) {

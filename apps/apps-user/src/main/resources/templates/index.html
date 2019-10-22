@@ -1,10 +1,22 @@
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset=utf-8>
+    <meta charset="UTF-8">
+    <title>vicyor个人博客</title>
+    <meta name="keywords" content="个人博客,姚克威个人博客,个人博客模板,姚克威"/>
+    <meta name="description" content="姚克威个人博客，该网站是为了记录姚克威同学的学习而编写的。"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="${path+'/css/base.css'}" rel="stylesheet">
+    <link th:href="${path+'/css/index.css'}" rel="stylesheet">
+    <link th:href="${path+'/css/m.css'}" rel="stylesheet">
+    <link rel="icon" th:href="${path+'/images/logo.png'}"/>
+    <link rel="stylesheet" th:href="${path +'/css/update.css'}">
+    <link rel="stylesheet" th:href="${path +'/css/article.css'}">
     <link rel=stylesheet href=/user/lib/skeleton.css>
-    <link href=/user/css/index.css rel=stylesheet>
+    <link href=/user/css/user.css rel=stylesheet>
 </head>
+<header th:replace="html/header.html::header"></header>
 <body>
+
 <div id="app">
     <div data-v-357a65ed="" class="container view">
         <div data-v-357a65ed="" class="left_box">
