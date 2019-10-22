@@ -1,20 +1,16 @@
-package com.vicyor.blog.apps.blog.service.iml;
+package com.vicyor.blog.apps.blog.service.impl;
 
 import com.vicyor.blog.apps.blog.mapper.UserMapper;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import com.vicyor.blog.apps.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * 作者:姚克威
@@ -28,6 +24,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public BlogUser findBlogUser(Authentication authentication) {
         String username = authentication.getPrincipal().toString();
+        //数据库里存匿名用户了
         BlogUser blogUser = userMapper.findBlogUser(username);
         List roles = userMapper.findRole(username);
         Collection authorities = new ArrayList();

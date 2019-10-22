@@ -3,6 +3,7 @@ package com.vicyor.blog.user;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
  * 作者:姚克威
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  **/
 @SpringBootApplication
 @MapperScan("com.vicyor.blog.apps.blog.mapper")
+@ServletComponentScan("com.vicyor.blog.user.filter")
 public class UserApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserApplication.class);

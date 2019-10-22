@@ -21,9 +21,9 @@ import java.io.IOException;
  * 作者:姚克威
  * 时间:2019/9/4 0:26
  **/
-@WebFilter(urlPatterns = "/*", filterName = "ServletContextPathFilter")
+@WebFilter(urlPatterns = "/*", filterName = "perDynamicRequestFilter")
 @Component
-public class ServletContextLoadedFilter extends HttpFilter {
+public class PerDynamicRequestFilter extends HttpFilter {
     @Autowired
     private UserService userService;
 
@@ -40,10 +40,11 @@ public class ServletContextLoadedFilter extends HttpFilter {
             //在会话中添加用户信息
             Object user = session.getAttribute("user");
             if (user == null) {
+                //第一次是添加匿名用户到session中
                 BlogUser blogUser = userService.findBlogUser(authentication);
                 session.setAttribute("user", blogUser);
             } else if (!(authentication instanceof AnonymousAuthenticationToken) && !((BlogUser) user).isLogin()) {
-                //更新user
+                //登录后更新登录user到session中
                 BlogUser blogUser = userService.findBlogUser(authentication);
                 session.setAttribute("user", blogUser);
             }
