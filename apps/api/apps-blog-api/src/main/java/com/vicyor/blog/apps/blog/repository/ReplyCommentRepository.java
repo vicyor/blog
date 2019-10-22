@@ -1,6 +1,5 @@
 package com.vicyor.blog.apps.blog.repository;
 
-import com.vicyor.blog.apps.blog.domain.EsBlog;
 import com.vicyor.blog.apps.blog.domain.ReplyComment;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 

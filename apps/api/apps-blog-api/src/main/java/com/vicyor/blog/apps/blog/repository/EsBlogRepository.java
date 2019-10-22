@@ -3,11 +3,7 @@ package com.vicyor.blog.apps.blog.repository;
 import com.vicyor.blog.apps.blog.domain.EsBlog;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 
 /**
@@ -23,5 +19,5 @@ public interface EsBlogRepository extends ElasticsearchRepository<EsBlog, String
     /**
      * 根据tag.name去查询blog
      */
-    Page<EsBlog> findEsBlogByTag_Tag(String tag,Pageable pageable);
+    Page<EsBlog> findEsBlogByTag_Tag(String tag, Pageable pageable);
 }
