@@ -1,0 +1,14 @@
+spring:
+  thymeleaf:
+    cache: false
+security:
+  oauth2:
+    client:
+      client-id: user
+      client-secret: user
+#      这个网址是从浏览器访问的,登录后会调回来
+      user-authorization-uri: http://127.0.0.1:8080/auth/oauth/authorize
+      access-token-uri: http://127.0.0.1:8080/auth/oauth/token
+    resource:
+      jwk:
+        key-set-uri: http://127.0.0.1:8080/auth/oauth/token_key

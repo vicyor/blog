@@ -106,7 +106,6 @@ public class BlogServiceImpl implements BlogService {
             tag = tagRepository.save(tag);
         } else {
             blog.setTagId(optional.get().getId());
-            ;
         }
         return blogRepository.save(blog);
     }

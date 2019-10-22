@@ -4,10 +4,8 @@ import com.vicyor.blog.apps.blog.domain.EsBlog;
 import com.vicyor.blog.apps.blog.pojo.BlogUser;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.GetQuery;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
@@ -24,14 +22,6 @@ public class UserUtil {
         Optional<Object> optional = Optional.ofNullable(request.getSession().getAttribute("user"));
         return optional.get() == null ? null : (BlogUser) optional.get();
     }
-
-    public static BlogUser anynomusBlogUser() {
-        BlogUser blogUser = new BlogUser();
-        blogUser.setUsername("匿名用户");
-        blogUser.setName("");
-        return null;
-    }
-
     /**
      * 判断当前用户是否拥有博客的修改权限
      */
@@ -43,4 +33,7 @@ public class UserUtil {
         String username = blogUser().getUsername();
         return author.equals(username);
     }
+
+
+
 }

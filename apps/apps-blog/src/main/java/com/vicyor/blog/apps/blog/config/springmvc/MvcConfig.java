@@ -1,4 +1,4 @@
-package com.vicyor.blog.apps.blog.config;
+package com.vicyor.blog.apps.blog.config.springmvc;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

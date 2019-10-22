@@ -1,11 +1,7 @@
 package com.vicyor.blog.apps.blog.util;
 
-import com.vicyor.blog.apps.blog.domain.EsBlog;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 作者:姚克威

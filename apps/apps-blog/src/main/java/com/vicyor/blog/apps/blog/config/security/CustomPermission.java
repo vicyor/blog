@@ -1,4 +1,4 @@
-package com.vicyor.blog.apps.blog.config;
+package com.vicyor.blog.apps.blog.config.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;

@@ -6,9 +6,17 @@ sso:
         clientSecret: blog
         authorizedGrantTypes: authorization_code,refresh_token
         redirectUri:
-                         - http://127.0.0.1/blog/login
-                         - http://www.vicyor.com/blog/login
-                         - http://129.204.72.141/blog/login
+          - http://127.0.0.1/blog/login
+          - http://www.vicyor.com/blog/login
+          - http://129.204.72.141/blog/login
+      user:
+        clientId: user
+        clientSecret: user
+        authorizedGrantTypes: authorization_code,refresh_token
+        redirectUri:
+          - http://127.0.0.1:9090/user/login
+          - http://www.vicyor.com:9090/user/login
+          - http://129.204.72.141:9090/user/login
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -24,5 +32,5 @@ server:
 mybatis:
   mapper-locations: classpath:mapper/**.xml
   configuration:
-#    开启驼峰命名
+    #    开启驼峰命名
     map-underscore-to-camel-case: true

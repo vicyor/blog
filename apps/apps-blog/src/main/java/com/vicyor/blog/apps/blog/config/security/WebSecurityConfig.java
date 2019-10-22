@@ -1,4 +1,4 @@
-package com.vicyor.blog.apps.blog.config;
+package com.vicyor.blog.apps.blog.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +16,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @EnableOAuth2Sso
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private BlogAuthenticationSuccessHandler handler;
     /**
      *
      */
@@ -27,15 +25,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/**", "/user/**").authenticated()
                 //rbac 博客,注解权限,自定义判定方式,会根据用户判断
-                .antMatchers("/blog/blogs/**/update/**","/blog/blogs/**/save/**","/blog/blogs/**/delete/**","/blog/comment/**/remove/**")
+                .antMatchers("/blog/blogs/**/update/**", "/blog/blogs/**/save/**", "/blog/blogs/**/delete/**", "/blog/comment/**/remove/**")
                 .access("@customPermission.hasPermission(request,authentication)")
                 //管理员权限才能对es进行操作
                 .antMatchers("/blog/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                //successHandler配置无效
-//                .successHandler(handler)
                 .and()
                 .logout().logoutUrl("/logout").permitAll()
                 .and()
