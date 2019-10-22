@@ -50,7 +50,7 @@ $(function () {
             var count = $bigLi.attr("replycommentcount");
             count = parseInt(count) + 1;
             $bigLi.attr("replycommentcount", count);
-            $bigLi.find(".count").text(count);
+            $bigLi.find(".count").text('( '+count+' )');
             //触发一下所有的收起回复按钮
             $(".retract").trigger('click');
         }
@@ -139,11 +139,12 @@ $(function () {
             var parentCommentId = $this.parent(".opt-box").find("a.reply").attr("commentid");
             url = $("#path").val() + "/replyComment/" + $("#username").val() + "/remove/" + parentCommentId + '/' + commentId;
             //修改计数
-            var $bigLi=$this.parents(".bigLi");
-            var count=$bigLi.attr('replycommentcount');
-            count=parseInt(count)-1;
-            $bigLi.attr('replycommentcount',count);
-            $bigLi.find(".count").text(count);
+            var $bigLi = $this.parents(".bigLi");
+            var count = $bigLi.attr('replycommentcount');
+            count = parseInt(count) - 1;
+            $bigLi.attr('replycommentcount', count);
+            $bigLi.find(".count").text('( ' + count + ' )')
+            ;
         }
         $this.closest("li.comment-line").remove();
         //触发一下所有的收起回复按钮

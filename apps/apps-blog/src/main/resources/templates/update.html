@@ -158,7 +158,6 @@
         //修改总结
         $("#summary").on('change', function () {
             var str = $("#summary").val();
-            alert(str);
             $.post("/blog/blogs/[[${blog.author.author}]]/save/[[${blog.id}]]?summary=" + str);
         });
     })
