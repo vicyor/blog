@@ -35,12 +35,13 @@ public class BlogServiceImpl implements BlogService {
     TagRepository tagRepository;
     @Autowired
     CommentService commentService;
+
     @Override
     public GenerateViewObject listBlogs(String content, String title, String tag, Pageable pageable) {
         Page<EsBlog> page = blogRepository.findDistinctEsBlogByContentContainingOrTitleContainingOrTag_TagContainingOrderByUdateDesc(content, title, tag, pageable);
-        GenerateViewObject view=new GenerateViewObject();
-        view.put("length",page.getTotalElements());
-        view.put("blogs",page.get().collect(Collectors.toList()));
+        GenerateViewObject view = new GenerateViewObject();
+        view.put("length", page.getTotalElements());
+        view.put("blogs", page.get().collect(Collectors.toList()));
         return view;
     }
 
@@ -90,9 +91,7 @@ public class BlogServiceImpl implements BlogService {
         if (!StringUtils.isEmpty(summary)) {
             blog.setSummary(summary);
         }
-        if (!StringUtils.isEmpty(author)) {
-            blog.setAuthor(author);
-        }
+
         blog = blogRepository.save(blog);
     }
 
@@ -114,6 +113,7 @@ public class BlogServiceImpl implements BlogService {
 
     /**
      * 删除博客
+     *
      * @param id
      */
     @Override
@@ -124,7 +124,7 @@ public class BlogServiceImpl implements BlogService {
         EsBlog blog = optional.get();
         List<Comment> comments = blog.getComments();
         //删除评论
-        comments.stream().forEach(comment->{
+        comments.stream().forEach(comment -> {
             commentService.deleteComment(comment.getId());
         });
     }

@@ -39,7 +39,7 @@ public class UserUtil {
         GetQuery query = new GetQuery();
         query.setId(blogId);
         EsBlog blog = template.queryForObject(query, EsBlog.class);
-        String author = blog.getAuthor();
+        String author = blog.getAuthor().getAuthor();
         String username = blogUser().getUsername();
         return author.equals(username);
     }

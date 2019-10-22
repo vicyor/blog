@@ -19,6 +19,8 @@ import java.util.List;
 /**
  * 作者:姚克威
  * 时间:2019/9/2 11:41
+ * Es的join并不是像关系型数据库使用外键
+ * 而是将1对1的entity直接作为子嵌入到父entity中
  **/
 @Data
 @Document(indexName = "blog", type = "blog")
@@ -56,10 +58,10 @@ public class EsBlog implements Serializable {
     private Date udate;
     //浏览数量
     private long count;
-    //图片uri
-    private String uri = "images/text02.jpg";
-    //作者 对应username 非name
-    private String author;
+    @JoinColumn(name = "id", referencedColumnName = "authorId")
+    @OneToOne
+    private Author author;
+    private String authorId;
 
     public EsBlog(String title, Tag tag, String content, Date cdate, Date udate, long count, String uri, String summary, String author) {
         this.title = title;
@@ -68,9 +70,8 @@ public class EsBlog implements Serializable {
         this.cdate = cdate;
         this.udate = udate;
         this.count = count;
-        this.uri = uri;
+        this.author=new Author(author,uri);
         this.summary = summary;
-        this.author = author;
     }
 
     protected EsBlog() {

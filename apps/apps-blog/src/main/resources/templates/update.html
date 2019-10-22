@@ -136,7 +136,7 @@
     $(function () {
         $("#save").on('click', function () {
             var text = testEditor.getMarkdown();
-            var url='/blog/blogs/[[${blog.author}]]/save/[[${blog.id}]]';
+            var url='/blog/blogs/[[${blog.author.author}]]/save/[[${blog.id}]]';
             $.ajax({
                 url: url,
                 method: 'post',
@@ -144,7 +144,7 @@
                     content: text
                 },
                 success: function () {
-                    window.location.href = '/blog/blogs/[[${blog.author}]]/article/[[${blog.id}]]';
+                    window.location.href = '/blog/blogs/[[${blog.author.author}]]/article/[[${blog.id}]]';
                 }
             })
         })
@@ -153,13 +153,13 @@
         //修改标题
         $("#title").on('change', function () {
             var str = $("#title").val();
-            $.post('/blog/blogs/[[${blog.author}]]/save/[[${blog.id}]]?title=' + str);
+            $.post('/blog/blogs/[[${blog.author.author}]]/save/[[${blog.id}]]?title=' + str);
         });
         //修改总结
         $("#summary").on('change', function () {
             var str = $("#summary").val();
             alert(str);
-            $.post("/blog/blogs/[[${blog.author}]]/save/[[${blog.id}]]?summary=" + str);
+            $.post("/blog/blogs/[[${blog.author.author}]]/save/[[${blog.id}]]?summary=" + str);
         });
     })
 </script>

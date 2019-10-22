@@ -28,6 +28,8 @@ $(function () {
             var to = placeholder.match(toRegex)[1];
             var from = $("#username").val();
             var parentCommentId = $replyLi.find(".right-box .opt-box>a.reply").attr('commentid');
+            $replyLi.removeClass("reply-li");
+            var $bigLi = $(".reply-li").parents(".bigLi");
             $.ajax({
                 url: $("#path").val() + '/replyComment/' + from + '/create',
                 method: 'post',
@@ -38,21 +40,21 @@ $(function () {
                     parentCommentId: parentCommentId
                 }),
                 contentType: "application/json"
-                , success: function () {
-                    $textarea.prop("placeholder", "想对作者说点什么");
-                    $textarea.val("");
-                    $replyLi.removeClass("reply-li");
-
-                }
             });
-            var $bigLi=$(".reply-li").parents(".bigLi");
-            var count=$bigLi.attr("replycommentcount");
-            count=parseInt(count)+1;
-            $bigLi.attr("replycommentcount",count);
+            $textarea.prop("placeholder", "想对作者说点什么");
+            $textarea.val("");
+            if ($bigLi.length == 0) {
+                //点最外层的回复
+                $bigLi = $replyLi;
+            }
+            var count = $bigLi.attr("replycommentcount");
+            count = parseInt(count) + 1;
+            $bigLi.attr("replycommentcount", count);
             $bigLi.find(".count").text(count);
+            //触发一下所有的收起回复按钮
+            $(".retract").trigger('click');
         }
-        //触发一下所有的收起回复按钮
-        $(".retract").trigger('click');
+
     })
 });
 
@@ -136,16 +138,22 @@ $(function () {
         if ($this.hasClass("reply-del")) {
             var parentCommentId = $this.parent(".opt-box").find("a.reply").attr("commentid");
             url = $("#path").val() + "/replyComment/" + $("#username").val() + "/remove/" + parentCommentId + '/' + commentId;
+            //修改计数
+            var $bigLi=$this.parents(".bigLi");
+            var count=$bigLi.attr('replycommentcount');
+            count=parseInt(count)-1;
+            $bigLi.attr('replycommentcount',count);
+            $bigLi.find(".count").text(count);
         }
-        $.ajax({
-            url: url,
-            method: 'delete',
-            success: function () {
-                $this.closest("li.comment-line").remove();
-            }
-        });
+        $this.closest("li.comment-line").remove();
         //触发一下所有的收起回复按钮
         $(".retract").trigger('click');
+        $.ajax({
+            url: url,
+            method: 'delete'
+        });
+
+
     });
 });
 //删除blog
