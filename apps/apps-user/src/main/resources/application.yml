@@ -1,0 +1,8 @@
+#这是用户统计详细信息模块
+spring:
+  application:
+    name: user
+server:
+  port: 9090
+  servlet:
+    context-path: /user
