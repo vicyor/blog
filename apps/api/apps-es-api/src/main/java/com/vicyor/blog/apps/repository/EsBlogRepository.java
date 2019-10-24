@@ -20,4 +20,5 @@ public interface EsBlogRepository extends ElasticsearchRepository<EsBlog, String
      * 根据tag.name去查询blog
      */
     Page<EsBlog> findEsBlogByTag_Tag(String tag, Pageable pageable);
+    Page<EsBlog> findEsBlogsByAuthor_AuthorEquals(String author,Pageable pageable);
 }

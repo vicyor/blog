@@ -1,0 +1,23 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div data-v-357a65ed="" class="left_box" th:fragment="left">
+    <ul data-v-357a65ed="" class="aside">
+        <li data-v-357a65ed="" class="router-link-exact-active router-link-active">
+            <a data-v-357a65ed="" th:href="${path}" class="zl">个人资料</a>
+        </li>
+        <!--TODO 这里开发使用本机地址-->
+        <li data-v-357a65ed="" class=""><a data-v-357a65ed="" href="http://127.0.0.1/blog" class="zl">博客首页</a>
+        </li>
+    </ul>
+    <ul data-v-357a65ed="" class="aside">
+        <li data-v-357a65ed="" class="myblog">
+            <a data-v-357a65ed=""
+              th:href="${path+'/'+session.user.username+'/myblog'}"
+               class="zl">我的博客</a>
+        </li>
+        <li data-v-357a65ed="" class="mycomment"><a data-v-357a65ed="" th:href="${path+'/toComment'}"
+                                  data-report-click="{&quot;mod&quot;:&quot;popu_790&quot;,&quot;dest&quot;:&quot;https://ask.csdn.net/my&quot;,&quot;extend1&quot;:&quot;我的问答&quot;}"
+                                  class="zl">我的问答</a>
+        </li>
+    </ul>
+</div>
+</html>

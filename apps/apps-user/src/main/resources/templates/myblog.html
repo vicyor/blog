@@ -1,0 +1,150 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>vicyor个人博客</title>
+    <meta name="keywords" content="个人博客,姚克威个人博客,个人博客模板,姚克威"/>
+    <meta name="description" content="姚克威个人博客，该网站是为了记录姚克威同学的学习而编写的。"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="${path+'/css/base.css'}" rel="stylesheet">
+    <link th:href="${path+'/css/index.css'}" rel="stylesheet">
+    <link th:href="${path+'/css/m.css'}" rel="stylesheet">
+    <link rel="stylesheet" th:href="${path +'/css/update.css'}">
+    <link rel="stylesheet" th:href="${path +'/css/article.css'}">
+    <link rel=stylesheet th:href="${path+'/lib/skeleton.css'}">
+    <link rel="stylesheet" th:href="${path+'/css/user.css'}">
+    <link rel="stylesheet" th:href="${path+'/plugin/layui/css/layui.css'}" media="all"/>
+    <script th:src="${path+'/js/jquery-3.3.1.js'}"></script>
+    <script th:src="${path+'/js/user.js'}"></script>
+    <script th:src="${path+'/plugin/layui/layui.js'}"></script>
+</head>
+<header th:replace="html/header.html::header"></header>
+<body>
+<div id="app">
+    <div data-v-357a65ed="" class="container view">
+        <div th:replace="html/left::left"></div>
+        <div data-v-357a65ed="" class="view-container">
+            <div data-v-0d738edb="" data-v-357a65ed="" class="cont view">
+                <div data-v-0d738edb="" class="right_cont"><h3 data-v-0d738edb="" class="title">我的博客</h3>
+                    <div data-v-0d738edb="" class="user_info">
+                        <article>
+                            <div class="blogs">
+                                <div id="blog"></div>
+                                <div id="pg" style="margin-left: 28%;"></div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    /**
+     * 初始化页面其它效果
+     * **/
+    $(function () {
+        $(".router-link-exact-active").removeClass("router-link-exact-active");
+        $(".router-link-active").removeClass("router-link-active");
+        var $this = $(".myblog");
+        $this.css({
+            background: '#b20b13',
+            color: '#fff'
+        });
+    });
+
+    /**
+     * 渲染blog到盒子
+     * **/
+    function parseBlog(blogs, page, pagesize) {
+        var $div = $(".blogs>div#blog");
+        $div.find("li").remove();
+        $.each(blogs, function (index, blog) {
+            var $li = $("<li></li>");
+            var $span = $("<span class='blogpic'></span>");
+            var $a1 = $("<a></a>");
+            $a1.prop("href", "http://127.0.0.1/blog/blogs/" + blog.author.author + "/article/" + blog.id);
+            var $img = $("<img>");
+            $img.prop("src", "http://127.0.0.1/blog/" + blog.author.uri);
+            var $h3 = $("<h3 class='blogtitle'></h3>");
+            var $a2 = $("<a></a>");
+            $a2.prop("href", "http://127.0.0.1/blog/blogs/" + blog.author.author + "/article/" + blog.id);
+            $a2.text(blog.title);
+            var $div2 = $("<div class='bloginfo'></div>");
+            var $p = $("<p></p>");
+            $p.text(blog.summary);
+            var $div3 = $("<div class='autor'></div>");
+            var $sp1 = $("<span class='lm'></span>");
+            $sp1.text(blog.tag.tag);
+            var $sp2 = $("<span class='dtime'></span>");
+            $sp2.text(blog.udate);
+            var $sp3 = $("<span class='viewnum'></span>");
+            $sp3.text("浏览(" + blog.count + ")");
+            var $sp4 = $("<span class='readmore'></span>");
+            var $a3 = $("<a></a>");
+            $a3.text("阅读全文");
+            $a3.prop("href", "http://127.0.0.1/blog/blogs/" + blog.author.author + "/article/" + blog.id);
+            $li.append($span);
+            $span.append($a1);
+            $a1.append($img);
+            $li.append($h3);
+            $h3.append($a2);
+            $li.append($div2);
+            $div2.append($p);
+            $li.append($div3);
+            $div3.append($sp1);
+            $div3.append($sp2);
+            $div3.append($sp3);
+            $div3.append($sp4);
+            $sp4.append($a3);
+            $div.append($li);
+        })
+    }
+
+    /**
+     *获取作者博客
+     ***/
+    function getBlog() {
+        var url = "[[${path+'/'+session.user.username + '/blogs'}]]";
+        $.ajax({
+            url: url + "?page=" + (pageConf.currentPage - 1) + "&pagesize=" + pageConf.pageSize,
+            method: "get",
+            success: function (data) {
+                data = data.params;
+                layui.use(['laypage', 'layer'], function () {
+                    var laypage = layui.laypage;
+                    var layer = layui.layer;
+                    laypage.render({
+                        elem: 'pg',
+                        pages: 10,
+                        first: false,
+                        last: false,
+                        count: data.length,
+                        limit: pageConf.pageSize,
+                        curr: pageConf.currentPage,
+                        jump: function (obj, first) {
+                            if (!first) {
+                                pageConf.currentPage = obj.curr;
+                                pageConf.pageSize = obj.limit;
+                                //再次发送ajax请求
+                                getBlog();
+                            } else {
+                                parseBlog(data.blogs, pageConf.currentPage, pageConf.pageSize);
+                            }
+                        }
+                    });
+                })
+            }
+        })
+    }
+
+    $(function () {
+        if (!window.pageConf) {
+            window.pageConf = {};
+            pageConf.pageSize = 10;
+            pageConf.currentPage = 1;
+        }
+        getBlog();
+    })
+</script>
+</html>

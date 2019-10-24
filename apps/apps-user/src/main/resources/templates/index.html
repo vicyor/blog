@@ -8,42 +8,22 @@
     <link th:href="${path+'/css/base.css'}" rel="stylesheet">
     <link th:href="${path+'/css/index.css'}" rel="stylesheet">
     <link th:href="${path+'/css/m.css'}" rel="stylesheet">
-    <link rel="icon" th:href="${path+'/images/logo.png'}"/>
     <link rel="stylesheet" th:href="${path +'/css/update.css'}">
     <link rel="stylesheet" th:href="${path +'/css/article.css'}">
-    <link rel=stylesheet href=/user/lib/skeleton.css>
-    <link href=/user/css/user.css rel=stylesheet>
-    <link href="/user/plugin/layui/css/layui.css"/>
-    <script rel="stylesheet" src="/user/js/jquery-3.3.1.js"></script>
-    <script rel="stylesheet" src="/user/plugin/layui/layui.js"></script>
-    <script rel="stylesheet" src="/user/js/user.js"></script>
+    <link rel=stylesheet th:href="${path+'/lib/skeleton.css'}">
+    <link rel="stylesheet" th:href="${path+'/css/user.css'}"  >
+    <link rel="stylesheet" th:href="${path+'/plugin/layui/css/layui.css'}" media="all"/>
+    <script th:src="${path+'/js/jquery-3.3.1.js'}"></script>
+    <script th:src="${path+'/plugin/layui/layui.js'}"></script>
+    <script th:src="${path+'/js/user.js'}"></script>
 </head>
 <header th:replace="html/header.html::header"></header>
 <body>
+<input type="hidden" id="path" th:value="${path}">
 <input type="hidden" id="username" th:value="${session.user.username}"/>
 <div id="app">
     <div data-v-357a65ed="" class="container view">
-        <div data-v-357a65ed="" class="left_box">
-            <ul data-v-357a65ed="" class="aside">
-                <li data-v-357a65ed="" class="router-link-exact-active router-link-active">
-                    <a data-v-357a65ed="" href="#/uc/profile" class="zl">个人资料</a>
-                </li>
-                <!--TODO 这里开发使用本机地址-->
-                <li data-v-357a65ed="" class=""><a data-v-357a65ed="" href="http://127.0.0.1/blog" class="zl">博客首页</a>
-                </li>
-            </ul>
-            <ul data-v-357a65ed="" class="aside">
-                <li data-v-357a65ed="">
-                    <a data-v-357a65ed="" href="https://mp.csdn.net/" target="_blank"
-                       data-report-click="{&quot;mod&quot;:&quot;popu_790&quot;,&quot;dest&quot;:&quot;https://mp.csdn.net/&quot;,&quot;extend1&quot;:&quot;我的博客&quot;}"
-                       class="zl">我的博客</a>
-                </li>
-                <li data-v-357a65ed=""><a data-v-357a65ed="" href="https://ask.csdn.net/my" target="_blank"
-                                          data-report-click="{&quot;mod&quot;:&quot;popu_790&quot;,&quot;dest&quot;:&quot;https://ask.csdn.net/my&quot;,&quot;extend1&quot;:&quot;我的问答&quot;}"
-                                          class="zl">我的问答</a>
-                </li>
-            </ul>
-        </div>
+        <div th:replace="html/left::left"></div>
         <div data-v-357a65ed="" class="view-container">
             <div data-v-0d738edb="" data-v-357a65ed="" class="cont view">
                 <div data-v-0d738edb="" class="right_cont"><h3 data-v-0d738edb="" class="title">个人资料</h3>
@@ -51,7 +31,11 @@
                         <div data-v-0d738edb="" class="header"><img data-v-0d738edb=""
                                                                     th:src="${'http://127.0.0.1/blog/'+session.user.imageUri}"
                                                                     alt="" class="head">
-                            <p data-v-0d738edb="" class="modify">修改头像</p></div> <!---->
+                            <div class="layui-upload">
+                                <button class="layui-btn" id="modify">修改头像</button>
+                            </div>
+
+                        </div> <!---->
                         <div data-v-0d738edb="" class="right_c">
                             <div data-v-0d738edb="" class="right_info">
                                 <div data-v-0d738edb="" class="id_card"><span data-v-0d738edb="" class="id_name"
@@ -63,8 +47,9 @@
                             <div data-v-0d738edb="" class="warn_tip"><!----> <a data-v-0d738edb=""
                                                                                 href="javascript:;"
                                                                                 class="csdn_msg"
-                                                                                th:text="${session.user.job}"></a> <span
-                                    data-v-0d738edb="" class="tip_words">*温馨提示会：这个前端模板是用csdn的,哈哈.</span></div>
+                                                                                th:text="${session.user.job}"></a>
+                                <span
+                                        data-v-0d738edb="" class="tip_words">*温馨提示会：这个前端模板是用csdn的,哈哈.</span></div>
                             <div data-v-0d738edb="" class="line"></div>
                             <br/>
                             <div data-v-0d738edb="" class="nick"><span data-v-0d738edb=""
