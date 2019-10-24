@@ -17,4 +17,6 @@ public interface UserMapper {
 
     void saveUser(BlogUser blogUser);
     void saveUserInfo(BlogUser blogUser);
+
+    void updateBlogUser(BlogUser dbUser);
 }

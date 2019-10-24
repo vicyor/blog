@@ -1,0 +1,96 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改资料</title>
+    <script src="/user/js/jquery-3.3.1.js"></script>
+    <link rel="stylesheet" href="/user/css/modify.css"/>
+    <!--    <link rel="stylesheet" href="/user/plugin/layui/css/layui.css"/>-->
+    <script src="/user/plugin/layui/layui.js"></script>
+</head>
+<body>
+
+<div class="dialog">
+    <form method="post" action="javascript:;">
+        <div class="dialog_cont">
+            <div class="box">
+                <h3 class="title">修改资料</h3>
+            </div>
+            <p class="nick word"><span class="nc">昵称：</span>
+                <input type="text" name="username" autocomplete="off" minlength="2" maxlength="20"
+                       th:value="${session.user.username}" class="el-input__inner" readonly="readonly">
+            </p>
+            <p class="name word"><span class="nc">实名：</span>
+                <input type="text" name="name" autocomplete="off" minlength="2" maxlength="10" class="el-input__inner"
+                       th:value="${session.user.name}"
+                >
+                <!---->
+            </p>
+            <p class="word name"><span class="nc">职业：</span>
+                <input type="text" name="job" autocomplete="off" maxlength="20" class="el-input__inner"
+                       th:value="${session.user.job}"
+                >
+            </p>
+            <div class="word introduce" name="motto"><span class="tip nc">简介：</span>
+                <div class="bao">
+                    <textarea maxlength="300" placeholder="300字以内" class="area"
+                              name="motto" th:value="${session.user.motto}" th:text="${session.user.motto}"
+                    ></textarea>
+                </div>
+            </div>
+            <br/>
+            <div class="btn_group">
+                <input type="reset" class="cancel" value="重置"/>
+                <button class="confirm">确定</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        $(function () {
+            $(".confirm").on('click', function () {
+                var user = {};
+                user.username = $("input[name='username']").val();
+                user.name = $("input[name='name']").val();
+                user.motto = $("textarea[name='motto']").val();
+                user.job = $("input[name='job']").val();
+                var result = true;
+                var regex = /[\u4e00-\u9fa5A-Za-z0-9]{2,100}/;
+                var wrongMessage = "";
+                var url = "[[${path+'/'+session.user.username+'/modify'}]]";
+                if (!user.name.match(regex)) {
+                    result = false;
+                    wrongMessage = "姓名格式错误";
+                }
+                if (!user.motto.match(regex)) {
+                    result = false;
+                    wrongMessage = "座右铭格式错误";
+                }
+                if (!user.job.match(regex)) {
+                    result = false;
+                    wrongMessage = "职业格式错误"
+                }
+                if (!result) {
+                    layui.use(['layer'], function () {
+                        var layer = layui.layer;
+                        layer.tips(wrongMessage, '.confirm');
+                    });
+                } else {
+                    $.ajax({
+                        url: url,
+                        data: JSON.stringify(user),
+                        method: 'post',
+                        contentType: 'application/json',
+                        success: function (data) {
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            //layer.msg(index);
+                            parent.layer.close(index); //再执行关闭
+                        }
+                    })
+                }
+                return result;
+            });
+
+        })
+    </script>
+</div>
+</body>
+</html>

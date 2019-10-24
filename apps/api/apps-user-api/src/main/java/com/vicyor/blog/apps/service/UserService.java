@@ -12,5 +12,7 @@ public interface UserService {
 
     void saveUser(BlogUser blogUser);
 
-    BlogUser findBlogUser(String author);
+    BlogUser findBlogUser(String username);
+
+    void updateBlogUser(BlogUser dbUser);
 }

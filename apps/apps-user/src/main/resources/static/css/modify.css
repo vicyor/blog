@@ -1,0 +1,56 @@
+.dialog{
+    width: 462px;
+    height: 304px;
+}
+.nc{
+    overflow: hidden;
+    margin-right: 5px;
+    height: 32px;
+    line-height: 32px;
+    float: left;
+    font-size: 14px;
+    color: #4d4d4d;
+}
+.el-input__inner{
+    width: 170px!important;
+    height: 32px!important;
+    line-height: 100%;
+}
+.area{
+    resize: none;
+    width: 396px;
+    height: 54px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding-top: 4px;
+    padding-left: 14px;
+    font-size: 14px;
+    color: #4d4d4d;
+}
+.btn_group{
+    overflow: hidden;
+    margin-left: 300px
+}
+.cancel{
+    float: left;
+    width: 72px;
+    height: 36px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #3d3d3d;
+    border: none;
+    margin-right: 16px;
+    cursor: pointer;
+}
+.confirm{
+    float: left;
+    width: 72px;
+    height: 36px;
+    background: #ca0d16;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}

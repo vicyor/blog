@@ -14,4 +14,9 @@
     <insert id="saveUserInfo">
         insert into oauth_user_info (username, name, job, motto, image_uri) VALUES (#{username},#{name},#{job},#{motto},#{imageUri} )
     </insert>
+    <update id="updateBlogUser">
+        update oauth_user_info
+        set name=#{name},job=#{job},motto=#{motto},image_uri=#{imageUri}
+        where username=#{username}
+    </update>
 </mapper>
