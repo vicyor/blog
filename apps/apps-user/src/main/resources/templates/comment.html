@@ -32,7 +32,8 @@
                             <li class="comment-line" th:each="comment:${comments}">
                                 <div style="display: inline-block" class="left-box">
                                     <a href="javascript:;">
-                                        <img th:src="${'http://127.0.0.1/blog/'+session.user.imageUri}"
+                                        <!--TODO 开发注意uri-->
+                                        <img th:src="${'http://www.vicyor.com/blog/'+session.user.imageUri}"
                                              class="mid-image">
                                     </a>
                                 </div>
@@ -59,7 +60,7 @@
                                 </div>
                                 <div class="left-box">
                                     <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
-                                      th:if="${comment.getClass().getSimpleName().equals('ReplyComment') }"
+                                          th:if="${comment.getClass().getSimpleName().equals('ReplyComment') }"
                                           th:text="${comment.comment.blog.title}"></span>
                                     <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
                                           th:if="${comment.getClass().getSimpleName().equals('Comment') }"

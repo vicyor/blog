@@ -6,12 +6,12 @@
             <h2><span class="navicon"></span></h2>
             <!--           TODO 这里上线时候路径都要改-->
             <ul>
-                <li><a href="http://127.0.0.1/blog/">网站首页</a></li>
+                <li><a href="http://www.vicyor.com/blog/">网站首页</a></li>
                 <li><a href="https://github.com/vicyor/blog">模板分享</a></li>
-                <li><a th:href="${'http://127.0.0.1/blog/blogs/'+session.user.username+'/new'}"
+                <li><a th:href="${'http://www.vicyor.com/blog/blogs/'+session.user.username+'/new'}"
                        style="color: #1abc9c">新建博客</a></li>
                 <li th:if="${!session.user.login}"><a th:href="${path +'/login'}" style="color: #1abc9c">登录</a></li>
-                <li th:if="${session.user.login}"><a href="http://127.0.0.1:9090/user/"
+                <li th:if="${session.user.login}"><a href="http://www.vicyor.com:9090/user/"
                                                      th:text="${'欢迎回来  '+session.user.name}"
                                                      style="color: #1abc9c"></a></li>
                 <li th:if="${session.user.login}"><a href="javascript:;" style="color: #1abc9c" class="lo">退出</a>
@@ -20,12 +20,12 @@
         </div>
         <nav class="topnav" id="topnav">
             <ul>
-                <li><a href="http://127.0.0.1/blog/">网站首页</a></li>
+                <li><a href="http://www.vicyor.com/blog/">网站首页</a></li>
                 <li><a href="https://github.com/vicyor/blog">模板分享</a></li>
-                <li><a th:href="${'http://127.0.0.1/blog/blogs/'+session.user.username+'/new'}" style="color: #1abc9c">新建博客</a>
+                <li><a th:href="${'http://www.vicyor.com/blog/blogs/'+session.user.username+'/new'}" style="color: #1abc9c">新建博客</a>
                 </li>
                 <li th:if="${!session.user.login}"><a th:href="${path +'/login'}" style="color: #1abc9c">登录</a></li>
-                <li th:if="${session.user.login}"><a href="http://127.0.0.1:9090/user/"
+                <li th:if="${session.user.login}"><a href="http://www.vicyor.com:9090/user/"
                                                      th:text="${'欢迎回来  '+session.user.name}"
                                                      style="color: #1abc9c"></a></li>
                 <li th:if="${session.user.login}"><a href="javascript:;" style="color: #1abc9c" class="lo">退出</a>
@@ -39,7 +39,7 @@
             //必须以post方式才能单点退出,post会删除 认证服务器的token
             $(".lo").on('click', function () {
                 $.post($("#head-path").val() + "/logout");
-                window.location.href = "http://127.0.0.1/blog/";
+                window.location.href = "http://www.vicyor.com/blog/";
             })
         })
     </script>
