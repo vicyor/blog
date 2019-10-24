@@ -13,6 +13,7 @@
     <link rel=stylesheet th:href="${path+'/lib/skeleton.css'}">
     <link rel="stylesheet" th:href="${path+'/css/user.css'}">
     <link rel="stylesheet" th:href="${path+'/plugin/layui/css/layui.css'}" media="all"/>
+    <link rel="stylesheet" th:href="${path+'/css/comment.css'}"/>
     <script th:src="${path+'/js/jquery-3.3.1.js'}"></script>
     <script th:src="${path+'/js/user.js'}"></script>
     <script th:src="${path+'/plugin/layui/layui.js'}"></script>
@@ -27,6 +28,49 @@
             <div data-v-0d738edb="" data-v-357a65ed="" class="cont view">
                 <div data-v-0d738edb="" class="right_cont"><h3 data-v-0d738edb="" class="title">我的博客</h3>
                     <div data-v-0d738edb="" class="user_info">
+                        <ul class="comment-list">
+                            <li class="comment-line" th:each="comment:${comments}">
+                                <div style="display: inline-block" class="left-box">
+                                    <a href="javascript:;">
+                                        <img th:src="${'http://127.0.0.1/blog/'+session.user.imageUri}"
+                                             class="mid-image">
+                                    </a>
+                                </div>
+                                <div class="info-box left-box">
+                                    <a href="javascript:;">
+                                        <span style="line-height: 50px;height: 50px;font-size: 20px" class="name"
+                                              th:if="${comment.getClass().getSimpleName().equals('ReplyComment') }"
+                                              th:text="${comment.from}"></span>
+                                        <span style="line-height: 50px;height: 50px;font-size: 20px" class="name"
+                                              th:if="${comment.getClass().getSimpleName().equals('Comment')}"
+                                              th:text="${comment.username}"></span>
+                                    </a>
+                                    <span style="line-height: 50px;height: 50px;font-size: 20px">:</span>
+                                    <span th:text="${comment.content}"
+                                          style="line-height: 50px;height: 50px;font-size: 20px"></span>
+                                    <br/>
+                                    <br/>
+                                    <span style="line-height: 50px;height: 50px;font-size: 20px;padding-left: 100px"
+                                          th:if="${comment.getClass().getSimpleName().equals('ReplyComment') }"
+                                          th:text="${'回复 '+comment.to+' : '+comment.comment.content}"
+                                    >
+                                    </span>
+                                    <br/>
+                                </div>
+                                <div class="left-box">
+                                    <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
+                                      th:if="${comment.getClass().getSimpleName().equals('ReplyComment') }"
+                                          th:text="${comment.comment.blog.title}"></span>
+                                    <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
+                                          th:if="${comment.getClass().getSimpleName().equals('Comment') }"
+                                          th:text="${comment.blog.title}"></span>
+                                </div>
+                                <div class="right-box">
+                                    <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
+                                          th:text="${comment.cdate}"></span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -44,18 +88,6 @@
             background: '#b20b13',
             color: '#fff'
         });
-    })
-</script>
-<script>
-    $(function () {
-        var url="[[${path+'/'+session.user.username+'/'+comment}]]";
-        $.ajax({
-            url:url,
-            method:'get',
-            success:function (comments) {
-
-            }
-        })
     })
 </script>
 </html>

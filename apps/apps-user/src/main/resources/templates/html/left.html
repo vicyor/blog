@@ -14,7 +14,8 @@
               th:href="${path+'/'+session.user.username+'/myblog'}"
                class="zl">我的博客</a>
         </li>
-        <li data-v-357a65ed="" class="mycomment"><a data-v-357a65ed="" th:href="${path+'/toComment'}"
+        <li data-v-357a65ed="" class="mycomment">
+            <a data-v-357a65ed="" th:href="${path+'/'+session.user.username+'/toComment'}"
                                   data-report-click="{&quot;mod&quot;:&quot;popu_790&quot;,&quot;dest&quot;:&quot;https://ask.csdn.net/my&quot;,&quot;extend1&quot;:&quot;我的问答&quot;}"
                                   class="zl">我的问答</a>
         </li>

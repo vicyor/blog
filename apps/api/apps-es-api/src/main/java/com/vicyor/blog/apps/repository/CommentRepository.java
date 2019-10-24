@@ -11,5 +11,5 @@ import java.util.List;
  **/
 public interface CommentRepository extends ElasticsearchRepository<Comment, String> {
     public List<Comment> findCommentsByBlogIdEqualsOrderByCdate(String blogId);
-    public List<Comment> findCommentsByUsernameEquals(String username);
+    public List<Comment> findCommentsByUsernameEqualsOrderByCdateDesc(String username);
 }

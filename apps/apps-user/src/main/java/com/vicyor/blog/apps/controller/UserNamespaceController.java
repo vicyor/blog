@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.net.URI;
@@ -44,6 +45,7 @@ public class UserNamespaceController {
     BlogService blogService;
     @Autowired
     CommentService commentService;
+
     @GetMapping("/modify")
     public String toModifyPage(@PathVariable("username") String username) {
         return "modify";
@@ -103,16 +105,12 @@ public class UserNamespaceController {
         object.put("blogs", pg.get().collect(Collectors.toList()));
         return object;
     }
+
     @GetMapping("/toComment")
-    @ResponseBody
-    public String toComment(){
+    public String toComment(HttpServletRequest request) {
+        List<Object> comments = commentService.ownComments(UserUtil.blogUser().getUsername());
+        request.setAttribute("comments",comments);
         return "comment";
-    }
-    @GetMapping("/comment")
-    @ResponseBody
-    public List<Comment>ownComments(){
-        BlogUser blogUser = UserUtil.blogUser();
-        List<Object>comments=commentService.ownComments(blogUser.getUsername());
-        return null;
+
     }
 }

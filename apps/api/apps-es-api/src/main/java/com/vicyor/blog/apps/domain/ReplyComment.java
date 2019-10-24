@@ -8,6 +8,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -58,4 +60,7 @@ public class ReplyComment implements Serializable {
      */
     protected ReplyComment() {
     }
+    @JoinColumn(name = "id",referencedColumnName = "parentCommentId")
+    @OneToOne
+    private Comment comment;
 }

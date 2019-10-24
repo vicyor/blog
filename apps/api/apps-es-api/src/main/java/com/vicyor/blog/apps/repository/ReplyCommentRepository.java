@@ -11,5 +11,5 @@ import java.util.List;
  **/
 public interface ReplyCommentRepository extends ElasticsearchRepository<ReplyComment, String> {
     Long countByParentCommentIdEquals(String parentCommentId);
-    List<ReplyComment> findByFromEquals(String from);
+    List<ReplyComment> findByFromEqualsOrderByCdateDesc(String from);
 }

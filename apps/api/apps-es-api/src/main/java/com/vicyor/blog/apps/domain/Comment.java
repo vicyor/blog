@@ -8,6 +8,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.sql.Date;
 
@@ -44,7 +46,9 @@ public class Comment implements Serializable {
         this.blogId = blogId;
         this.image = image;
     }
-
+    @OneToOne
+    @JoinColumn(name = "id",referencedColumnName = "blogId")
+    private EsBlog blog;
     /**
      * 生成代理可用到
      */
