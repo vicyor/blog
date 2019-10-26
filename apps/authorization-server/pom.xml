@@ -45,7 +45,7 @@
         </dependency>
         <dependency>
             <groupId>com.vicyor.blog.apps.api</groupId>
-            <artifactId>apps-blog-api</artifactId>
+            <artifactId>apps-common-api</artifactId>
             <version>${apps-common-api.version}</version>
         </dependency>
         <dependency>
