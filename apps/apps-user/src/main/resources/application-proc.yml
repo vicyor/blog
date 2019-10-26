@@ -6,8 +6,8 @@ security:
     client:
       client-id: user
       client-secret: user
-      user-authorization-uri: http://www.vicyor.com:8080/auth/oauth/authorize
-      access-token-uri: http://www.vicyor.com:8080/auth/oauth/token
+      user-authorization-uri: http://129.204.72.141:8080/auth/oauth/authorize
+      access-token-uri: http://129.204.72.141:8080/auth/oauth/token
     resource:
       jwk:
         key-set-uri: http://www.vicyor.com:8080/auth/oauth/token_key
