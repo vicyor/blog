@@ -23,8 +23,6 @@ spring:
     username: root
     password: vicyor123456
     url: jdbc:mysql://106.13.74.154:3306/blog
-    hikari:
-      maximum-pool-size: 5
   thymeleaf:
     cache: true
 server:
