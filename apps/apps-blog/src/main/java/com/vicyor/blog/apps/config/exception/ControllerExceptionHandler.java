@@ -1,4 +1,4 @@
-package com.vicyor.blog.apps.exception;
+package com.vicyor.blog.apps.config.exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

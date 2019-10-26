@@ -32,10 +32,11 @@ public class PerDynamicRequestFilter extends HttpFilter {
         //添加项目路径
         request.setAttribute("path", request.getContextPath());
         String uri = request.getRequestURL().toString();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         HttpSession session = request.getSession();
 
         if (!(uri.contains("oauth")||uri.contains("auth")||uri.contains("css") || uri.contains("html") || uri.contains("images") || uri.contains("js"))) {
+            //认证放在外面的话,服务器在认证时会报错
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             //            //添加认证信息
             //在会话中添加用户信息
             Object user = session.getAttribute("user");
