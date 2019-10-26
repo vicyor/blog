@@ -26,12 +26,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .formLogin().loginPage("/login").permitAll()
+                .formLogin().loginPage("/login").failureUrl("/login?error").permitAll()
                 .and()
                 //认证服务器没啥东西,全部放行
                 .authorizeRequests().anyRequest().permitAll()
                 .and()
                 .csrf().disable()
+                .cors().disable()//跨域
                 .logout().permitAll()
         ;
     }
