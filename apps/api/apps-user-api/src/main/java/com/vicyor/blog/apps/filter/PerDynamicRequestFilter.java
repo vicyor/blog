@@ -35,7 +35,7 @@ public class PerDynamicRequestFilter extends HttpFilter {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         HttpSession session = request.getSession();
 
-        if (!(uri.contains("auth")||uri.contains("css") || uri.contains("html") || uri.contains("images") || uri.contains("js"))) {
+        if (!(uri.contains("oauth")||uri.contains("auth")||uri.contains("css") || uri.contains("html") || uri.contains("images") || uri.contains("js"))) {
             //            //添加认证信息
             //在会话中添加用户信息
             Object user = session.getAttribute("user");
