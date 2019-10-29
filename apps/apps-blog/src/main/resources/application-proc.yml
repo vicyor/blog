@@ -8,6 +8,7 @@ security:
       client-secret: blog
       user-authorization-uri: http://129.204.72.141:8080/auth/oauth/authorize
       access-token-uri: http://129.204.72.141:8080/auth/oauth/token
+      registered-redirect-uri: http://129.204.72.141/blog/login
     resource:
       jwk:
         key-set-uri: http://129.204.72.141:8080/auth/oauth/token_key
