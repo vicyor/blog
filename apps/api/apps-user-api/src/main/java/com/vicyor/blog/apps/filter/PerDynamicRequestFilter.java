@@ -21,8 +21,8 @@ import java.io.IOException;
  * 作者:姚克威
  * 时间:2019/9/4 0:26
  **/
-@WebFilter(urlPatterns = "/*", filterName = "dynamicRequestFilter")
-@Component
+//@WebFilter(urlPatterns = "/*", filterName = "dynamicRequestFilter")
+//@Component
 public class PerDynamicRequestFilter extends HttpFilter {
     @Autowired
     private UserService userService;
