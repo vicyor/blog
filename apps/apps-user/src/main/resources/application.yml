@@ -25,6 +25,8 @@ spring:
           tcp:
             connect_timeout: 60s
       cluster-name: docker-cluster
+  profiles:
+    active: proc
 server:
   port: 9090
   servlet:
