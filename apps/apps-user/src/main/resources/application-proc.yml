@@ -10,4 +10,4 @@ security:
       access-token-uri: http://129.204.72.141:8080/auth/oauth/token
     resource:
       jwk:
-        key-set-uri: http://www.vicyor.com:8080/auth/oauth/token_key
+        key-set-uri: http://129.204.72.141:8080/auth/oauth/token_key
