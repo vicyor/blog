@@ -20,10 +20,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/**/login", "/**/auth", "/**/oauth","/**/*.html","/**/*.js","/**/*.css").permitAll()
                 .anyRequest()
-                .permitAll()
+                .authenticated()
                 .and()
-
                 .csrf().disable()
                 .cors().disable()
                 .headers().frameOptions().disable();
