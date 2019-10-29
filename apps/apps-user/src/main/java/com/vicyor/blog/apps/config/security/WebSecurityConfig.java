@@ -1,9 +1,12 @@
 package com.vicyor.blog.apps.config.security;
 
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 
 /**
  * 作者:姚克威
@@ -12,6 +15,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableOAuth2Sso
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Bean
+    public FilterRegistrationBean oauth2ClientFilterRegistration(
+            OAuth2ClientContextFilter filter) {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(filter);
+        registration.setOrder(-100);
+        return registration;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -19,6 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .permitAll()
                 .and()
+
                 .csrf().disable()
                 .cors().disable()
                 .headers().frameOptions().disable();
