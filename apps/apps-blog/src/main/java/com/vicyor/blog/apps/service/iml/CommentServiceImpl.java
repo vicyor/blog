@@ -23,6 +23,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     ReplyCommentService replyCommentService;
+
     @Override
     public Comment addComment(Comment comment) {
         return repository.save(comment);

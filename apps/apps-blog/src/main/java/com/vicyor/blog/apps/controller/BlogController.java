@@ -1,7 +1,6 @@
 package com.vicyor.blog.apps.controller;
 
 import com.vicyor.blog.apps.domain.EsBlog;
-import com.vicyor.blog.apps.domain.Tag;
 import com.vicyor.blog.apps.log.LogAnnotation;
 import com.vicyor.blog.apps.pojo.BlogUser;
 import com.vicyor.blog.apps.service.BlogService;
@@ -156,7 +155,6 @@ public class BlogController {
 
     @LogAnnotation("保存新建的博客")
     @PostMapping("/{username}/new")
-    @CacheEvict(cacheNames = "blogs", allEntries = true, beforeInvocation = true)
     @ResponseBody
     public String createBlog(
             @RequestBody Map<String, String> requestParams,
@@ -166,9 +164,8 @@ public class BlogController {
         String content = requestParams.get("content");
         String summary = requestParams.get("summary");
         String tagName = requestParams.get("tag");
-        Tag tag = new Tag(tagName);
         //blog图片为用户头像
-        EsBlog blog = new EsBlog(title, tag, content, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 1, UserUtil.blogUser().getImageUri(), summary, username);
+        EsBlog blog = new EsBlog(title, tagName, content, new Date(System.currentTimeMillis()), 1, UserUtil.blogUser().getImageUri(), summary, username);
         blog = blogService.saveBlog(blog);
         return blog.getId();
     }

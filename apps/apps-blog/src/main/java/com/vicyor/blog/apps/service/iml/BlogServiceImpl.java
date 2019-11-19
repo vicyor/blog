@@ -3,6 +3,7 @@ package com.vicyor.blog.apps.service.iml;
 import com.vicyor.blog.apps.domain.Comment;
 import com.vicyor.blog.apps.domain.EsBlog;
 import com.vicyor.blog.apps.domain.Tag;
+import com.vicyor.blog.apps.repository.AuthorRepository;
 import com.vicyor.blog.apps.repository.EsBlogRepository;
 import com.vicyor.blog.apps.repository.TagRepository;
 import com.vicyor.blog.apps.service.BlogService;
@@ -33,6 +34,8 @@ public class BlogServiceImpl implements BlogService {
     ElasticsearchTemplate template;
     @Autowired
     TagRepository tagRepository;
+    @Autowired
+    AuthorRepository authorRepository;
     @Autowired
     CommentService commentService;
 
@@ -99,13 +102,8 @@ public class BlogServiceImpl implements BlogService {
      */
     @Override
     public EsBlog saveBlog(EsBlog blog) {
-        Tag tag = blog.getTag();
-        Optional<Tag> optional = tagRepository.findByTagEquals(tag.getTag());
-        if (!optional.isPresent()) {
-            //这里必须调用tagRepository的save,不然es是不会存/tag/tag的,只会存在父子结构里
-            tag = tagRepository.save(tag);
-        }
-        blog.setTagId(optional.get().getId());
+        tagRepository.save(blog.getTag());
+        authorRepository.save(blog.getAuthor());
         return blogRepository.save(blog);
     }
 
@@ -119,9 +117,8 @@ public class BlogServiceImpl implements BlogService {
         Optional<EsBlog> optional = blogRepository.findById(id);
         //删除blog
         blogRepository.deleteById(id);
-        EsBlog blog = optional.get();
-        List<Comment> comments = blog.getComments();
-        //删除评论
+        List<Comment> comments = commentService.listComments(id);
+        //删除所有评论
         comments.stream().forEach(comment -> {
             commentService.deleteComment(comment.getId());
         });

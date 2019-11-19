@@ -37,7 +37,7 @@ public class CommentController {
     ) {
         String content = params.get("content");
         BlogUser blogUser = UserUtil.blogUser();
-        Comment comment = new Comment(content, username, new Date(System.currentTimeMillis()), blogId, blogUser.getImageUri());
+        Comment comment = new Comment(content, username, blogId, blogUser.getImageUri());
         //会嵌入主键
         comment = commentService.addComment(comment);
         return comment;
