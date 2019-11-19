@@ -57,7 +57,6 @@ public class BlogServiceImpl implements BlogService {
         GenerateViewObject viewObject = new GenerateViewObject();
         viewObject.put("length", esBlogPage.getTotalElements());
         viewObject.put("blogs", esBlogPage.get().collect(Collectors.toList()));
-
         return viewObject;
     }
 
@@ -103,10 +102,10 @@ public class BlogServiceImpl implements BlogService {
         Tag tag = blog.getTag();
         Optional<Tag> optional = tagRepository.findByTagEquals(tag.getTag());
         if (!optional.isPresent()) {
+            //这里必须调用tagRepository的save,不然es是不会存/tag/tag的,只会存在父子结构里
             tag = tagRepository.save(tag);
-        } else {
-            blog.setTagId(optional.get().getId());
         }
+        blog.setTagId(optional.get().getId());
         return blogRepository.save(blog);
     }
 

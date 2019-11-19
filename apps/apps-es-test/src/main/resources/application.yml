@@ -1,0 +1,11 @@
+spring:
+  data:
+    elasticsearch:
+      cluster-nodes: 106.13.74.154:9300
+      properties:
+        transport:
+          tcp:
+            connect_timeout: 60s
+      cluster-name: docker-cluster
+  jpa:
+    generate-ddl: true

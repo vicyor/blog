@@ -18,6 +18,7 @@
         <module>authorization-server</module>
         <module>api</module>
         <module>apps-user</module>
+        <module>apps-es-test</module>
     </modules>
 
 </project>

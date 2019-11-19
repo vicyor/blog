@@ -19,8 +19,7 @@ import java.util.List;
 /**
  * 作者:姚克威
  * 时间:2019/9/2 11:41
- * Es的join并不是像关系型数据库使用外键
- * 而是将1对1的entity直接作为子嵌入到父entity中
+ * TODO 修改为父子结构
  **/
 @Data
 @Document(indexName = "blog", type = "blog")

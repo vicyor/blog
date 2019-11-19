@@ -97,7 +97,7 @@ public class BlogController {
         BlogUser blogAuthor = userService.findBlogUser(author);
         EsBlog article = blogService.getArticle(blogId);
         request.setAttribute("tag", article.getTag().getTag());
-        request.setAttribute("blogAuthor",blogAuthor);
+        request.setAttribute("blogAuthor", blogAuthor);
         return "article";
     }
 
@@ -135,7 +135,7 @@ public class BlogController {
 
     @LogAnnotation("保存博客的修改内容")
     @PostMapping("/{author}/save/{id}")
-    @CacheEvict(cacheNames = {"blog","blogs"}, key = "#id",allEntries = true)
+    @CacheEvict(cacheNames = {"blog", "blogs"}, key = "#id", allEntries = true)
     @ResponseBody
     public void updateArticle(@RequestParam(value = "content", required = false) String content,
                               @RequestParam(value = "title", required = false) String title,
@@ -156,7 +156,7 @@ public class BlogController {
 
     @LogAnnotation("保存新建的博客")
     @PostMapping("/{username}/new")
-    @CacheEvict(cacheNames = "blogs", allEntries = true,beforeInvocation = true)
+    @CacheEvict(cacheNames = "blogs", allEntries = true, beforeInvocation = true)
     @ResponseBody
     public String createBlog(
             @RequestBody Map<String, String> requestParams,
@@ -169,7 +169,6 @@ public class BlogController {
         Tag tag = new Tag(tagName);
         //blog图片为用户头像
         EsBlog blog = new EsBlog(title, tag, content, new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 1, UserUtil.blogUser().getImageUri(), summary, username);
-        blog.setTagId(tag.getId());
         blog = blogService.saveBlog(blog);
         return blog.getId();
     }
@@ -177,7 +176,7 @@ public class BlogController {
 
     @LogAnnotation("删除博客")
     @RequestMapping("/{author}/delete/{id}")
-    @CacheEvict(cacheNames = "blogs", allEntries = true,beforeInvocation = true)
+    @CacheEvict(cacheNames = "blogs", allEntries = true, beforeInvocation = true)
     @ResponseBody
     public void deleteBlog(@PathVariable("id") String id,
                            @PathVariable("author") String author
