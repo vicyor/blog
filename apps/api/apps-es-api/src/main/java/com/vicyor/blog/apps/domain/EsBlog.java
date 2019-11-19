@@ -30,9 +30,6 @@ public class EsBlog implements Serializable {
     private String id;
     //博客标题
     private String title;
-    //标签Id
-    @Field(type = FieldType.Keyword)
-    private String tagId;
     //内容
     @Field(type = FieldType.Text,
             analyzer = "ik_max_word"
@@ -57,33 +54,22 @@ public class EsBlog implements Serializable {
     private Date udate;
     //浏览数量
     private long count;
-    @JoinColumn(name = "id", referencedColumnName = "authorId")
-    @OneToOne
     private Author author;
-    private String authorId;
+    private Tag tag;
 
-    public EsBlog(String title, Tag tag, String content, Date cdate, Date udate, long count, String uri, String summary, String author) {
+    public EsBlog(String title, String tag, String content,  Date udate, long count, String uri, String summary, String author) {
         this.title = title;
-        this.tag = tag;
+        this.tag = new Tag(tag);
         this.content = content;
-        this.cdate = cdate;
+        this.cdate = new Date(System.currentTimeMillis());
         this.udate = udate;
         this.count = count;
-        this.author=new Author(author,uri);
+        this.author = new Author(author, uri);
         this.summary = summary;
     }
 
     protected EsBlog() {
 
     }
-
-    @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "tagId")
-    private Tag tag;
-
-    @OneToMany
-    @OrderBy("cdate")
-    @JoinColumn(name = "blogId", referencedColumnName = "id")
-    private List<Comment> comments;
 
 }

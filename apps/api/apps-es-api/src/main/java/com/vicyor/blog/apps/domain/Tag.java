@@ -22,10 +22,6 @@ public class Tag implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
-    @Field(
-            type = FieldType.Keyword
-    )
     private String tag;
 
     public Tag(String tag) {

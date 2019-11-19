@@ -45,22 +45,22 @@ public class ReplyComment implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date cdate;
     private String image;
+    //添加一下blogId
+    private String blogId;
 
-    public ReplyComment(String content, String from, String to, String parentCommentId, Date cdate, String image) {
+    public ReplyComment(String content, String from, String to, String parentCommentId, Date cdate, String image, String blogId) {
         this.content = content;
         this.from = from;
         this.to = to;
         this.parentCommentId = parentCommentId;
         this.cdate = cdate;
         this.image = image;
+        this.blogId = blogId;
     }
-
+    private Comment comment;
     /**
      * 生成代理可用到
      */
     protected ReplyComment() {
     }
-    @JoinColumn(name = "id",referencedColumnName = "parentCommentId")
-    @OneToOne
-    private Comment comment;
 }

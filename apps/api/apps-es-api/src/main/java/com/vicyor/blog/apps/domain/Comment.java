@@ -22,6 +22,7 @@ import java.sql.Date;
 @Document(indexName = "comment", type = "comment")
 public class Comment implements Serializable {
     private static final long serialVersionUID = -706588845757984703L;
+    private EsBlog blog;
     @Id
     private String id;
     @Field(type = FieldType.Text,
@@ -39,16 +40,13 @@ public class Comment implements Serializable {
     private String blogId;
     private String image;
 
-    public Comment(String content, String username, Date cdate, String blogId, String image) {
+    public Comment(String content, String username, String blogId, String image) {
         this.content = content;
         this.username = username;
-        this.cdate = cdate;
+        this.cdate = new Date(System.currentTimeMillis());
         this.blogId = blogId;
         this.image = image;
     }
-    @OneToOne
-    @JoinColumn(name = "id",referencedColumnName = "blogId")
-    private EsBlog blog;
     /**
      * 生成代理可用到
      */
