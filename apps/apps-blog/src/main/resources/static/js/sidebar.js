@@ -60,7 +60,7 @@ function parseCountRank(blogs) {
         var $li = $("<li></li>");
         var $b = $("<b></b>");
         var $a = $("<a></a>");
-        $a.prop("href", "/blog/blogs/" + blog.author.author+ "/article/" + blog.id);
+        $a.prop("href", "/blog/blogs/" + blog.author.author + "/article/" + blog.id);
         $a.text(blog.title);
         var $p = $("<p></p>");
         var $ai = $("<a></a>");
@@ -129,17 +129,14 @@ function getBlogsByTag(val) {
 //标签云的点击事件
 function initclick() {
     var href = window.location.href.toString();
-    var arr = $("#cloud").find("a");
-    $.each(arr, function (index, a) {
-        var $a = $(a);
+    $(document).delegate('.tg', 'click', function () {
+        var $a = $(this);
         $a.prop("href", "javascript:;");
-        $a.on('click', function () {
-            var val = $a.text();
-            pageConf.pageSize = 10;
-            pageConf.currentPage = 1;
-            getBlogsByTag(val);
-        })
-    })
+        var val = $a.text();
+        pageConf.pageSize = 10;
+        pageConf.currentPage = 1;
+        getBlogsByTag(val);
+    });
 }
 
 //执行初始化操作
@@ -154,7 +151,7 @@ $(function () {
         method: "get",
         success: function (tags) {
             $.each(tags, function (index, tag) {
-                var $a = $("<a></a>");
+                var $a = $("<a class='tg'></a>");
                 $a.prop('href', "javascript:;");
                 $a.text(tag.tag);
                 $ul.append($a);
