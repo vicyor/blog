@@ -60,11 +60,11 @@
                                 <div class="left-box">
                                     <a th:href="${ip+'/blog/blogs/'+comment.comment.blog.author.author+'/article/'+comment.comment.blog.id}" th:if="${comment.getClass().getSimpleName().equals('ReplyComment') }" style="font-weight: bold">
                                         <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
-                                              th:text="${'标题:  '+comment.comment.blog.title}"></span>
+                                              th:text="${'blog:  '+comment.comment.blog.title}"></span>
                                     </a>
                                     <a th:href="${ip+'/blog/blogs/'+comment.blog.author.author+'/article/'+comment.blog.id}" th:if="${comment.getClass().getSimpleName().equals('Comment') }" style="font-weight: bold">
                                         <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
-                                              th:text="${'标题:  '+comment.blog.title}"></span>
+                                              th:text="${'blog:  '+comment.blog.title}"></span>
                                     </a>
                                 </div>
                                 <div class="right-box">
