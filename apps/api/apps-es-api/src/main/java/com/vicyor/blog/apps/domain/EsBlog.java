@@ -71,5 +71,6 @@ public class EsBlog implements Serializable {
     protected EsBlog() {
 
     }
-
+    private String tagId;
+    private String authorId;
 }

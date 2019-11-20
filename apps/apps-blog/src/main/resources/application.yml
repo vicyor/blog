@@ -27,6 +27,8 @@ spring:
   jpa:
     show-sql: true #显示sql语句
     generate-ddl: true #根据entity自动建表
+  application:
+    name: blog
 mybatis:
   mapper-locations: classpath:mapper/**.xml
   configuration:

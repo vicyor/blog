@@ -1,12 +1,10 @@
 package com.vicyor.blog.apps.config;
 
-import com.vicyor.blog.apps.filter.PerDynamicRequestFilter;
 import com.vicyor.blog.apps.pojo.OauthClientDetail;
 import com.vicyor.blog.apps.properties.AuthorizationProperties;
 import com.vicyor.blog.apps.util.ClientDetailsServiceConfigManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.oauth2.config.annotation.builders.InMemoryClientDetailsServiceBuilder;
@@ -81,13 +79,7 @@ public class AuthorziationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenStore jwtTokenStore() {
         JwtTokenStore tokenStore = new JwtTokenStore(jwtAccessTokenConverter());
-        /**
-         * JwtHeaderConverter.convert(JwtHeaderConverter.java:54)"
-         * JwkVerifyingJwtAccessTokenConverter.decode(JwkVerifyingJwtAccessTokenConverter.java:96)"
-         * JwtTokenStore.convertAccessToken(JwtTokenStore.java:88)"
-         * JwtTokenStore.readAccessToken(JwtTokenStore.java:80)"
-         * JwkTokenStore.readAccessToken(JwkTokenStore.java:212)"
-         */
+
 
         return tokenStore;
     }

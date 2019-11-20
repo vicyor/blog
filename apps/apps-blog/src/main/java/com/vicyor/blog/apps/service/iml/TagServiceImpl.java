@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 作者:姚克威
@@ -22,7 +24,9 @@ public class TagServiceImpl implements TagService {
     public List<Tag> findAllTags() {
         Iterable<Tag> all = repository.findAll();
         List<Tag> result = new ArrayList<>();
-        all.forEach(result::add);
+        Set<Tag> set = new HashSet<>();
+        all.forEach(set::add);
+        result.addAll(set);
         return result;
     }
 }

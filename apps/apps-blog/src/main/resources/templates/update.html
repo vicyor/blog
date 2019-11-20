@@ -2,6 +2,7 @@
 <head th:replace="html/head::head"></head>
 <body>
 <header th:replace="html/header.html::header"></header>
+<input type="hidden" th:value="${blog.id}" id="blog-id">
 <article>
     <input type="hidden" th:value="${blog.content}" id="blog-content"/>
     <h1 class="t_nav">
@@ -35,12 +36,6 @@
             </div>
         </div>
         <div class="share"></div>
-        <div class="news_pl">
-            <h2>文章评论</h2>
-            <ul>
-                <div class="gbko"></div>
-            </ul>
-        </div>
         <div class="otherlink">
             <h2>相关文章</h2>
             <ul>
@@ -107,10 +102,10 @@
     //相关链接
     $(function () {
         $.ajax({
-            url: "/blog/blogs/tag?tag=[[${blog.tag}]]",
+            url: "/blog/blogs/tag?tag=[[${blog.tag.tag}]]",
             method: 'get',
             success: function (data) {
-                var blogs = data[1];
+                var blogs = data.params.blogs;
                 var $ul = $(".otherlink ul");
                 $.each(blogs, function (index, blog) {
                     var $li = $("<li></li>");

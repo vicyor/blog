@@ -7,6 +7,7 @@
     <input type="hidden" th:value="${session.user.username}" id="username">
     <input type="hidden" th:value="${path}" id="path">
     <input type="hidden" th:value="${author}" id="author">
+    <input type="hidden" th:value="${tag}" id="tag">
     <h1 class="t_nav">
         <span id="title"></span>
         <a th:href="${path+'/'}" class="n1">网站首页</a>
@@ -90,7 +91,7 @@
                    style="float: right;margin-right: 10px;">编辑</a>
             </div>
             <div class="news_about"><strong>简介</strong></div>
-            <div class="news_infos" id="read-editormd" style="padding:10px;height: 1000px;">
+            <div class="news_infos" id="read-editormd" style="padding:10px;height: 500px;">
                 <textarea></textarea>
             </div>
         </div>

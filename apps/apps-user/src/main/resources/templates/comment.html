@@ -6,6 +6,10 @@
     <meta name="description" content="姚克威个人博客，该网站是为了记录姚克威同学的学习而编写的。"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="${path+'/css/base.css'}" rel="stylesheet">
+    <link th:href="${path+'/css/index.css'}" rel="stylesheet">
+    <link th:href="${path+'/css/m.css'}" rel="stylesheet">
+    <link th:href="${path+'/css/update.css'}"/>
+    <link rel="stylesheet" th:href="${path +'/css/article.css'}">
     <link rel=stylesheet th:href="${path+'/lib/skeleton.css'}">
     <link rel="stylesheet" th:href="${path+'/css/user.css'}">
     <link rel="stylesheet" th:href="${path+'/plugin/layui/css/layui.css'}" media="all"/>
@@ -27,14 +31,13 @@
                         <ul class="comment-list">
                             <li class="comment-line" th:each="comment:${comments}">
                                 <div style="display: inline-block" class="left-box">
-                                    <a href="javascript:;">
-                                        <!--TODO 开发注意uri-->
-                                        <img th:src="${'http://www.vicyor.com/blog/'+session.user.imageUri}"
+                                    <a th:href="${ip+':9090/user'}">
+                                        <img th:src="${ip+'/blog/'+session.user.imageUri}"
                                              class="mid-image">
                                     </a>
                                 </div>
                                 <div class="info-box left-box">
-                                    <a href="javascript:;">
+                                    <a th:href="${ip+':9090/user'}">
                                         <span style="line-height: 50px;height: 50px;font-size: 20px" class="name"
                                               th:if="${comment.getClass().getSimpleName().equals('ReplyComment') }"
                                               th:text="${comment.from}"></span>
@@ -55,12 +58,14 @@
                                     <br/>
                                 </div>
                                 <div class="left-box">
-                                    <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
-                                          th:if="${comment.getClass().getSimpleName().equals('ReplyComment') }"
-                                          th:text="${comment.comment.blog.title}"></span>
-                                    <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
-                                          th:if="${comment.getClass().getSimpleName().equals('Comment') }"
-                                          th:text="${comment.blog.title}"></span>
+                                    <a th:href="${ip+'/blog/blogs/'+comment.comment.blog.author.author+'/article/'+comment.comment.blog.id}" th:if="${comment.getClass().getSimpleName().equals('ReplyComment') }" style="font-weight: bold">
+                                        <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
+                                              th:text="${'标题:  '+comment.comment.blog.title}"></span>
+                                    </a>
+                                    <a th:href="${ip+'/blog/blogs/'+comment.blog.author.author+'/article/'+comment.blog.id}" th:if="${comment.getClass().getSimpleName().equals('Comment') }" style="font-weight: bold">
+                                        <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"
+                                              th:text="${'标题:  '+comment.blog.title}"></span>
+                                    </a>
                                 </div>
                                 <div class="right-box">
                                     <span class="date" style="line-height: 50px;height: 50px;font-size: 20px"

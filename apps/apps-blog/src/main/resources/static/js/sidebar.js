@@ -6,7 +6,6 @@ $(function () {
         pageConf.currentPage = 1;
     }
 });
-//加载触发提交点击事件
 $(function () {
     //关键词全文搜索
     $("input[name='Submit']").on('click', function () {

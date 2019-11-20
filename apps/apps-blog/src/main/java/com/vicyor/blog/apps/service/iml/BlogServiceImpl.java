@@ -1,5 +1,6 @@
 package com.vicyor.blog.apps.service.iml;
 
+import com.vicyor.blog.apps.domain.Author;
 import com.vicyor.blog.apps.domain.Comment;
 import com.vicyor.blog.apps.domain.EsBlog;
 import com.vicyor.blog.apps.domain.Tag;
@@ -102,8 +103,10 @@ public class BlogServiceImpl implements BlogService {
      */
     @Override
     public EsBlog saveBlog(EsBlog blog) {
-        tagRepository.save(blog.getTag());
-        authorRepository.save(blog.getAuthor());
+        Tag tag = tagRepository.save(blog.getTag());
+        Author author = authorRepository.save(blog.getAuthor());
+        blog.setTagId(tag.getId());
+        blog.setAuthorId(author.getId());
         return blogRepository.save(blog);
     }
 
@@ -116,11 +119,16 @@ public class BlogServiceImpl implements BlogService {
     public void deleteBlog(String id) {
         Optional<EsBlog> optional = blogRepository.findById(id);
         //删除blog
+        EsBlog blog = optional.get();
         blogRepository.deleteById(id);
         List<Comment> comments = commentService.listComments(id);
         //删除所有评论
         comments.stream().forEach(comment -> {
             commentService.deleteComment(comment.getId());
         });
+        //删除tag
+        tagRepository.deleteById(blog.getTagId());
+        //删除作者
+        authorRepository.deleteById(blog.getAuthorId());
     }
 }

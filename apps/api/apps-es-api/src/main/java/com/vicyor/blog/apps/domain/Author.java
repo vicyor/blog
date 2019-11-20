@@ -2,6 +2,8 @@ package com.vicyor.blog.apps.domain;
 
 import lombok.Data;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +18,9 @@ import javax.persistence.Id;
 public class Author {
     //对应 mysql数据库User的username
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private String id;
+    @Field(type = FieldType.Keyword)
     private String author;
     //头像
     private String uri;

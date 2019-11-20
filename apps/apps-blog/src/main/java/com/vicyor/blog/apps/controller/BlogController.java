@@ -155,6 +155,7 @@ public class BlogController {
 
     @LogAnnotation("保存新建的博客")
     @PostMapping("/{username}/new")
+    @CacheEvict(cacheNames = "blogs",allEntries = true)
     @ResponseBody
     public String createBlog(
             @RequestBody Map<String, String> requestParams,

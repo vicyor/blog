@@ -16,6 +16,7 @@ import java.util.Map;
  * 时间:2019/9/15 12:31
  **/
 @Controller
+@RequestMapping("/")
 public class IndexController {
     @Autowired
     UserService userService;
