@@ -27,6 +27,7 @@ $(function () {
             //第一个捕获组()
             var to = placeholder.match(toRegex)[1];
             var from = $("#username").val();
+            var blogId=$("#blog-id").val();
             var parentCommentId = $replyLi.find(".right-box .opt-box>a.reply").attr('commentid');
             $replyLi.removeClass("reply-li");
             var $bigLi = $(".reply-li").parents(".bigLi");
@@ -37,6 +38,7 @@ $(function () {
                     content: comment,
                     from: from,
                     to: to,
+                    blogId:blogId,
                     parentCommentId: parentCommentId
                 }),
                 contentType: "application/json"
