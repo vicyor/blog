@@ -18,6 +18,7 @@
     <script th:src="${path+'/js/jquery-3.3.1.js'}"></script>
 </head>
 <header th:replace="html/header.html::header"></header>
+<input type="hidden" id="ip" th:value="${ip}">
 <body>
 <div id="app">
     <div data-v-357a65ed="" class="container view">
@@ -59,16 +60,17 @@
     function parseBlog(blogs, page, pagesize) {
         var $div = $(".blogs>div#blog");
         $div.find("li").remove();
+        var ip=$("#ip").val();
         $.each(blogs, function (index, blog) {
             var $li = $("<li></li>");
             var $span = $("<span class='blogpic'></span>");
             var $a1 = $("<a></a>");
-            $a1.prop("href", "http://127.0.0.1/blog/blogs/" + blog.author.author + "/article/" + blog.id);
+            $a1.prop("href", ip+"/blog/blogs/" + blog.author.author + "/article/" + blog.id);
             var $img = $("<img>");
-            $img.prop("src", "http://127.0.0.1/blog/" + blog.author.uri);
+            $img.prop("src", ip+"/blog/" + blog.author.uri);
             var $h3 = $("<h3 class='blogtitle'></h3>");
             var $a2 = $("<a></a>");
-            $a2.prop("href", "http://127.0.0.1/blog/blogs/" + blog.author.author + "/article/" + blog.id);
+            $a2.prop("href", ip+"/blog/blogs/" + blog.author.author + "/article/" + blog.id);
             $a2.text(blog.title);
             var $div2 = $("<div class='bloginfo'></div>");
             var $p = $("<p></p>");
@@ -83,7 +85,7 @@
             var $sp4 = $("<span class='readmore'></span>");
             var $a3 = $("<a></a>");
             $a3.text("阅读全文");
-            $a3.prop("href", "http://127.0.0.1/blog/blogs/" + blog.author.author + "/article/" + blog.id);
+            $a3.prop("href", ip+"/blog/blogs/" + blog.author.author + "/article/" + blog.id);
             $li.append($span);
             $span.append($a1);
             $a1.append($img);
