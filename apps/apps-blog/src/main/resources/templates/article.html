@@ -64,7 +64,7 @@
                     $.each(blogs, function (index, blog) {
                         var $li = $("<li></li>");
                         var $a = $("<a></a>");
-                        $a.prop('href', '/blog/blogs/article/' + blog.id);
+                        $a.prop('href', '/blog/blogs/'+$('#author').val()+'/article/' + blog.id);
                         $a.prop('title', blog.title);
                         $a.text(blog.title + "----" + blog.udate);
                         $li.append($a);
