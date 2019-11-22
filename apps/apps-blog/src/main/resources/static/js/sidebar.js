@@ -12,6 +12,7 @@ $(function () {
         pageConf.pageSize = 10;
         pageConf.currentPage = 1;
         getBlog();
+        return false;
     })
 });
 
