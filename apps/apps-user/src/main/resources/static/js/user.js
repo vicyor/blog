@@ -4,13 +4,13 @@ $(function () {
         layui.use(['laypage', 'layer'], function () {
             var url = "/user/" + $("#username").val() + "/modify";
             layer.open({
-                offset: ['30%', '40%'],
+                offset: ['10%', '5%'],
                 type: 2,
                 title: '修改资料',
                 shadeClose: true,
                 shade: false,
                 content: url,
-                area: ['502px', '404px'],
+                area: ['70%', '90%'],
                 end: function () {
                     //刷新一下页面
                     location.reload();
