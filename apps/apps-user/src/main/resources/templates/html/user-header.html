@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="header">
+    <div class="tophead">
+        <div class="logo"><a href="/">个人博客</a></div>
+        <div id="mnav">
+            <h2><span class="navicon"></span></h2>
+            <ul>
+                <li><a th:href="${ip+'/blog/'}">博客首页</a></li>
+                <li><a href="https://github.com/vicyor/blog">模板分享</a></li>
+                <li><a th:href="${ip+':9090/user'}" style="color: #1abc9c">个人资料</a>
+                </li>
+                <li th:if="${!session.user.login}"><a th:href="${path +'/login'}" style="color: #1abc9c">登录</a></li>
+                <li><a th:href="${ip+':9090/user/'+session.user.name+'/myblog'}"
+                       th:text="${session.user.name+'的blogs'}"
+                       style="color: #1abc9c"></a></li>
+                <li><a th:href="${ip+':9090/user/'+session.user.name+'/toComment'}"
+                       th:text="${session.user.name+'的comments'}"
+                       style="color: #1abc9c"></a></li>
+            </ul>
+        </div>
+        <nav class="topnav" id="topnav">
+            <ul>
+                <li><a th:href="${ip+'/blog/'}">博客首页</a></li>
+                <li><a href="https://github.com/vicyor/blog">模板分享</a></li>
+                <li><a th:href="${ip+':9090/user'}" style="color: #1abc9c">个人资料</a>
+                </li>
+                <li th:if="${!session.user.login}"><a th:href="${path +'/login'}" style="color: #1abc9c">登录</a></li>
+                <li><a th:href="${ip+':9090/user/'+session.user.name+'/myblog'}"
+                       th:text="${session.user.name+'的blogs'}"
+                       style="color: #1abc9c"></a></li>
+                <li><a th:href="${ip+':9090/user/'+session.user.name+'/toComment'}"
+                       th:text="${session.user.name+'的comments'}"
+                       style="color: #1abc9c"></a></li>
+            </ul>
+        </nav>
+    </div>
+    <input type="hidden" th:value="${path}" id="head-path"/>
+    <input type="hidden" th:value="${ip}" id="ip"/>
+    <script>
+        $(function () {
+            //必须以post方式才能单点退出,post会删除 认证服务器的token
+            $(".lo").on('click', function () {
+                $.post($("#head-path").val() + "/logout");
+                window.location.href = $("#ip").val() + "/blog/";
+            })
+        })
+    </script>
+</header>
+</html>

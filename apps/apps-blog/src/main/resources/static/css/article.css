@@ -1,5 +1,6 @@
 .user-img {
     display: inline-block;
+    margin-bottom: 10px;
 }
 
 .small-image {
@@ -17,7 +18,7 @@
 .comment-box textarea {
     outline: none;
     display: inline-block;
-    width: 95%;
+    width: 90%;
     padding: 7px 8px;
     background: #fff;
     border: 1px solid #c1c1c1;
@@ -59,7 +60,7 @@
 }
 
 .info-box {
-    width: 90%;
+    width: 85%;
     margin-left: 10px;
 }
 .date{
@@ -104,7 +105,7 @@
 .reply-comment-li{
     display: inline-block;
     width: 80%;
-    margin-left: 100px;
+    margin-left: 15%;
 }
 .reply-comment-div{
     margin-top: 40px;

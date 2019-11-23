@@ -46,9 +46,9 @@
                         imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                         // imageUploadURL : "../src/",//注意你后端的上传图片服务地址
 
-                        //editorTheme: "pastel-on-dark",//编辑器的主题颜色
-                        theme: "gray",//顶部的主题
-                        previewTheme: "dark"//显示的主题
+                        theme: "dark",
+                        previewTheme: "dark",
+                        editorTheme: "pastel-on-dark",
                     });
                 }
             });
@@ -80,7 +80,7 @@
             <div class="news_author">
                 <span class="au01"><a href="mailto:2457569580@qq.com">kindboy</a></span>
                 <span class="au02" ></span><span class="au03">
-                浏览次数 : <b  id="b-count"></b></span>(由于spring cache浏览次数不会立即更新,除非博客内容修改)
+                浏览次数 : <b  id="b-count"></b></span>(ps:由于cache,数量可能不会立刻更新)
             </div>
             <div class="tags">
                 <a href="javascript:;">个人博客</a>
@@ -91,7 +91,7 @@
                    style="float: right;margin-right: 10px;">编辑</a>
             </div>
             <div class="news_about"><strong>简介</strong></div>
-            <div class="news_infos" id="read-editormd" style="padding:10px;height: 500px;">
+            <div class="news_infos" id="read-editormd" style="padding:0px;">
                 <textarea></textarea>
             </div>
         </div>

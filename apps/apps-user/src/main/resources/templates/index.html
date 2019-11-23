@@ -15,7 +15,7 @@
     <script th:src="${path+'/plugin/layui/layui.js'}"></script>
     <script th:src="${path+'/js/user.js'}"></script>
 </head>
-<header th:replace="html/header.html::header"></header>
+<header th:replace="html/user-header.html::header"></header>
 <script>
     window.onload = function () {
         var oH2 = document.getElementsByTagName("h2")[0];
@@ -33,7 +33,6 @@
 <input type="hidden" id="username" th:value="${session.user.username}"/>
 <div id="app">
     <div data-v-357a65ed="" class="container view">
-        <div th:replace="html/left::left"></div>
         <div data-v-357a65ed="" class="view-container">
             <div data-v-0d738edb="" data-v-357a65ed="" class="cont view">
                 <div data-v-0d738edb="" class="right_cont"><h3 data-v-0d738edb="" class="title">个人资料</h3>

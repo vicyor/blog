@@ -18,17 +18,16 @@
     <link rel="stylesheet" th:href="${path+'/plugin/layui/css/layui.css'}" media="all"/>
     <script th:src="${path+'/js/jquery-3.3.1.js'}"></script>
 </head>
-<header th:replace="html/header.html::header"></header>
+<header th:replace="html/user-header.html::header"></header>
 <body>
 <div id="app">
     <div data-v-357a65ed="" class="container view">
-        <div th:replace="html/left::left"></div>
         <div data-v-357a65ed="" class="view-container">
             <div data-v-0d738edb="" data-v-357a65ed="" class="cont view">
-                <div data-v-0d738edb="" class="right_cont"><h3 data-v-0d738edb="" class="title">我的博客</h3>
+                <div data-v-0d738edb="" class="right_cont"><h3 data-v-0d738edb="" class="title">我的评论</h3>
                     <div data-v-0d738edb="" class="user_info">
                         <ul class="comment-list">
-                            <li class="comment-line" th:each="comment:${comments}" style="border-bottom: 1px solid black;overflow: hidden;margin: 10px 0">
+                            <li class="comment-line" th:each="comment:${comments}" style="border-top: 1px solid black;overflow: hidden;margin-bottom:20px ">
                                 <div class="left-box">
                                     <div style="display: inline-block;">
                                         <a th:href="${ip+':9090/user'}" style="margin-right: 20px">
