@@ -24,7 +24,7 @@
         <spring-security-oauth2.version>2.3.4.RELEASE</spring-security-oauth2.version>
         <spring-security-jwt.version>1.0.8.RELEASE</spring-security-jwt.version>
         <spring-boot-starter-security.version>2.1.7.RELEASE</spring-boot-starter-security.version>
-        <mysql.version>8.0.13</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <spring-boot-starter-data-redis.version>2.1.7.RELEASE</spring-boot-starter-data-redis.version>
         <spring-boot-starter.version>2.1.7.RELEASE</spring-boot-starter.version>
         <!-- upgrade to thymeleaf version 3 -->
